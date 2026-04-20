@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mason — A twice-weekly field notebook for people building with AI</title>
+<meta name="description" content="One build Monday. One move Thursday. Real people, real prompts, real failure modes. For anyone building, automating, or operating with AI." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream: #F5F1E8;
+    --cream-dark: #EEE7D2;
+    --cream-card: #FAF8F3;
+    --ink: #0A0A0A;
+    --ink-soft: #1A1A1A;
+    --muted: #6A6A6A;
+    --line: #D8D0B8;
+    --line-soft: #E4DCC8;
+    --rust: #C64728;
+    --rust-deep: #9B3518;
+    --highlight: #FFEE58;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Geist', -apple-system, system-ui, sans-serif;
+    color: var(--ink);
+    background-color: var(--cream-dark);
+    background-image: radial-gradient(circle, rgba(10, 10, 15, 0.10) 1.2px, transparent 1.5px);
+    background-size: 24px 24px;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 500;
+  }
+
+  /* Reusable container — real landing page widths */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  .container-narrow {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* ============================================ */
+  /* NAV                                           */
+  /* ============================================ */
+  .nav {
+    background: var(--ink);
+    color: var(--cream);
+    border-bottom: 4px solid var(--rust);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mark {
+    font-family: 'Geist', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--cream);
+    line-height: 1;
+    text-decoration: none;
+  }
+  .mark .dot { color: var(--rust); font-weight: 900; }
+
+  .nav-right {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+  .nav-right a {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245, 241, 232, 0.7);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-right a:hover { color: var(--rust); }
+  .nav-cta {
+    background: var(--rust);
+    color: var(--cream) !important;
+    padding: 10px 18px;
+    letter-spacing: 0.1em !important;
+  }
+  .nav-cta:hover { background: var(--rust-deep); color: var(--cream) !important; }
+
+  /* ============================================ */
+  /* HERO — full-width, centered content           */
+  /* ============================================ */
+  .hero {
+    padding: 120px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 48px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 700;
+    margin-bottom: 40px;
+    background: var(--cream);
+    padding: 10px 20px;
+    border: 1px solid var(--rust);
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: "";
+    width: 16px;
+    height: 2px;
+    background: var(--rust);
+  }
+
+  .hero h1 {
+    font-family: 'Geist', sans-serif;
+    font-size: 104px;
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+    margin-bottom: 40px;
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero h1 .rust { color: var(--rust); font-weight: 800; }
+  .hero h1 .hl {
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+  }
+  .hero h1 .hl::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    bottom: 10px;
+    height: 22px;
+    background: var(--highlight);
+    z-index: -1;
+  }
+
+  .hero .deck {
+    font-family: 'Geist', sans-serif;
+    font-size: 24px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 760px;
+    margin: 0 auto 56px;
+    font-weight: 500;
+  }
+
+  /* Hero form */
+  .hero-form {
+    max-width: 560px;
+    margin: 0 auto 24px;
+  }
+  .form-row {
+    display: flex;
+    gap: 0;
+    border: 2px solid var(--ink);
+    background: var(--cream);
+    box-shadow: 6px 6px 0 var(--ink);
+    transition: all 0.2s;
+  }
+  .form-row:focus-within {
+    box-shadow: 8px 8px 0 var(--rust);
+    transform: translate(-2px, -2px);
+  }
+  .form-row input[type="email"] {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: 'Geist', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 20px 24px;
+    color: var(--ink);
+    outline: none;
+    letter-spacing: -0.005em;
+    min-width: 0;
+  }
+  .form-row input[type="email"]::placeholder {
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .form-row button {
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    font-family: 'Geist', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 18px 32px;
+    cursor: pointer;
+    letter-spacing: -0.005em;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+  .form-row button:hover { background: var(--rust); }
+  .form-row button .arr { margin-left: 6px; }
+
+  .trust-row {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    margin-top: 28px;
+  }
+  .trust-row .item::before {
+    content: "✓";
+    color: var(--rust);
+    margin-right: 8px;
+    font-weight: 800;
+  }
+
+  /* ============================================ */
+  /* BIG SECTION DIVIDER                           */
+  /* ============================================ */
+  .divider-block {
+    padding: 20px 0;
+    text-align: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 700;
+  }
+  .divider-block::before,
+  .divider-block::after {
+    content: "——————";
+    margin: 0 16px;
+    color: var(--line);
+    letter-spacing: 0;
+  }
+
+  /* ============================================ */
+  /* WHAT LANDS IN YOUR INBOX (2-col cards)        */
+  /* ============================================ */
+  .what-section {
+    padding: 100px 0;
+  }
+
+  .section-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+
+  .section-h {
+    font-family: 'Geist', sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin-bottom: 64px;
+    max-width: 900px;
+  }
+  .section-h .rust { color: var(--rust); }
+
+  .what-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .day-card {
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    padding: 48px;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .day-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--ink);
+  }
+
+  .day-card .day-label {
+    display: inline-block;
+    background: var(--rust);
+    color: var(--cream);
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    font-weight: 700;
+    margin-bottom: 28px;
+  }
+
+  .day-card h3 {
+    font-family: 'Geist', sans-serif;
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .day-card h3 .rust { color: var(--rust); }
+
+  .day-card .summary {
+    font-family: 'Geist', sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+
+  .day-card .format-list {
+    list-style: none;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    line-height: 2;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .day-card .format-list li::before {
+    content: "▸ ";
+    color: var(--rust);
+    font-weight: 800;
+  }
+
+  /* ============================================ */
+  /* RECENT ISSUES (3-col grid)                    */
+  /* ============================================ */
+  .issues-section {
+    padding: 100px 0;
+    background: var(--cream);
+    border-top: 4px solid var(--rust);
+    border-bottom: 4px solid var(--rust);
+  }
+
+  .issues-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .issues-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .issues-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .issue-card {
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    padding: 32px 28px;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .issue-card:hover {
+    border-color: var(--ink);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(10, 10, 15, 0.08);
+  }
+  .issue-card.next {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .issue-card.next:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(10, 10, 15, 0.15);
+  }
+
+  .issue-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--rust);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .issue-card.next .issue-num { color: var(--rust); }
+
+  .issue-title {
+    font-family: 'Geist', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 18px;
+    min-height: 104px;
+  }
+  .issue-card.next .issue-title { color: var(--cream); }
+  .issue-title .rust { color: var(--rust); }
+
+  .issue-excerpt {
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .issue-card.next .issue-excerpt { color: rgba(245, 241, 232, 0.75); }
+
+  .issue-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .issue-card.next .issue-footer { border-top-color: rgba(245, 241, 232, 0.2); color: rgba(245, 241, 232, 0.5); }
+  .issue-footer .status {
+    background: var(--rust);
+    color: var(--cream);
+    padding: 3px 8px;
+    font-size: 9px;
+  }
+
+  .archive-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 4px;
+    transition: all 0.15s;
+  }
+  .archive-link:hover { color: var(--rust); border-bottom-color: var(--rust); }
+
+  /* ============================================ */
+  /* WHO READS MASON                               */
+  /* ============================================ */
+  .who-section {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 120px 0;
+  }
+  .who-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  .who-section .section-label { color: var(--rust); }
+
+  .who-section .section-h {
+    color: var(--cream);
+    max-width: 1000px;
+  }
+  .who-section .section-h .rust { color: var(--rust); }
+
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(245, 241, 232, 0.15);
+    border: 1px solid rgba(245, 241, 232, 0.15);
+    margin-top: 48px;
+  }
+  .who-item {
+    background: var(--ink);
+    padding: 36px 32px;
+    font-family: 'Geist', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(245, 241, 232, 0.75);
+    font-weight: 500;
+  }
+  .who-item strong {
+    color: var(--cream);
+    font-weight: 800;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .who-item .num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--rust);
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  /* ============================================ */
+  /* HONEST PITCH — the "upsell" honesty           */
+  /* ============================================ */
+  .honest-section {
+    background: var(--cream-card);
+    padding: 100px 0;
+    border-bottom: 4px solid var(--rust);
+  }
+
+  .honest-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+    align-items: start;
+  }
+
+  .honest-grid .section-h {
+    font-size: 56px;
+    margin-bottom: 24px;
+  }
+
+  .honest-grid .body {
+    font-family: 'Geist', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    font-weight: 500;
+    max-width: 560px;
+  }
+  .honest-grid .body p {
+    margin-bottom: 18px;
+  }
+  .honest-grid .body p:last-child { margin-bottom: 0; }
+  .honest-grid .body strong { color: var(--ink); font-weight: 700; }
+  .honest-grid .body .rust { color: var(--rust); font-weight: 700; }
+
+  .honest-ledger {
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    padding: 36px 32px;
+    position: sticky;
+    top: 110px;
+  }
+  .honest-ledger h4 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  .ledger-row {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .ledger-row:first-of-type { padding-top: 0; }
+  .ledger-row:last-of-type { border-bottom: none; padding-bottom: 0; }
+
+  .ledger-row .key {
+    font-family: 'Geist', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .ledger-row .val {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 3px 10px;
+    white-space: nowrap;
+  }
+  .ledger-row .val.yes {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .ledger-row .val.no {
+    background: var(--rust);
+    color: var(--cream);
+  }
+
+  /* ============================================ */
+  /* BOTTOM FULL FORM                              */
+  /* ============================================ */
+  .signup-full {
+    padding: 120px 0;
+    background: var(--cream);
+  }
+
+  .signup-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 48px;
+    text-align: center;
+  }
+
+  .signup-inner .section-h {
+    font-size: 80px;
+    margin: 0 auto 24px;
+    text-align: center;
+  }
+
+  .signup-inner .deck {
+    font-family: 'Geist', sans-serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0 auto 56px;
+    max-width: 560px;
+    font-weight: 500;
+  }
+
+  .full-form {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .field-group label {
+    display: block;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .field-group label .req {
+    color: var(--rust);
+    margin-left: 2px;
+  }
+
+  .field-group input[type="email"],
+  .field-group input[type="text"],
+  .field-group select {
+    width: 100%;
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    padding: 16px 20px;
+    font-family: 'Geist', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    outline: none;
+    letter-spacing: -0.005em;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    transition: all 0.15s;
+  }
+  .field-group input:focus,
+  .field-group select:focus {
+    background: #FFFDF5;
+    box-shadow: 4px 4px 0 var(--rust);
+    transform: translate(-1px, -1px);
+  }
+  .field-group input::placeholder {
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .field-group select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%23C64728' d='M0 0l6 8 6-8z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    padding-right: 52px;
+    cursor: pointer;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .full-submit {
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    padding: 22px 40px;
+    font-family: 'Geist', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.005em;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+    box-shadow: 6px 6px 0 var(--rust);
+  }
+  .full-submit:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0 var(--rust);
+  }
+  .full-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .consent {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 20px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .consent a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  /* ============================================ */
+  /* FAQ                                           */
+  /* ============================================ */
+  .faq-section {
+    background: var(--cream-dark);
+    background-image: radial-gradient(circle, rgba(10, 10, 15, 0.12) 1.2px, transparent 1.5px);
+    background-size: 24px 24px;
+    padding: 100px 0;
+  }
+  .faq-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  .faq-section .section-h {
+    text-align: center;
+    margin: 0 auto 56px;
+    font-size: 56px;
+  }
+
+  .faq-item {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    margin-bottom: 12px;
+    transition: border-color 0.15s;
+  }
+  .faq-item:hover { border-color: var(--ink); }
+
+  .faq-q {
+    padding: 24px 28px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    font-family: 'Geist', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+    user-select: none;
+  }
+  .faq-q::after {
+    content: "+";
+    font-family: 'Geist Mono', monospace;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--rust);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); }
+
+  .faq-a {
+    padding: 0 28px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    font-family: 'Geist', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .faq-item.open .faq-a {
+    padding: 0 28px 24px;
+    max-height: 400px;
+  }
+  .faq-a strong { color: var(--ink); font-weight: 700; }
+
+  /* ============================================ */
+  /* CONSULTING CTA — honest upsell at the end    */
+  /* ============================================ */
+  .consult-section {
+    background: var(--rust);
+    color: var(--cream);
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .consult-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(250, 248, 243, 0.10) 1.2px, transparent 1.5px);
+    background-size: 24px 24px;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .consult-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 48px;
+    position: relative;
+    z-index: 1;
+  }
+  .consult-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream);
+    font-weight: 700;
+    margin-bottom: 24px;
+    opacity: 0.85;
+  }
+  .consult-h {
+    font-family: 'Geist', sans-serif;
+    font-size: 88px;
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--cream);
+    margin-bottom: 36px;
+    max-width: 920px;
+  }
+  .consult-h .ink { color: var(--ink); }
+  .consult-deck {
+    font-family: 'Geist', sans-serif;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--cream);
+    max-width: 720px;
+    margin-bottom: 48px;
+    font-weight: 500;
+    opacity: 0.95;
+  }
+
+  .consult-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 48px;
+    background: rgba(250, 248, 243, 0.2);
+    border: 1px solid rgba(250, 248, 243, 0.2);
+  }
+  .consult-tile {
+    background: var(--rust);
+    padding: 32px 28px;
+  }
+  .consult-tile .num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .consult-tile h4 {
+    font-family: 'Geist', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .consult-tile p {
+    font-family: 'Geist', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--cream);
+    opacity: 0.9;
+    font-weight: 500;
+  }
+
+  .consult-actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .consult-btn {
+    background: var(--ink);
+    color: var(--cream);
+    border: 2px solid var(--ink);
+    padding: 20px 36px;
+    font-family: 'Geist', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.005em;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 6px 6px 0 var(--cream);
+  }
+  .consult-btn:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0 var(--cream);
+  }
+  .consult-btn-secondary {
+    background: transparent;
+    color: var(--cream);
+    border: 2px solid var(--cream);
+    box-shadow: none;
+  }
+  .consult-btn-secondary:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    transform: none;
+    box-shadow: 6px 6px 0 var(--cream);
+  }
+
+  .consult-tiny {
+    margin-top: 32px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--cream);
+    opacity: 0.7;
+    font-weight: 500;
+  }
+
+  /* ============================================ */
+  /* FOOTER                                        */
+  /* ============================================ */
+  .footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 72px 0 48px;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+
+  .footer-brand .mark {
+    font-size: 40px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .footer-brand .tag {
+    font-family: 'Geist', sans-serif;
+    font-size: 15px;
+    color: rgba(245, 241, 232, 0.65);
+    line-height: 1.6;
+    font-weight: 500;
+    max-width: 340px;
+  }
+
+  .footer-col h5 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .footer-col a {
+    display: block;
+    font-family: 'Geist', sans-serif;
+    font-size: 15px;
+    color: rgba(245, 241, 232, 0.75);
+    text-decoration: none;
+    padding: 6px 0;
+    font-weight: 500;
+    transition: color 0.15s;
+  }
+  .footer-col a:hover { color: var(--rust); }
+
+  .footer-bottom {
+    max-width: 1280px;
+    margin: 56px auto 0;
+    padding: 24px 48px 0;
+    border-top: 1px solid rgba(245, 241, 232, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245, 241, 232, 0.4);
+    font-weight: 600;
+  }
+
+  /* ============================================ */
+  /* RESPONSIVE                                    */
+  /* ============================================ */
+  /* ============================================ */
+  /* MOBILE VISIBILITY TOGGLES                     */
+  /* ============================================ */
+  .mobile-only { display: none; }
+  .hide-on-mobile { display: block; }
+  .hide-on-mobile.issues-grid,
+  .hide-on-mobile.consult-grid,
+  .hide-on-mobile.who-grid { display: grid; }
+
+  .who-inline {
+    font-family: 'Geist', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(245, 241, 232, 0.85);
+    font-weight: 500;
+    max-width: 560px;
+    margin-top: 16px;
+    padding: 28px 0;
+    border-top: 1px solid rgba(245, 241, 232, 0.2);
+    border-bottom: 1px solid rgba(245, 241, 232, 0.2);
+  }
+
+  /* ============================================ */
+  /* TABLET (641px–1024px)                         */
+  /* Collapse multi-column grids, keep everything  */
+  /* ============================================ */
+  @media (max-width: 1024px) {
+    .container, .container-narrow, .nav-inner, .who-inner, .footer-inner, .footer-bottom {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+    .hero-inner, .signup-inner, .faq-inner, .honest-grid {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+    .hero { padding: 80px 0 56px; }
+    .hero h1 { font-size: 76px; }
+    .hero .deck { font-size: 20px; }
+
+    .section-h { font-size: 56px; }
+    .signup-inner .section-h { font-size: 60px; }
+    .what-section, .issues-section, .who-section, .signup-full, .faq-section, .honest-section { padding: 80px 0; }
+
+    .what-grid, .issues-grid { grid-template-columns: 1fr; }
+    .day-card h3 { font-size: 36px; }
+    .issue-title { min-height: auto; }
+
+    .who-grid { grid-template-columns: 1fr 1fr; }
+
+    .honest-grid { grid-template-columns: 1fr; gap: 48px; }
+    .honest-ledger { position: static; }
+
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; }
+
+    .consult-inner { padding-left: 32px; padding-right: 32px; }
+    .consult-h { font-size: 64px; }
+    .consult-section { padding: 80px 0; }
+    .consult-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ============================================ */
+  /* MOBILE (≤640px) — medium cut                  */
+  /* Keep: hero, compact "two emails", 1 issue,    */
+  /* inline who-reads, full form, compact consult, */
+  /* FAQ, minimal footer                           */
+  /* ============================================ */
+  @media (max-width: 640px) {
+    /* Mobile visibility toggles */
+    .mobile-only { display: block; }
+    .hide-on-mobile { display: none !important; }
+
+    /* iOS Safari: font-size 16px+ prevents auto-zoom on form focus */
+    input[type="email"],
+    input[type="text"],
+    select,
+    textarea { font-size: 16px !important; }
+
+    /* Respect iPhone safe area insets (notch, home indicator) */
+    body {
+      background-size: 20px 20px;
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+
+    /* ========== NAV ========== */
+    .nav-inner { padding: 14px 20px; }
+    .mark { font-size: 24px; }
+    .nav-right { gap: 10px; }
+    .nav-right a:not(.nav-cta) { display: none; }
+    .nav-cta { padding: 8px 14px; font-size: 10px !important; }
+
+    /* ========== HERO ========== */
+    .hero { padding: 40px 0 36px; }
+    .hero-inner { padding: 0 20px; }
+    .eyebrow {
+      font-size: 10px;
+      padding: 8px 14px;
+      margin-bottom: 28px;
+      letter-spacing: 0.18em;
+    }
+    .eyebrow::before, .eyebrow::after { width: 12px; }
+
+    .hero h1 {
+      font-size: 40px;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      margin-bottom: 24px;
+    }
+    .hero h1 .hl::after {
+      height: 10px;
+      bottom: 3px;
+      left: -1px;
+      right: -1px;
+    }
+    .hero .deck {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+
+    /* Form: stack input above button, both full-width, thumb-friendly tap targets */
+    .hero-form { max-width: 100%; }
+    .form-row {
+      flex-direction: column;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+    .form-row input[type="email"] {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .form-row button {
+      padding: 18px 24px;
+      font-size: 16px;
+    }
+    .form-row:focus-within {
+      box-shadow: 6px 6px 0 var(--rust);
+      transform: translate(-2px, -2px);
+    }
+    .trust-row {
+      font-size: 10px;
+      gap: 14px;
+      margin-top: 22px;
+      justify-content: flex-start;
+    }
+
+    /* ========== SECTION HEADINGS ========== */
+    .section-label { font-size: 11px; margin-bottom: 14px; }
+    .section-h { font-size: 34px; line-height: 1.02; margin-bottom: 32px; }
+    .signup-inner .section-h { font-size: 38px; }
+    .faq-section .section-h { font-size: 32px; margin-bottom: 32px; }
+
+    /* ========== WHAT LANDS IN YOUR INBOX (keep, compact) ========== */
+    .what-section { padding: 48px 0; }
+    .what-grid { gap: 18px; }
+    .day-card { padding: 28px 22px; }
+    .day-card:hover { transform: none; box-shadow: none; }
+    .day-card .day-label { margin-bottom: 18px; }
+    .day-card h3 { font-size: 26px; line-height: 1.05; margin-bottom: 14px; }
+    .day-card .summary { font-size: 15px; margin-bottom: 18px; }
+    .day-card .format-list { font-size: 11px; line-height: 1.9; }
+
+    /* ========== RECENT ISSUES (1 card only — latest shipped) ========== */
+    .issues-section { padding: 48px 0; border-top-width: 3px; border-bottom-width: 3px; }
+    .issues-inner, .issues-section .container { padding: 0 20px; }
+    .issues-header { flex-direction: column; align-items: flex-start; margin-bottom: 32px; gap: 12px; }
+    .issues-grid { gap: 0; }
+    .issues-grid-2 { max-width: 100%; }
+    .issue-card { padding: 26px 22px; }
+    .issue-card:hover { transform: none; box-shadow: none; border-color: var(--line); }
+    .issue-title { font-size: 20px; min-height: auto; margin-bottom: 14px; }
+    .issue-excerpt { font-size: 14px; margin-bottom: 18px; }
+    .archive-link { font-size: 11px; padding-bottom: 3px; }
+
+    /* ========== WHO READS (inline version, grid hidden) ========== */
+    .who-section { padding: 48px 0; }
+    .who-inner { padding: 0 20px; }
+    .who-inline {
+      font-size: 16px;
+      padding: 22px 0;
+      margin-top: 8px;
+      max-width: 100%;
+    }
+
+    /* ========== SIGNUP FULL (keep both forms — medium cut) ========== */
+    .signup-full { padding: 56px 0; }
+    .signup-inner { padding: 0 20px; }
+    .signup-inner .deck { font-size: 16px; margin-bottom: 40px; }
+    .full-form { gap: 20px; }
+    .field-row { grid-template-columns: 1fr; gap: 20px; }
+    .field-group label { font-size: 10px; margin-bottom: 8px; }
+    .field-group input,
+    .field-group select { padding: 14px 16px; }
+    .full-submit {
+      width: 100%;
+      padding: 18px 28px;
+      font-size: 16px;
+      box-shadow: 4px 4px 0 var(--rust);
+    }
+    .full-submit:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--rust);
+    }
+    .consent { font-size: 10px; line-height: 1.65; margin-top: 16px; }
+
+    /* ========== CONSULTING CTA (compact — headline, deck, buttons only) ========== */
+    .consult-section { padding: 56px 0; }
+    .consult-inner { padding: 0 20px; }
+    .consult-label { font-size: 11px; margin-bottom: 18px; }
+    .consult-h {
+      font-size: 36px;
+      line-height: 1.02;
+      margin-bottom: 20px;
+    }
+    .consult-deck {
+      font-size: 16px;
+      line-height: 1.55;
+      margin-bottom: 28px;
+    }
+    .consult-actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+    .consult-btn {
+      justify-content: center;
+      width: 100%;
+      padding: 16px 24px;
+      font-size: 15px;
+      box-shadow: 4px 4px 0 var(--cream);
+    }
+    .consult-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--cream);
+    }
+    .consult-tiny { font-size: 10px; margin-top: 20px; text-align: center; }
+
+    /* ========== FAQ ========== */
+    .faq-section { padding: 48px 0; }
+    .faq-inner { padding: 0 20px; }
+    .faq-q {
+      font-size: 16px;
+      padding: 20px 22px;
+      line-height: 1.35;
+      min-height: 60px;
+    }
+    .faq-q::after { font-size: 22px; }
+    .faq-item.open .faq-a {
+      padding: 0 22px 20px;
+      font-size: 15px;
+    }
+
+    /* ========== FOOTER ========== */
+    .footer { padding: 48px 0 32px; }
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 0 20px;
+    }
+    .footer-brand .mark { font-size: 28px; }
+    .footer-brand .tag { font-size: 14px; max-width: 100%; }
+    .footer-col h5 { margin-bottom: 12px; }
+    .footer-col a { font-size: 14px; padding: 4px 0; }
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 18px 20px 0;
+      margin-top: 36px;
+      gap: 8px;
+    }
+  }
+
+  /* ============================================ */
+  /* SMALL MOBILE (≤380px) — iPhone SE, small     */
+  /* ============================================ */
+  @media (max-width: 380px) {
+    .hero h1 { font-size: 34px; }
+    .section-h { font-size: 28px; }
+    .signup-inner .section-h { font-size: 32px; }
+    .consult-h { font-size: 30px; }
+    .day-card h3 { font-size: 22px; }
+    .issue-title { font-size: 18px; }
+    .eyebrow { font-size: 9px; padding: 7px 12px; letter-spacing: 0.15em; }
+    .eyebrow::before, .eyebrow::after { width: 10px; }
+  }
+
+  /* ============================================ */
+  /* LANDSCAPE PHONE ORIENTATION                   */
+  /* Don't make hero huge on landscape (low-height)*/
+  /* ============================================ */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .hero { padding: 28px 0 24px; }
+    .hero h1 { font-size: 36px; margin-bottom: 16px; }
+    .hero .deck { font-size: 15px; margin-bottom: 20px; }
+    .eyebrow { margin-bottom: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================ -->
+<!-- NAV                          -->
+<!-- ============================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="mark">Mason<span class="dot">.</span></a>
+    <div class="nav-right">
+      <a href="#archive">Archive</a>
+      <a href="#who">Who reads</a>
+      <a href="#work">Work with us</a>
+      <a href="#faq">FAQ</a>
+      <a href="#signup" class="nav-cta">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================ -->
+<!-- HERO                         -->
+<!-- ============================ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">A field notebook for anyone building with AI</div>
+
+    <h1>
+      You're not behind. You just haven't been <span class="hl rust">shown how to build.</span>
+    </h1>
+
+    <p class="deck">
+      One build Monday. One move Thursday. Real people named, real prompts attached, real systems shown. Eight minutes, twice a week — whether you're a founder, an operator, a builder, or just curious.
+    </p>
+
+    <form class="hero-form" id="hero-form" onsubmit="handleHeroSubmit(event)">
+      <div class="form-row">
+        <input type="email" id="hero-email" placeholder="you@company.com" required autocomplete="email" />
+        <button type="submit">Subscribe<span class="arr">→</span></button>
+      </div>
+    </form>
+
+    <div class="trust-row">
+      <span class="item">Free</span>
+      <span class="item">8 min reads</span>
+      <span class="item">One-click unsub</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- WHAT LANDS IN YOUR INBOX     -->
+<!-- ============================ -->
+<section class="what-section">
+  <div class="container">
+    <div class="section-label">▎ What lands in your inbox</div>
+    <h2 class="section-h">Two emails a week. <span class="rust">Nothing else.</span></h2>
+
+    <div class="what-grid">
+      <div class="day-card">
+        <span class="day-label">Mon · The Build</span>
+        <h3>One person. <span class="rust">One system. One weekend.</span></h3>
+        <p class="summary">
+          The story of how someone specific wired a specific thing into production — with the prompt they used and the failure modes they hit. Teardown-depth, not tweet-depth.
+        </p>
+        <ul class="format-list">
+          <li>Hero number with receipts</li>
+          <li>Flow diagram of the system</li>
+          <li>4-part playbook (what, how, the prompt, what breaks)</li>
+          <li>Named builder and the real source</li>
+        </ul>
+      </div>
+
+      <div class="day-card">
+        <span class="day-label">Thu · The Move</span>
+        <h3>The pattern <span class="rust">worth stealing.</span></h3>
+        <p class="summary">
+          The architectural shift a more experienced builder would tell you about AI over coffee. The pattern, not the product. The lesson, not the launch announcement.
+        </p>
+        <ul class="format-list">
+          <li>The shift being made and why</li>
+          <li>Concrete examples from real teams</li>
+          <li>When to make the move, when not to</li>
+          <li>What to read next</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- RECENT ISSUES                -->
+<!-- ============================ -->
+<section class="issues-section" id="archive">
+  <div class="container">
+    <div class="issues-header">
+      <div>
+        <div class="section-label">▎ Recent issues</div>
+        <h2 class="section-h">Read before <span class="rust">you subscribe.</span></h2>
+      </div>
+      <a href="#" class="archive-link">Full archive →</a>
+    </div>
+
+    <div class="issues-grid issues-grid-2">
+      <a href="#" class="issue-card">
+        <div class="issue-num">№ 002 · Just shipped</div>
+        <h3 class="issue-title">
+          From $200/month to free. <span class="rust">Running OpenClaw locally.</span>
+        </h3>
+        <p class="issue-excerpt">
+          One builder retired his cloud AI subscription by wiring OpenClaw to local models via Ollama. Same chat interface. Same workflow. Zero API costs.
+        </p>
+        <div class="issue-footer">
+          <span>Mon · 20 Apr · Build</span>
+          <span>8 min</span>
+        </div>
+      </a>
+
+      <a href="#" class="issue-card hide-on-mobile">
+        <div class="issue-num">№ 001 · Archive</div>
+        <h3 class="issue-title">
+          The intake agent <span class="rust">one person wired in a weekend.</span>
+        </h3>
+        <p class="issue-excerpt">
+          Seven Make.com modules. One Slack approval button. Manual triage across three channels became a single classifier with a confirmation step.
+        </p>
+        <div class="issue-footer">
+          <span>Thu · 17 Apr · Move</span>
+          <span>7 min</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- WHO READS MASON              -->
+<!-- ============================ -->
+<section class="who-section" id="who">
+  <div class="who-inner">
+    <div class="section-label">▎ Who reads Mason</div>
+    <h2 class="section-h">Anyone building, automating, or <span class="rust">curious about AI.</span></h2>
+
+    <!-- Mobile-only compact summary -->
+    <p class="who-inline mobile-only">
+      Founders. Operators. Builders. Consultants. Curious professionals. Anyone tired of AI newsletters that rehash press releases.
+    </p>
+
+    <div class="who-grid hide-on-mobile">
+      <div class="who-item">
+        <span class="num">01</span>
+        <strong>Founders &amp; CEOs</strong>
+        Solo or leading teams. Want to know what AI actually ships in production, not what gets announced in keynotes.
+      </div>
+      <div class="who-item">
+        <span class="num">02</span>
+        <strong>Operators &amp; execs</strong>
+        Heads of ops, COOs, VPs owning AI rollouts. Need real patterns from teams that actually built the thing.
+      </div>
+      <div class="who-item">
+        <span class="num">03</span>
+        <strong>Builders &amp; engineers</strong>
+        Wiring AI into products, workflows, side projects. Want named systems, real prompts, honest failure modes.
+      </div>
+      <div class="who-item">
+        <span class="num">04</span>
+        <strong>Consultants &amp; agencies</strong>
+        Shipping AI for clients. Need patterns worth stealing and stories that land in pitch meetings.
+      </div>
+      <div class="who-item">
+        <span class="num">05</span>
+        <strong>Curious professionals</strong>
+        Lawyers, marketers, teachers, analysts, designers — anyone who wants to use AI in their work without the hype.
+      </div>
+      <div class="who-item">
+        <span class="num">06</span>
+        <strong>The AI-curious at home</strong>
+        Parents automating household chaos. Hobbyists building for fun. Anyone tired of rehashed press releases.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- HONEST PITCH — we also build AI systems -->
+<!-- ============================ -->
+<section class="honest-section hide-on-mobile">
+  <div class="honest-grid">
+    <div>
+      <div class="section-label">▎ One thing to know</div>
+      <h2 class="section-h">We also build <span class="rust">the systems Mason writes about.</span></h2>
+      <div class="body">
+        <p>Mason is free because a newsletter is the fastest way to show how we think about AI. <strong>The business behind Mason builds AI systems and automations</strong> — for teams, for solo founders, for anyone who needs the thing the newsletter describes, done end-to-end for them.</p>
+
+        <p>Most issues will be exactly what you signed up for: real stories, real prompts, failure modes. <span class="rust">Once in a while, we'll talk about the work we do.</span> Not every week. Not mid-issue. Just honestly, in its own place, so you always know what you're reading.</p>
+
+        <p>If one of those issues lands at the right moment for you or your team, reach out. If it doesn't, unsubscribe is one click. Either way, the free tier stays free.</p>
+      </div>
+    </div>
+
+    <div class="honest-ledger">
+      <h4>▎ What to expect</h4>
+
+      <div class="ledger-row">
+        <span class="key">Twice-weekly issues</span>
+        <span class="val yes">Always</span>
+      </div>
+      <div class="ledger-row">
+        <span class="key">Sponsored content</span>
+        <span class="val no">Never</span>
+      </div>
+      <div class="ledger-row">
+        <span class="key">Affiliate links</span>
+        <span class="val no">Never</span>
+      </div>
+      <div class="ledger-row">
+        <span class="key">Our own AI consulting offer</span>
+        <span class="val yes">Occasionally</span>
+      </div>
+      <div class="ledger-row">
+        <span class="key">Reselling your email</span>
+        <span class="val no">Never</span>
+      </div>
+      <div class="ledger-row">
+        <span class="key">One-click unsubscribe</span>
+        <span class="val yes">Always</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- BOTTOM FULL FORM             -->
+<!-- ============================ -->
+<section class="signup-full" id="signup">
+  <div class="signup-inner">
+    <div class="section-label">▎ Put me on the list</div>
+    <h2 class="section-h">Start reading <span class="rust">Monday.</span></h2>
+    <p class="deck">
+      Free, twice-weekly, forever. Tell us a little about yourself so issues can get sharper over time.
+    </p>
+
+    <form class="full-form" id="full-form" onsubmit="handleFullSubmit(event)">
+      <div class="field-group">
+        <label for="email">Your email <span class="req">*</span></label>
+        <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email" />
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="role">What you do <span class="req">*</span></label>
+          <select id="role" name="role" required>
+            <option value="" disabled selected>Select your role</option>
+            <option value="founder">Founder / CEO</option>
+            <option value="ops">Head of Ops / COO</option>
+            <option value="engineer">Engineer</option>
+            <option value="exec">Exec / VP</option>
+            <option value="consultant">Consultant</option>
+            <option value="pm">Product Manager</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="size">Company size <span class="req">*</span></label>
+          <select id="size" name="size" required>
+            <option value="" disabled selected>Select company size</option>
+            <option value="solo">Solo (just me)</option>
+            <option value="2-10">2–10</option>
+            <option value="11-50">11–50</option>
+            <option value="51-200">51–200</option>
+            <option value="201-1000">201–1,000</option>
+            <option value="1000+">1,000+</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="industry">Industry</label>
+          <input type="text" id="industry" name="industry" placeholder="e.g. SaaS, fintech, agency" />
+        </div>
+
+        <div class="field-group">
+          <label for="country">Country <span class="req">*</span></label>
+          <select id="country" name="country" required>
+            <option value="" disabled selected>Select country</option>
+            <option value="US">United States</option>
+            <option value="GB">United Kingdom</option>
+            <option value="CA">Canada</option>
+            <option value="AU">Australia</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <option value="NL">Netherlands</option>
+            <option value="ES">Spain</option>
+            <option value="IT">Italy</option>
+            <option value="SE">Sweden</option>
+            <option value="CH">Switzerland</option>
+            <option value="IE">Ireland</option>
+            <option value="IN">India</option>
+            <option value="SG">Singapore</option>
+            <option value="JP">Japan</option>
+            <option value="AE">UAE</option>
+            <option value="BR">Brazil</option>
+            <option value="MX">Mexico</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="full-submit">
+        Put me on the list <span class="arr">→</span>
+      </button>
+
+      <p class="consent">
+        Free forever · One-click unsubscribe · We'll occasionally pitch our AI consulting work, honestly and in its own place. Never mid-issue. Never sold to third parties.
+      </p>
+    </form>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- FAQ                          -->
+<!-- ============================ -->
+<section class="faq-section" id="faq">
+  <div class="faq-inner">
+    <div class="section-label" style="text-align:center;">▎ Before you sign up</div>
+    <h2 class="section-h">Quick <span class="rust">questions.</span></h2>
+
+    <div class="faq-item">
+      <div class="faq-q">How often is Mason sent?</div>
+      <div class="faq-a">Twice a week. Monday at 7am your time (The Build) and Thursday at 7am your time (The Move). Every week, no skips. If we ever go on break, you'll know in advance — we don't just ghost.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Is it really free?</div>
+      <div class="faq-a"><strong>Yes, the newsletter is free forever.</strong> We make money on the consulting side — building AI systems and automations for teams, founders, and individuals who want the thing done right. Mason itself stays free because a good newsletter is the clearest way to show how we think about the work. A paid tier is on the roadmap eventually (archives, deep-dives, playbook vault) — and early subscribers will be grandfathered into free access when it launches.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What's the catch with the "occasional pitch"?</div>
+      <div class="faq-a">No catch — just being honest. Roughly once a month we'll run an issue about our own consulting work. Clearly marked, never mid-story. Most issues will be exactly what you signed up for: real people, real prompts, real systems. If you don't want the occasional pitch, one-click unsubscribe works every time.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Who writes it?</div>
+      <div class="faq-a">A small team that's been shipping AI systems for companies and individuals over the past few years. Each issue is researched, source-verified, and fact-checked before it ships. No ghostwritten garbage, no AI-generated slop, no content farms.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">How is this different from every other AI newsletter?</div>
+      <div class="faq-a">Most AI newsletters summarize press releases. Mason tracks what people actually ship. We name the builder, link the source, show the prompt, list what broke. Every issue has to leave you with one concrete thing you didn't know before — or it doesn't ship.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Can I read past issues before subscribing?</div>
+      <div class="faq-a">Yes — scroll up to the Recent Issues section, or hit the archive link. No paywall, no signup required to read. Subscribe once you know it's worth your inbox.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What do you do with my email?</div>
+      <div class="faq-a">We send you Mason. That's it. We never sell, share, or rent your email to anyone. Your role / company size / country data helps us write better issues over time — it's not shared externally. One-click unsubscribe removes you completely.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- CONSULTING CTA — the honest upsell at the end -->
+<!-- ============================ -->
+<section class="consult-section" id="work">
+  <div class="consult-inner">
+    <div class="consult-label">▎ One more thing</div>
+    <h2 class="consult-h">
+      We also <span class="ink">build this stuff</span> for you.
+    </h2>
+    <p class="consult-deck">
+      Mason is the free version — the stories, the prompts, the patterns. The paid version is us rolling up our sleeves and building AI systems, automations, or whatever AI thing you actually need — for your business, your team, or your life.
+    </p>
+
+    <div class="consult-grid hide-on-mobile">
+      <div class="consult-tile">
+        <span class="num">01 · For businesses</span>
+        <h4>AI systems &amp; automations</h4>
+        <p>Internal tools, intake agents, classifiers, workflow automations. The kind of thing Mason writes about — built end-to-end for your team.</p>
+      </div>
+      <div class="consult-tile">
+        <span class="num">02 · For founders</span>
+        <h4>Product-facing AI</h4>
+        <p>AI features inside your product. Prompt engineering, evals, model selection, backend wiring. We've shipped this for SaaS, fintech, and agencies.</p>
+      </div>
+      <div class="consult-tile">
+        <span class="num">03 · For anyone</span>
+        <h4>Whatever you need</h4>
+        <p>Personal automations, research agents, content pipelines, home-ops systems. If it involves AI and you want it done properly — we'll build it.</p>
+      </div>
+    </div>
+
+    <div class="consult-actions">
+      <a href="#" class="consult-btn">Tell us what you want built <span>→</span></a>
+      <a href="#" class="consult-btn consult-btn-secondary">See what we've shipped</a>
+    </div>
+
+    <p class="consult-tiny">
+      Small team. Selective engagements. If it's a fit, we'll say yes. If it's not, we'll tell you.
+    </p>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="mark">Mason<span class="dot">.</span></span>
+      <p class="tag">A twice-weekly field notebook for anyone building, automating, or operating with AI. Real people, real prompts, real failure modes.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Newsletter</h5>
+      <a href="#signup">Subscribe</a>
+      <a href="#archive">Archive</a>
+      <a href="#">Best of</a>
+    </div>
+    <div class="footer-col">
+      <h5>Work with us</h5>
+      <a href="#work">What we build</a>
+      <a href="#work">Get in touch</a>
+      <a href="#">Past projects</a>
+    </div>
+    <div class="footer-col">
+      <h5>About</h5>
+      <a href="#">Who we are</a>
+      <a href="#faq">FAQ</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Mason. All rights reserved.</span>
+    <span>Built for anyone building with AI. Run on caffeine.</span>
+  </div>
+</footer>
+
+<script>
+  // Hero form — email only — scrolls to full form for completion
+  function handleHeroSubmit(e) {
+    e.preventDefault();
+    const email = document.getElementById('hero-email').value.trim();
+    if (!email) return;
+    document.getElementById('email').value = email;
+    document.getElementById('signup').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => document.getElementById('role').focus(), 600);
+  }
+
+  // Full form — posts to /api/subscribe (Vercel serverless → Beehiiv)
+  async function handleFullSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('.full-submit');
+    btn.disabled = true;
+    btn.innerHTML = 'Sending…';
+
+    const payload = {
+      email: form.email.value.trim(),
+      role: form.role.value,
+      size: form.size.value,
+      industry: form.industry.value.trim(),
+      country: form.country.value,
+    };
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error('subscribe failed');
+      btn.innerHTML = "✓ You're in. See you Monday.";
+      btn.style.background = 'var(--rust)';
+      btn.style.boxShadow = '6px 6px 0 var(--ink)';
+      form.querySelectorAll('input, select').forEach(el => el.disabled = true);
+    } catch (err) {
+      console.error(err);
+      btn.disabled = false;
+      btn.innerHTML = 'Try again →';
+    }
+  }
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      item.classList.toggle('open');
+    });
+  });
+</script>
+
+</body>
+</html>
