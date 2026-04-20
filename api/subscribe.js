@@ -42,7 +42,7 @@ export default async function handler(req, res) {
       role      ? { name: 'Role',         value: role }     : null,
       size      ? { name: 'Company Size', value: size }     : null,
       industry  ? { name: 'Industry',     value: industry } : null,
-      country   ? { name: 'Country',      value: country }  : null,
+      country   ? { name: 'Country (self-reported)', value: country } : null,
     ].filter(Boolean),
   };
 
