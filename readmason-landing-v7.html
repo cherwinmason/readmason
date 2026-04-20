@@ -1006,22 +1006,6 @@
     font-weight: 500;
   }
 
-  @media (max-width: 1024px) {
-    .consult-inner { padding-left: 32px; padding-right: 32px; }
-    .consult-h { font-size: 64px; }
-    .consult-section { padding: 80px 0; }
-    .consult-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 640px) {
-    .consult-inner { padding-left: 22px; padding-right: 22px; }
-    .consult-section { padding: 64px 0; }
-    .consult-label { font-size: 11px; }
-    .consult-h { font-size: 42px; }
-    .consult-deck { font-size: 18px; margin-bottom: 36px; }
-    .consult-actions { flex-direction: column; align-items: stretch; }
-    .consult-btn { justify-content: center; width: 100%; }
-  }
-
   /* ============================================ */
   /* FOOTER                                        */
   /* ============================================ */
@@ -1095,6 +1079,32 @@
   /* ============================================ */
   /* RESPONSIVE                                    */
   /* ============================================ */
+  /* ============================================ */
+  /* MOBILE VISIBILITY TOGGLES                     */
+  /* ============================================ */
+  .mobile-only { display: none; }
+  .hide-on-mobile { display: block; }
+  .hide-on-mobile.issues-grid,
+  .hide-on-mobile.consult-grid,
+  .hide-on-mobile.who-grid { display: grid; }
+
+  .who-inline {
+    font-family: 'Geist', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(245, 241, 232, 0.85);
+    font-weight: 500;
+    max-width: 560px;
+    margin-top: 16px;
+    padding: 28px 0;
+    border-top: 1px solid rgba(245, 241, 232, 0.2);
+    border-bottom: 1px solid rgba(245, 241, 232, 0.2);
+  }
+
+  /* ============================================ */
+  /* TABLET (641px–1024px)                         */
+  /* Collapse multi-column grids, keep everything  */
+  /* ============================================ */
   @media (max-width: 1024px) {
     .container, .container-narrow, .nav-inner, .who-inner, .footer-inner, .footer-bottom {
       padding-left: 32px;
@@ -1122,60 +1132,247 @@
     .honest-ledger { position: static; }
 
     .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; }
+
+    .consult-inner { padding-left: 32px; padding-right: 32px; }
+    .consult-h { font-size: 64px; }
+    .consult-section { padding: 80px 0; }
+    .consult-grid { grid-template-columns: 1fr; }
   }
 
+  /* ============================================ */
+  /* MOBILE (≤640px) — medium cut                  */
+  /* Keep: hero, compact "two emails", 1 issue,    */
+  /* inline who-reads, full form, compact consult, */
+  /* FAQ, minimal footer                           */
+  /* ============================================ */
   @media (max-width: 640px) {
-    body { background-size: 20px 20px; }
-    .nav-inner { padding: 16px 22px; }
-    .nav-right { gap: 12px; }
+    /* Mobile visibility toggles */
+    .mobile-only { display: block; }
+    .hide-on-mobile { display: none !important; }
+
+    /* iOS Safari: font-size 16px+ prevents auto-zoom on form focus */
+    input[type="email"],
+    input[type="text"],
+    select,
+    textarea { font-size: 16px !important; }
+
+    /* Respect iPhone safe area insets (notch, home indicator) */
+    body {
+      background-size: 20px 20px;
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+
+    /* ========== NAV ========== */
+    .nav-inner { padding: 14px 20px; }
+    .mark { font-size: 24px; }
+    .nav-right { gap: 10px; }
     .nav-right a:not(.nav-cta) { display: none; }
+    .nav-cta { padding: 8px 14px; font-size: 10px !important; }
 
-    .hero { padding: 56px 0 48px; }
-    .hero-inner { padding: 0 22px; }
-    .hero h1 { font-size: 48px; }
-    .hero h1 .hl::after { height: 12px; bottom: 4px; }
-    .hero .deck { font-size: 17px; margin-bottom: 36px; }
-    .eyebrow { font-size: 10px; padding: 8px 14px; }
+    /* ========== HERO ========== */
+    .hero { padding: 40px 0 36px; }
+    .hero-inner { padding: 0 20px; }
+    .eyebrow {
+      font-size: 10px;
+      padding: 8px 14px;
+      margin-bottom: 28px;
+      letter-spacing: 0.18em;
+    }
+    .eyebrow::before, .eyebrow::after { width: 12px; }
 
-    .form-row { flex-direction: column; box-shadow: 4px 4px 0 var(--ink); }
+    .hero h1 {
+      font-size: 40px;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      margin-bottom: 24px;
+    }
+    .hero h1 .hl::after {
+      height: 10px;
+      bottom: 3px;
+      left: -1px;
+      right: -1px;
+    }
+    .hero .deck {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+
+    /* Form: stack input above button, both full-width, thumb-friendly tap targets */
+    .hero-form { max-width: 100%; }
+    .form-row {
+      flex-direction: column;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
     .form-row input[type="email"] {
+      padding: 18px 20px;
       border-bottom: 1px solid var(--line);
     }
-    .form-row:focus-within { box-shadow: 6px 6px 0 var(--rust); }
-    .trust-row { font-size: 10px; gap: 16px; }
+    .form-row button {
+      padding: 18px 24px;
+      font-size: 16px;
+    }
+    .form-row:focus-within {
+      box-shadow: 6px 6px 0 var(--rust);
+      transform: translate(-2px, -2px);
+    }
+    .trust-row {
+      font-size: 10px;
+      gap: 14px;
+      margin-top: 22px;
+      justify-content: flex-start;
+    }
 
-    .section-label { font-size: 11px; }
-    .section-h { font-size: 38px; }
-    .signup-inner .section-h { font-size: 44px; }
-    .faq-section .section-h, .honest-grid .section-h { font-size: 36px; }
+    /* ========== SECTION HEADINGS ========== */
+    .section-label { font-size: 11px; margin-bottom: 14px; }
+    .section-h { font-size: 34px; line-height: 1.02; margin-bottom: 32px; }
+    .signup-inner .section-h { font-size: 38px; }
+    .faq-section .section-h { font-size: 32px; margin-bottom: 32px; }
 
-    .what-section, .issues-section, .who-section, .signup-full, .faq-section, .honest-section { padding: 64px 0; }
-    .day-card { padding: 32px 24px; }
-    .day-card h3 { font-size: 30px; }
+    /* ========== WHAT LANDS IN YOUR INBOX (keep, compact) ========== */
+    .what-section { padding: 48px 0; }
+    .what-grid { gap: 18px; }
+    .day-card { padding: 28px 22px; }
+    .day-card:hover { transform: none; box-shadow: none; }
+    .day-card .day-label { margin-bottom: 18px; }
+    .day-card h3 { font-size: 26px; line-height: 1.05; margin-bottom: 14px; }
+    .day-card .summary { font-size: 15px; margin-bottom: 18px; }
+    .day-card .format-list { font-size: 11px; line-height: 1.9; }
 
-    .issues-inner, .who-inner, .footer-inner { padding: 0 22px; }
-    .issues-header { flex-direction: column; align-items: flex-start; }
+    /* ========== RECENT ISSUES (1 card only — latest shipped) ========== */
+    .issues-section { padding: 48px 0; border-top-width: 3px; border-bottom-width: 3px; }
+    .issues-inner, .issues-section .container { padding: 0 20px; }
+    .issues-header { flex-direction: column; align-items: flex-start; margin-bottom: 32px; gap: 12px; }
+    .issues-grid { gap: 0; }
+    .issues-grid-2 { max-width: 100%; }
+    .issue-card { padding: 26px 22px; }
+    .issue-card:hover { transform: none; box-shadow: none; border-color: var(--line); }
+    .issue-title { font-size: 20px; min-height: auto; margin-bottom: 14px; }
+    .issue-excerpt { font-size: 14px; margin-bottom: 18px; }
+    .archive-link { font-size: 11px; padding-bottom: 3px; }
 
-    .who-grid { grid-template-columns: 1fr; }
-    .who-item { padding: 28px 24px; }
-    .who-item strong { font-size: 19px; }
+    /* ========== WHO READS (inline version, grid hidden) ========== */
+    .who-section { padding: 48px 0; }
+    .who-inner { padding: 0 20px; }
+    .who-inline {
+      font-size: 16px;
+      padding: 22px 0;
+      margin-top: 8px;
+      max-width: 100%;
+    }
 
-    .honest-grid { padding: 0 22px; }
-    .honest-ledger { padding: 28px 22px; }
-    .honest-grid .section-h { font-size: 36px; }
+    /* ========== SIGNUP FULL (keep both forms — medium cut) ========== */
+    .signup-full { padding: 56px 0; }
+    .signup-inner { padding: 0 20px; }
+    .signup-inner .deck { font-size: 16px; margin-bottom: 40px; }
+    .full-form { gap: 20px; }
+    .field-row { grid-template-columns: 1fr; gap: 20px; }
+    .field-group label { font-size: 10px; margin-bottom: 8px; }
+    .field-group input,
+    .field-group select { padding: 14px 16px; }
+    .full-submit {
+      width: 100%;
+      padding: 18px 28px;
+      font-size: 16px;
+      box-shadow: 4px 4px 0 var(--rust);
+    }
+    .full-submit:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--rust);
+    }
+    .consent { font-size: 10px; line-height: 1.65; margin-top: 16px; }
 
-    .signup-inner { padding: 0 22px; }
-    .field-row { grid-template-columns: 1fr; }
-    .full-submit { width: 100%; }
+    /* ========== CONSULTING CTA (compact — headline, deck, buttons only) ========== */
+    .consult-section { padding: 56px 0; }
+    .consult-inner { padding: 0 20px; }
+    .consult-label { font-size: 11px; margin-bottom: 18px; }
+    .consult-h {
+      font-size: 36px;
+      line-height: 1.02;
+      margin-bottom: 20px;
+    }
+    .consult-deck {
+      font-size: 16px;
+      line-height: 1.55;
+      margin-bottom: 28px;
+    }
+    .consult-actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+    .consult-btn {
+      justify-content: center;
+      width: 100%;
+      padding: 16px 24px;
+      font-size: 15px;
+      box-shadow: 4px 4px 0 var(--cream);
+    }
+    .consult-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--cream);
+    }
+    .consult-tiny { font-size: 10px; margin-top: 20px; text-align: center; }
 
-    .faq-inner { padding: 0 22px; }
-    .faq-q { font-size: 16px; padding: 18px 22px; }
-    .faq-item.open .faq-a { padding: 0 22px 20px; }
+    /* ========== FAQ ========== */
+    .faq-section { padding: 48px 0; }
+    .faq-inner { padding: 0 20px; }
+    .faq-q {
+      font-size: 16px;
+      padding: 20px 22px;
+      line-height: 1.35;
+      min-height: 60px;
+    }
+    .faq-q::after { font-size: 22px; }
+    .faq-item.open .faq-a {
+      padding: 0 22px 20px;
+      font-size: 15px;
+    }
 
-    .footer { padding: 56px 0 36px; }
-    .footer-inner { grid-template-columns: 1fr; gap: 36px; padding: 0 22px; }
-    .footer-brand .mark { font-size: 32px; }
-    .footer-bottom { flex-direction: column; align-items: flex-start; padding: 20px 22px 0; }
+    /* ========== FOOTER ========== */
+    .footer { padding: 48px 0 32px; }
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 0 20px;
+    }
+    .footer-brand .mark { font-size: 28px; }
+    .footer-brand .tag { font-size: 14px; max-width: 100%; }
+    .footer-col h5 { margin-bottom: 12px; }
+    .footer-col a { font-size: 14px; padding: 4px 0; }
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 18px 20px 0;
+      margin-top: 36px;
+      gap: 8px;
+    }
+  }
+
+  /* ============================================ */
+  /* SMALL MOBILE (≤380px) — iPhone SE, small     */
+  /* ============================================ */
+  @media (max-width: 380px) {
+    .hero h1 { font-size: 34px; }
+    .section-h { font-size: 28px; }
+    .signup-inner .section-h { font-size: 32px; }
+    .consult-h { font-size: 30px; }
+    .day-card h3 { font-size: 22px; }
+    .issue-title { font-size: 18px; }
+    .eyebrow { font-size: 9px; padding: 7px 12px; letter-spacing: 0.15em; }
+    .eyebrow::before, .eyebrow::after { width: 10px; }
+  }
+
+  /* ============================================ */
+  /* LANDSCAPE PHONE ORIENTATION                   */
+  /* Don't make hero huge on landscape (low-height)*/
+  /* ============================================ */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .hero { padding: 28px 0 24px; }
+    .hero h1 { font-size: 36px; margin-bottom: 16px; }
+    .hero .deck { font-size: 15px; margin-bottom: 20px; }
+    .eyebrow { margin-bottom: 18px; }
   }
 </style>
 </head>
@@ -1295,7 +1492,7 @@
         </div>
       </a>
 
-      <a href="#" class="issue-card">
+      <a href="#" class="issue-card hide-on-mobile">
         <div class="issue-num">№ 001 · Archive</div>
         <h3 class="issue-title">
           The intake agent <span class="rust">one person wired in a weekend.</span>
@@ -1320,7 +1517,12 @@
     <div class="section-label">▎ Who reads Mason</div>
     <h2 class="section-h">Anyone building, automating, or <span class="rust">curious about AI.</span></h2>
 
-    <div class="who-grid">
+    <!-- Mobile-only compact summary -->
+    <p class="who-inline mobile-only">
+      Founders. Operators. Builders. Consultants. Curious professionals. Anyone tired of AI newsletters that rehash press releases.
+    </p>
+
+    <div class="who-grid hide-on-mobile">
       <div class="who-item">
         <span class="num">01</span>
         <strong>Founders &amp; CEOs</strong>
@@ -1358,7 +1560,7 @@
 <!-- ============================ -->
 <!-- HONEST PITCH — we also build AI systems -->
 <!-- ============================ -->
-<section class="honest-section">
+<section class="honest-section hide-on-mobile">
   <div class="honest-grid">
     <div>
       <div class="section-label">▎ One thing to know</div>
@@ -1551,7 +1753,7 @@
       Mason is the free version — the stories, the prompts, the patterns. The paid version is us rolling up our sleeves and building AI systems, automations, or whatever AI thing you actually need — for your business, your team, or your life.
     </p>
 
-    <div class="consult-grid">
+    <div class="consult-grid hide-on-mobile">
       <div class="consult-tile">
         <span class="num">01 · For businesses</span>
         <h4>AI systems &amp; automations</h4>
