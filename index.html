@@ -1385,7 +1385,6 @@
   <div class="nav-inner">
     <a href="#" class="mark">Mason<span class="dot">.</span></a>
     <div class="nav-right">
-      <a href="#archive">Archive</a>
       <a href="#who">Who reads</a>
       <a href="#work">Work with us</a>
       <a href="#faq">FAQ</a>
@@ -1406,7 +1405,7 @@
     </h1>
 
     <p class="deck">
-      One build Monday. One move Thursday. Real people named, real prompts attached, real systems shown. Eight minutes, twice a week — whether you're a founder, an operator, a builder, or just curious.
+      One build Monday. One move Thursday. Real people, real AI systems, shown end-to-end. Eight minutes, twice a week — whether you're a founder, an operator, a builder, or just curious.
     </p>
 
     <form class="hero-form" id="hero-form" onsubmit="handleHeroSubmit(event)">
@@ -1435,7 +1434,7 @@
     <div class="what-grid">
       <div class="day-card">
         <span class="day-label">Mon · The Build</span>
-        <h3>One person. <span class="rust">One system. One weekend.</span></h3>
+        <h3>One AI system. <span class="rust">Shown end-to-end. Real detail.</span></h3>
         <p class="summary">
           The story of how someone specific wired a specific thing into production — with the prompt they used and the failure modes they hit. Teardown-depth, not tweet-depth.
         </p>
@@ -1464,9 +1463,9 @@
   </div>
 </section>
 
-<!-- ============================ -->
-<!-- RECENT ISSUES                -->
-<!-- ============================ -->
+<!-- RECENT ISSUES SECTION — uncomment when 2+ issues are published on Beehiiv
+     Each card needs a real href="https://readmason.beehiiv.com/p/issue-slug" URL
+     Copy the issue-card pattern and paste new cards here as issues ship
 <section class="issues-section" id="archive">
   <div class="container">
     <div class="issues-header">
@@ -1474,7 +1473,7 @@
         <div class="section-label">▎ Recent issues</div>
         <h2 class="section-h">Read before <span class="rust">you subscribe.</span></h2>
       </div>
-      <a href="#" class="archive-link">Full archive →</a>
+      <a href="https://readmason.beehiiv.com/" class="archive-link">Full archive →</a>
     </div>
 
     <div class="issues-grid issues-grid-2">
@@ -1495,7 +1494,7 @@
       <a href="#" class="issue-card hide-on-mobile">
         <div class="issue-num">№ 001 · Archive</div>
         <h3 class="issue-title">
-          The intake agent <span class="rust">one person wired in a weekend.</span>
+          The intake agent <span class="rust">that replaced an entire triage workflow.</span>
         </h3>
         <p class="issue-excerpt">
           Seven Make.com modules. One Slack approval button. Manual triage across three channels became a single classifier with a confirmation step.
@@ -1508,6 +1507,7 @@
     </div>
   </div>
 </section>
+-->
 
 <!-- ============================ -->
 <!-- WHO READS MASON              -->
@@ -1625,7 +1625,7 @@
       <div class="field-row">
         <div class="field-group">
           <label for="role">What you do <span class="req">*</span></label>
-          <select id="role" name="role" required>
+          <select id="role" name="role" required onchange="toggleOther('role', 'role-other-wrap')">
             <option value="" disabled selected>Select your role</option>
             <option value="founder">Founder / CEO</option>
             <option value="ops">Head of Ops / COO</option>
@@ -1635,6 +1635,9 @@
             <option value="pm">Product Manager</option>
             <option value="other">Other</option>
           </select>
+          <div id="role-other-wrap" style="display:none;margin-top:10px;">
+            <input type="text" id="role-other" name="role-other" placeholder="What do you do?" style="width:100%;background:var(--cream);border:2px solid var(--ink);padding:14px 16px;font-family:'Geist','Inter',Arial,sans-serif;font-size:16px;font-weight:500;color:var(--ink);outline:none;letter-spacing:-0.005em;border-radius:0;" />
+          </div>
         </div>
 
         <div class="field-group">
@@ -1659,7 +1662,7 @@
 
         <div class="field-group">
           <label for="country">Country <span class="req">*</span></label>
-          <select id="country" name="country" required>
+          <select id="country" name="country" required onchange="toggleOther('country', 'country-other-wrap')">
             <option value="" disabled selected>Select country</option>
             <option value="US">United States</option>
             <option value="GB">United Kingdom</option>
@@ -1679,8 +1682,22 @@
             <option value="AE">UAE</option>
             <option value="BR">Brazil</option>
             <option value="MX">Mexico</option>
+            <option value="PH">Philippines</option>
+            <option value="ID">Indonesia</option>
+            <option value="MY">Malaysia</option>
+            <option value="TH">Thailand</option>
+            <option value="VN">Vietnam</option>
+            <option value="PK">Pakistan</option>
+            <option value="NG">Nigeria</option>
+            <option value="ZA">South Africa</option>
+            <option value="KE">Kenya</option>
+            <option value="IL">Israel</option>
+            <option value="NZ">New Zealand</option>
             <option value="OTHER">Other</option>
           </select>
+          <div id="country-other-wrap" style="display:none;margin-top:10px;">
+            <input type="text" id="country-other" name="country-other" placeholder="Which country?" style="width:100%;background:var(--cream);border:2px solid var(--ink);padding:14px 16px;font-family:'Geist','Inter',Arial,sans-serif;font-size:16px;font-weight:500;color:var(--ink);outline:none;letter-spacing:-0.005em;border-radius:0;" />
+          </div>
         </div>
       </div>
 
@@ -1790,7 +1807,7 @@
     <div class="footer-col">
       <h5>Newsletter</h5>
       <a href="#signup">Subscribe</a>
-      <a href="#archive">Archive</a>
+      <a href="#work">Work with us</a>
       <a href="#">Best of</a>
     </div>
     <div class="footer-col">
@@ -1813,6 +1830,14 @@
 </footer>
 
 <script>
+  // Show/hide free-text input when "Other" is selected
+  function toggleOther(selectId, wrapId) {
+    const select = document.getElementById(selectId);
+    const wrap = document.getElementById(wrapId);
+    if (!select || !wrap) return;
+    wrap.style.display = select.value === 'other' || select.value === 'OTHER' ? 'block' : 'none';
+  }
+
   // Hero form — email only — scrolls to full form for completion
   function handleHeroSubmit(e) {
     e.preventDefault();
@@ -1831,12 +1856,20 @@
     btn.disabled = true;
     btn.innerHTML = 'Sending…';
 
+    const roleValue = form.role.value === 'other'
+      ? (document.getElementById('role-other')?.value.trim() || 'Other')
+      : form.role.value;
+
+    const countryValue = form.country.value === 'OTHER'
+      ? (document.getElementById('country-other')?.value.trim() || 'Other')
+      : form.country.value;
+
     const payload = {
       email: form.email.value.trim(),
-      role: form.role.value,
+      role: roleValue,
       size: form.size.value,
       industry: form.industry.value.trim(),
-      country: form.country.value,
+      country: countryValue,
     };
 
     try {
