@@ -1016,6 +1016,73 @@ body {
 
 .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
+.newsletter-optin {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+}
+
+.newsletter-optin input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.4);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+  position: relative;
+  transition: all 0.15s;
+}
+
+.newsletter-optin input[type="checkbox"]:hover {
+  border-color: rgba(255,255,255,0.7);
+}
+
+.newsletter-optin input[type="checkbox"]:checked {
+  background: var(--rust);
+  border-color: var(--rust);
+}
+
+.newsletter-optin input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--warm-white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.newsletter-optin-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.72);
+  cursor: pointer;
+  user-select: none;
+}
+
+.newsletter-optin-text strong {
+  color: var(--warm-white);
+  font-weight: 600;
+}
+
+.newsletter-optin-text .opt-sub {
+  display: block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
 .form-note {
   font-family: 'Geist Mono', monospace;
   font-size: 11px;
@@ -2850,6 +2917,14 @@ body {
         </div>
       </div>
 
+      <label class="newsletter-optin" for="newsletter-optin">
+        <input type="checkbox" id="newsletter-optin" name="newsletter_optin" />
+        <span class="newsletter-optin-text">
+          <strong>Also send me Mason.</strong> One build Monday, one move Thursday. The newsletter behind this work.
+          <span class="opt-sub">Free · One-click unsubscribe</span>
+        </span>
+      </label>
+
       <button type="submit" class="form-submit" id="submit-btn">
         Send inquiry <span>→</span>
       </button>
@@ -2981,6 +3056,7 @@ async function handleInquirySubmit(e) {
     tried: form.tried.value.trim(),
     budget: form.budget.value,
     timeline: form.timeline.value,
+    newsletter_optin: form.newsletter_optin.checked,
     source: 'readmason.com/build',
     submitted_at: new Date().toISOString(),
   };
