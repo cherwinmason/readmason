@@ -1,10 +1,12 @@
 // Vercel serverless function: /api/inquiry
 // Handles consultation inquiries from readmason.com/build
 // 1. Sends notification email to newsletter@readmason.com
-// 2. Sends confirmation email to inquirer
+// 2. If newsletter_optin=true, creates contact in Resend Mason Subscribers segment
+// 3. Sends confirmation email to inquirer
 //
 // Required environment variables (set in Vercel dashboard):
-//   - RESEND_API_KEY  (already set for newsletter)
+//   - RESEND_API_KEY     (already set for newsletter)
+//   - RESEND_SEGMENT_ID  (already set for newsletter)
 //
 // Note: Captcha is intentionally omitted. Add Cloudflare Turnstile later if spam becomes an issue.
 
@@ -22,6 +24,7 @@ export default async function handler(req, res) {
     tried,
     budget,
     timeline,
+    newsletter_optin,
     source,
     submitted_at,
   } = req.body || {};
@@ -36,6 +39,9 @@ export default async function handler(req, res) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'Invalid email' });
   }
+
+  const cleanEmail = email.toLowerCase().trim();
+  const optedIn = newsletter_optin === true;
 
   // ─────────────────────────────────────────────────────────
   // 2. Build notification email (sent to you)
@@ -64,7 +70,7 @@ export default async function handler(req, res) {
     </div>
     ` : ''}
 
-    <div style="border-top:1px solid rgba(10,10,10,0.12);padding-top:24px;display:flex;gap:32px;">
+    <div style="border-top:1px solid rgba(10,10,10,0.12);padding-top:24px;display:flex;gap:32px;flex-wrap:wrap;">
       <div>
         <div style="font-family:monospace;font-size:10px;font-weight:700;color:#6B6B6B;letter-spacing:0.15em;text-transform:uppercase;">Budget</div>
         <div style="font-size:14px;color:#0A0A0A;font-weight:600;">${escapeHtml(budget || 'Not specified')}</div>
@@ -72,6 +78,10 @@ export default async function handler(req, res) {
       <div>
         <div style="font-family:monospace;font-size:10px;font-weight:700;color:#6B6B6B;letter-spacing:0.15em;text-transform:uppercase;">Timeline</div>
         <div style="font-size:14px;color:#0A0A0A;font-weight:600;">${escapeHtml(timeline || 'Not specified')}</div>
+      </div>
+      <div>
+        <div style="font-family:monospace;font-size:10px;font-weight:700;color:#6B6B6B;letter-spacing:0.15em;text-transform:uppercase;">Newsletter</div>
+        <div style="font-size:14px;color:${optedIn ? '#0A7A3F' : '#6B6B6B'};font-weight:600;">${optedIn ? 'Subscribed ✓' : 'Not subscribed'}</div>
       </div>
     </div>
 
@@ -92,6 +102,7 @@ export default async function handler(req, res) {
   // 3. Send via Resend
   // ─────────────────────────────────────────────────────────
   const resendApiKey = process.env.RESEND_API_KEY;
+  const segmentId = process.env.RESEND_SEGMENT_ID;
   if (!resendApiKey) {
     console.error('Missing RESEND_API_KEY environment variable');
     return res.status(500).json({ error: 'Server configuration error' });
@@ -108,7 +119,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         from: 'Mason <newsletter@readmason.com>',
         to: ['newsletter@readmason.com'],
-        reply_to: email,
+        reply_to: cleanEmail,
         subject: `New build inquiry: ${name} (${company})`,
         html: notificationHtml,
       }),
@@ -120,7 +131,45 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to send notification' });
     }
 
-    // 3b. Confirmation email to the inquirer
+    // 3b. If opted in, create contact in Mason Subscribers segment
+    // Failures here do NOT block the form success — inquiry still goes through
+    if (optedIn && segmentId) {
+      try {
+        const contactRes = await fetch('https://api.resend.com/contacts', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: cleanEmail,
+            unsubscribed: false,
+            segments: [{ id: segmentId }],
+            properties: {
+              name: name || '',
+              company: company || '',
+              company_size: size || '',
+              source: 'build-form',
+            },
+          }),
+        });
+
+        if (!contactRes.ok) {
+          const err = await contactRes.json();
+          console.error('Resend contact create error (non-blocking):', err);
+        }
+      } catch (err) {
+        console.error('Contact create failed (non-blocking):', err);
+      }
+    } else if (optedIn && !segmentId) {
+      console.error('newsletter_optin=true but RESEND_SEGMENT_ID missing');
+    }
+
+    // 3c. Confirmation email to the inquirer
+    const newsletterLine = optedIn
+      ? `<p style="font-size:16px;line-height:1.6;color:#3F3F3F;margin:0 0 16px 0;">We've also added you to <strong>Mason</strong> — one build Monday, one move Thursday. First issue lands soon.</p>`
+      : '';
+
     const confirmHtml = `
 <!DOCTYPE html>
 <html>
@@ -136,6 +185,8 @@ export default async function handler(req, res) {
     <p style="font-size:16px;line-height:1.6;color:#3F3F3F;margin:0 0 16px 0;">If what you described is a fit, we'll reply with a consult booking link. If it isn't, we'll tell you why and point you somewhere that is.</p>
 
     <p style="font-size:16px;line-height:1.6;color:#3F3F3F;margin:0 0 32px 0;">Either way — you'll hear back.</p>
+
+    ${newsletterLine}
 
     <div style="border-top:1px solid rgba(10,10,10,0.15);padding-top:24px;margin-top:24px;">
       <p style="font-size:14px;color:#6B6B6B;margin:0;">— Mason team</p>
@@ -157,13 +208,13 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: 'Mason <newsletter@readmason.com>',
-        to: [email],
+        to: [cleanEmail],
         subject: `Got it — we'll reply within 48h`,
         html: confirmHtml,
       }),
     });
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, subscribed: optedIn });
   } catch (err) {
     console.error('Inquiry submit error:', err);
     return res.status(500).json({ error: 'Internal server error' });
