@@ -48,19 +48,23 @@ export default async function handler(req, res) {
       // Don't fail the form — contact may already exist
     }
 
-    // Fire welcome email via Make webhook (non-blocking)
+    // Fire welcome email via Make webhook (awaited to avoid Vercel terminating early)
     if (welcomeWebhook) {
-      fetch(welcomeWebhook, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: cleanEmail,
-          role: role || '',
-          size: size || '',
-          industry: industry || '',
-          country: country || '',
-        }),
-      }).catch(err => console.error('Welcome webhook error:', err));
+      try {
+        await fetch(welcomeWebhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: cleanEmail,
+            role: role || '',
+            size: size || '',
+            industry: industry || '',
+            country: country || '',
+          }),
+        });
+      } catch (err) {
+        console.error('Welcome webhook error:', err);
+      }
     }
 
     return res.status(200).json({ ok: true });
