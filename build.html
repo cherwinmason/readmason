@@ -1,0 +1,3017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+<title>Build with us — Mason</title>
+<meta name="description" content="We build the AI systems Mason writes about. Custom infrastructure, dashboards, and decision engines for businesses that are serious about AI." />
+<meta name="format-detection" content="telephone=no" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Build with us — Mason" />
+<meta property="og:description" content="Most AI consulting stops at wrappers. We build the system underneath." />
+<meta property="og:url" content="https://readmason.com/build" />
+<meta property="og:type" content="website" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --ink: #0A0A0A;
+  --ink-soft: #1a1a1a;
+  --rust: #C64728;
+  --rust-dark: #A23A1E;
+  --cream: #F5F1E8;
+  --cream-darker: #EEE7D2;
+  --cream-light: #FAF8F3;
+  --warm-white: #FAFAF7;
+  --gray-500: #6B6B6B;
+  --gray-700: #3F3F3F;
+  --gray-300: #B8B5AB;
+  --border: rgba(10,10,10,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--cream-darker);
+  background-image: radial-gradient(circle, rgba(10,10,15,0.10) 1.2px, transparent 1.5px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "ss02", "cv01", "cv11";
+}
+
+/* ============================ */
+/* NAV                          */
+/* ============================ */
+.nav {
+  position: sticky;
+  top: 0;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 18px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--warm-white);
+  letter-spacing: -0.03em;
+  text-decoration: none;
+}
+
+.nav-brand .dot { color: var(--rust); font-weight: 900; }
+
+.nav-right {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.nav-right a {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-right a:hover { color: var(--rust); }
+
+.nav-cta {
+  background: var(--rust);
+  color: var(--warm-white) !important;
+  padding: 10px 18px;
+  letter-spacing: 0.08em !important;
+}
+
+.nav-cta:hover { background: var(--rust-dark); color: var(--warm-white) !important; }
+
+/* ============================ */
+/* HERO                         */
+/* ============================ */
+.hero-wrap {
+  background: #FFFFFF;
+  background-image: none;
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero {
+  padding: 120px 40px 100px;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  background: transparent;
+}
+
+.hero-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-label::before {
+  content: '';
+  width: 40px;
+  height: 2px;
+  background: var(--rust);
+}
+
+.hero-h {
+  font-size: clamp(48px, 8vw, 108px);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  margin-bottom: 40px;
+  max-width: 1100px;
+}
+
+.hero-h .rust { color: var(--rust); font-weight: 800; }
+
+.hero-sub {
+  font-size: clamp(19px, 2vw, 24px);
+  line-height: 1.5;
+  color: var(--gray-700);
+  max-width: 720px;
+  margin-bottom: 48px;
+  font-weight: 400;
+}
+
+.hero-sub strong { color: var(--ink); font-weight: 600; }
+
+.hero-cta-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--rust);
+  color: var(--warm-white);
+  padding: 18px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: -0.005em;
+  border: 2px solid var(--rust);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.btn-primary .arr { transition: transform 0.2s; }
+.btn-primary:hover .arr { transform: translateX(4px); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 2px;
+  letter-spacing: -0.005em;
+}
+
+.btn-secondary:hover { color: var(--rust); border-bottom-color: var(--rust); }
+
+/* Hero — sideband */
+.hero-sideband {
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 2px solid var(--ink);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.sideband-item {
+  font-family: 'Geist Mono', monospace;
+}
+
+.sideband-num {
+  font-family: 'Geist', sans-serif;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.sideband-num .rust { color: var(--rust); }
+
+.sideband-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+/* ============================ */
+/* SECTION DIVIDER              */
+/* ============================ */
+.section-divider {
+  height: 4px;
+  background: var(--rust);
+  border: none;
+}
+
+/* ============================ */
+/* SECTION — Manifesto          */
+/* ============================ */
+.manifesto {
+  background: var(--ink);
+  color: var(--warm-white);
+  padding: 140px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.manifesto::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--rust);
+}
+
+.manifesto-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.manifesto-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.manifesto-h {
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  margin-bottom: 48px;
+  max-width: 1100px;
+}
+
+.manifesto-h .rust { color: var(--rust); font-weight: 800; }
+
+.manifesto-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 64px;
+}
+
+.manifesto-col h3 {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.manifesto-col p {
+  font-size: 19px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.82);
+  max-width: 540px;
+}
+
+.manifesto-col p + p { margin-top: 16px; }
+.manifesto-col strong { color: var(--warm-white); font-weight: 600; }
+
+/* ============================ */
+/* BUILDS SECTION               */
+/* ============================ */
+.builds {
+  background: var(--cream);
+  padding: 140px 40px 80px;
+}
+
+.builds-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.builds-header {
+  max-width: 900px;
+  margin-bottom: 72px;
+}
+
+.section-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::before {
+  content: '▎';
+  color: var(--rust);
+  font-size: 16px;
+}
+
+.section-h {
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin-bottom: 24px;
+}
+
+.section-h .rust { color: var(--rust); font-weight: 800; }
+
+.section-sub {
+  font-size: clamp(17px, 1.4vw, 20px);
+  line-height: 1.55;
+  color: var(--gray-700);
+  max-width: 680px;
+}
+
+/* Tier filter tabs */
+.tier-filter {
+  display: flex;
+  gap: 0;
+  margin-bottom: 56px;
+  border-bottom: 2px solid var(--ink);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tier-tab {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  padding: 18px 28px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.tier-tab:hover { color: var(--ink); }
+
+.tier-tab.active { color: var(--ink); }
+
+.tier-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--rust);
+}
+
+.tier-tab .count {
+  display: inline-block;
+  font-size: 10px;
+  background: rgba(10,10,10,0.08);
+  padding: 2px 8px;
+  margin-left: 8px;
+  color: var(--gray-500);
+  border-radius: 2px;
+}
+
+/* Build cards grid */
+.builds-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.build-card {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  padding: 40px;
+  position: relative;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.build-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(10,10,10,0.08);
+}
+
+.build-card.hidden { display: none; }
+
+/* Mobile-only toggle button: hidden by default (desktop/tablet) */
+.builds-show-all-mobile { display: none; }
+
+/* On mobile, .build-card-extra are hidden until JS adds .show-all to grid */
+
+
+.build-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.build-tier {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  background: var(--ink);
+  color: var(--warm-white);
+}
+
+.build-tier.simple { background: var(--gray-700); }
+.build-tier.mid { background: var(--ink); }
+.build-tier.ambitious { background: var(--rust); }
+
+.build-price {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  letter-spacing: 0.05em;
+}
+
+.build-industry {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--rust);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.build-title {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
+
+.build-title .rust { color: var(--rust); }
+
+.build-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--gray-700);
+  margin-bottom: 28px;
+}
+
+/* Build diagram */
+.build-diagram {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  padding: 24px 16px;
+  margin-bottom: 28px;
+}
+
+.diagram-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.diagram-node {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.diagram-node:hover .node-bg { fill: var(--rust); }
+.diagram-node:hover .node-text { fill: var(--warm-white); }
+
+.node-label {
+  font-family: 'Geist Mono', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  fill: var(--rust);
+}
+
+.node-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--ink);
+}
+
+.node-title.inverse { fill: var(--warm-white); }
+
+.node-sub {
+  font-family: 'Geist', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  fill: var(--gray-500);
+}
+
+.node-sub.inverse { fill: rgba(255,255,255,0.7); }
+
+.arrow-path {
+  stroke: var(--rust);
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  marker-end: url(#arrow);
+}
+
+/* Build result */
+.build-result {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.result-value {
+  font-family: 'Geist', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--rust);
+}
+
+.result-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gray-700);
+  line-height: 1.4;
+}
+
+/* ============================ */
+/* HOW IT WORKS                 */
+/* ============================ */
+.how {
+  background: var(--ink);
+  color: var(--warm-white);
+  padding: 140px 40px;
+}
+
+.how-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.how-header { max-width: 760px; margin-bottom: 80px; }
+
+.how-h {
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--warm-white);
+  margin-bottom: 24px;
+}
+
+.how-h .rust { color: var(--rust); font-weight: 800; }
+
+.how-sub {
+  font-size: 19px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.72);
+  max-width: 600px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.step {
+  padding: 48px 40px;
+  border-right: 1px solid rgba(255,255,255,0.12);
+  position: relative;
+}
+
+.step:last-child { border-right: none; }
+
+.step-num {
+  font-family: 'Geist', sans-serif;
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 0.9;
+  color: var(--rust);
+  letter-spacing: -0.04em;
+  margin-bottom: 20px;
+}
+
+.step-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.step-title {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  color: var(--warm-white);
+}
+
+.step-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.68);
+  margin-bottom: 16px;
+}
+
+.step-time {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--rust);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ============================ */
+/* PRICING TIERS                */
+/* ============================ */
+.pricing {
+  background: var(--cream);
+  padding: 140px 40px;
+}
+
+.pricing-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.pricing-header { max-width: 760px; margin-bottom: 72px; }
+
+.tiers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 2px solid var(--ink);
+  background: var(--warm-white);
+}
+
+.tier {
+  padding: 48px 40px;
+  border-right: 2px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.tier:last-child { border-right: none; }
+
+.tier.featured { background: var(--ink); color: var(--warm-white); }
+
+.tier-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.tier-name {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+.tier.featured .tier-name { color: var(--warm-white); }
+
+.tier-price {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 8px;
+  color: var(--rust);
+}
+
+.tier-price-sub {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gray-500);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.tier.featured .tier-price-sub { color: rgba(255,255,255,0.6); }
+
+.tier-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--gray-700);
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tier.featured .tier-desc {
+  color: rgba(255,255,255,0.75);
+  border-bottom-color: rgba(255,255,255,0.15);
+}
+
+.tier-features {
+  list-style: none;
+  margin-bottom: 32px;
+  flex: 1;
+}
+
+.tier-features li {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--gray-700);
+  padding: 8px 0;
+  padding-left: 24px;
+  position: relative;
+}
+
+.tier.featured .tier-features li { color: rgba(255,255,255,0.82); }
+
+.tier-features li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  color: var(--rust);
+  font-weight: 700;
+}
+
+.tier-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  padding: 14px 20px;
+  text-decoration: none;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  text-align: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.tier-cta:hover { background: var(--ink); color: var(--warm-white); }
+
+.tier.featured .tier-cta {
+  background: var(--rust);
+  border-color: var(--rust);
+  color: var(--warm-white);
+}
+
+.tier.featured .tier-cta:hover {
+  background: var(--warm-white);
+  border-color: var(--warm-white);
+  color: var(--ink);
+}
+
+/* ============================ */
+/* INQUIRY FORM                 */
+/* ============================ */
+.inquiry {
+  background: var(--ink);
+  color: var(--warm-white);
+  padding: 140px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.inquiry::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--rust);
+}
+
+.inquiry-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.inquiry-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.inquiry-h {
+  font-size: clamp(44px, 6vw, 80px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin-bottom: 32px;
+  color: var(--warm-white);
+}
+
+.inquiry-h .rust { color: var(--rust); font-weight: 800; }
+
+.inquiry-sub {
+  font-size: 18px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.72);
+  max-width: 600px;
+  margin-bottom: 56px;
+}
+
+.inquiry-form {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.field-group { display: flex; flex-direction: column; }
+
+.field-group label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 10px;
+}
+
+.field-group .req { color: var(--rust); }
+.field-group .opt {
+  color: rgba(255,255,255,0.4);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  margin-left: 6px;
+}
+
+.field-group input,
+.field-group select,
+.field-group textarea {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 16px 18px;
+  font-family: 'Geist', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--warm-white);
+  outline: none;
+  letter-spacing: -0.005em;
+  border-radius: 0;
+  -webkit-appearance: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.field-group input:focus,
+.field-group select:focus,
+.field-group textarea:focus {
+  border-color: var(--rust);
+  background: rgba(198,71,40,0.06);
+}
+
+.field-group input::placeholder,
+.field-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+.field-group textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+  font-family: 'Geist', sans-serif;
+}
+
+.field-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C64728' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.field-group select option {
+  background: var(--ink);
+  color: var(--warm-white);
+}
+
+.form-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--rust);
+  color: var(--warm-white);
+  padding: 20px 32px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: -0.005em;
+  border: 2px solid var(--rust);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Geist', sans-serif;
+  margin-top: 20px;
+}
+
+.form-submit:hover {
+  background: var(--warm-white);
+  color: var(--ink);
+  border-color: var(--warm-white);
+}
+
+.form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.form-note {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin-top: 16px;
+}
+
+.form-success,
+.form-error {
+  padding: 20px 24px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-top: 20px;
+  display: none;
+}
+
+.form-success {
+  background: rgba(198,71,40,0.1);
+  border: 1px solid var(--rust);
+  color: var(--warm-white);
+}
+
+.form-error {
+  background: rgba(255,80,80,0.1);
+  border: 1px solid rgba(255,80,80,0.5);
+  color: rgba(255,255,255,0.85);
+}
+
+/* ============================ */
+/* WHAT HAPPENS NEXT            */
+/* ============================ */
+.next-steps {
+  background: var(--cream);
+  padding: 120px 40px;
+}
+
+.next-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.next-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.next-h {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 48px;
+}
+
+.next-h .rust { color: var(--rust); font-weight: 800; }
+
+.next-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+}
+
+.next-item {
+  padding: 40px 32px 40px 0;
+  border-right: 1px solid var(--border);
+  padding-right: 32px;
+}
+
+.next-item:last-child { border-right: none; padding-right: 0; }
+.next-item:not(:first-child) { padding-left: 32px; }
+
+.next-item-num {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.25em;
+  margin-bottom: 12px;
+}
+
+.next-item-title {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+.next-item-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--gray-700);
+}
+
+/* ============================ */
+/* BACK TO MASON                */
+/* ============================ */
+.back-to-mason {
+  background: var(--cream-light);
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.back-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.back-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.back-h {
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+
+.back-sub {
+  font-size: 16px;
+  color: var(--gray-700);
+  margin-bottom: 32px;
+}
+
+/* ============================ */
+/* FOOTER                       */
+/* ============================ */
+.footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.7);
+  padding: 64px 40px 48px;
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  font-family: 'Geist', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--warm-white);
+  letter-spacing: -0.03em;
+  text-decoration: none;
+}
+
+.footer-brand .dot { color: var(--rust); font-weight: 900; }
+
+.footer-nav { display: flex; gap: 28px; }
+
+.footer-nav a {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.footer-nav a:hover { color: var(--rust); }
+
+/* ============================ */
+/* RESPONSIVE                   */
+/* ============================ */
+
+/* ============================ */
+/* CUSTOM BUILDS BANNER         */
+/* ============================ */
+.custom-banner {
+  background: var(--ink);
+  color: var(--warm-white);
+  padding: 100px 40px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.custom-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(198,71,40,0.12) 1.2px, transparent 1.5px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.custom-banner-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+.custom-banner-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 28px;
+}
+
+.custom-banner-h {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--warm-white);
+  margin-bottom: 28px;
+}
+
+.custom-banner-h .rust { color: var(--rust); font-weight: 700; }
+
+.custom-banner-sub {
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+  max-width: 640px;
+  margin: 0 auto 40px;
+}
+
+.custom-banner-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--rust);
+  color: var(--warm-white);
+  padding: 20px 36px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  border: 2px solid var(--rust);
+  font-family: 'Geist', sans-serif;
+  transition: all 0.2s;
+}
+
+.custom-banner-cta:hover {
+  background: var(--warm-white);
+  color: var(--ink);
+  border-color: var(--warm-white);
+}
+
+@media (max-width: 640px) {
+  .custom-banner { padding: 64px 20px; }
+  .custom-banner-h { font-size: 30px; }
+  .custom-banner-sub { font-size: 15px; }
+  .custom-banner-cta {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 24px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .builds-grid { grid-template-columns: 1fr; }
+  .hero-sideband { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .manifesto-cols { grid-template-columns: 1fr; gap: 48px; }
+  .steps { grid-template-columns: 1fr; }
+  .step { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .step:last-child { border-bottom: none; }
+  .tiers { grid-template-columns: 1fr; }
+  .tier { border-right: none; border-bottom: 2px solid var(--ink); }
+  .tier:last-child { border-bottom: none; }
+  .next-grid { grid-template-columns: 1fr; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+  .next-item { border-right: none; border-bottom: 1px solid var(--border); padding: 32px 0; }
+  .next-item:last-child { border-bottom: none; }
+  .next-item:not(:first-child) { padding-left: 0; }
+}
+
+@media (max-width: 640px) {
+  html { font-size: 15px; }
+
+  /* Build cards: show first 3, hide rest until toggle */
+  .build-card-extra { display: none; }
+  .builds-grid.show-all .build-card-extra { display: flex; }
+
+  .builds-show-all-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: calc(100% - 40px);
+    margin: 32px 20px 0;
+    padding: 18px 20px;
+    background: var(--ink);
+    color: var(--warm-white);
+    border: 2px solid var(--ink);
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .builds-show-all-mobile:hover {
+    background: var(--rust);
+    border-color: var(--rust);
+  }
+
+  .builds-show-all-mobile.expanded .arr {
+    transform: rotate(180deg);
+  }
+
+  .nav-inner { padding: 14px 20px; }
+  .nav-right { gap: 12px; }
+  .nav-right a:not(.nav-cta) { display: none; }
+
+  .hero { padding: 60px 20px 60px; }
+  .hero-h { font-size: 44px; letter-spacing: -0.03em; }
+  .hero-sub { font-size: 17px; }
+  .hero-cta-row { flex-direction: column; align-items: stretch; gap: 16px; }
+  .btn-primary { justify-content: center; padding: 16px 24px; }
+  .hero-sideband { display: none; }
+
+  .manifesto { padding: 64px 20px; }
+  .manifesto-h { font-size: 32px; line-height: 1.05; }
+  .manifesto-col p { font-size: 15px; line-height: 1.55; }
+  /* Mobile: hide the 2nd paragraph in each column for a punchier read */
+  .manifesto-col p:nth-of-type(2) { display: none; }
+  .manifesto-cols { gap: 32px !important; }
+
+  .builds { padding: 80px 20px 40px; }
+  .section-h { font-size: 36px; }
+  .build-card { padding: 28px 24px; }
+  .build-title { font-size: 24px; }
+  .tier-tab { padding: 14px 18px; font-size: 11px; }
+  .tier-tab .count { display: none; }
+
+  .how { padding: 80px 20px; }
+  .step { padding: 32px 24px; }
+  .step-num { font-size: 56px; }
+
+  .pricing { padding: 80px 20px; }
+  .tier { padding: 32px 24px; }
+  .tier-price { font-size: 40px; }
+  .tier-name { font-size: 26px; }
+
+  .inquiry { padding: 80px 20px; }
+  .inquiry-h { font-size: 38px; }
+  .field-row { grid-template-columns: 1fr; gap: 20px; }
+
+  .next-steps { padding: 64px 20px; }
+  .back-to-mason { padding: 48px 20px; }
+
+  .footer { padding: 48px 20px 32px; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-nav { justify-content: center; }
+}
+
+/* Input zoom prevention on iOS */
+@media (max-width: 640px) {
+  input, select, textarea { font-size: 16px !important; }
+}
+
+
+/* ============================ */
+/* PRICING — 3 OPTIONS */
+/* ============================ */
+.pricing-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 48px;
+  border: 2px solid var(--ink);
+}
+
+.pricing-option {
+  padding: 40px 32px;
+  border-right: 1px solid var(--border);
+  background: var(--warm-white);
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-option:last-child { border-right: none; }
+
+.pricing-option.featured {
+  background: var(--ink);
+  color: var(--warm-white);
+  position: relative;
+}
+
+.pricing-option.featured::before {
+  content: "RECOMMENDED";
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--rust);
+  color: var(--warm-white);
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  padding: 5px 14px;
+}
+
+.pricing-option-num {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--rust);
+  margin-bottom: 16px;
+}
+
+.pricing-option-name {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+.pricing-option.featured .pricing-option-name { color: var(--warm-white); }
+
+.pricing-option-tagline {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--rust);
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.pricing-option-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  flex: 1;
+}
+
+.pricing-option-features li {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--gray-700);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  padding-left: 18px;
+}
+
+.pricing-option.featured .pricing-option-features li {
+  color: rgba(255,255,255,0.85);
+  border-bottom-color: rgba(255,255,255,0.12);
+}
+
+.pricing-option-features li::before {
+  content: "+";
+  position: absolute;
+  left: 0;
+  color: var(--rust);
+  font-weight: 700;
+}
+
+.pricing-option-features li:last-child { border-bottom: none; }
+
+.pricing-option-best {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--rust);
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.pricing-option.featured .pricing-option-best {
+  border-top-color: rgba(255,255,255,0.12);
+}
+
+@media (max-width: 1024px) {
+  .pricing-options {
+    grid-template-columns: 1fr;
+  }
+  .pricing-option {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .pricing-option:last-child { border-bottom: none; }
+}
+
+/* ============================ */
+/* MOBILE TEXT DIAGRAM (replaces SVG on narrow screens) */
+/* ============================ */
+.diagram-mobile {
+  display: none;
+}
+
+.diagram-mobile-flow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.diagram-mobile-node {
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  background: #FAFAF7;
+  position: relative;
+}
+
+.diagram-mobile-node.process {
+  background: var(--ink);
+  color: var(--warm-white);
+  border-color: var(--ink);
+}
+
+.diagram-mobile-node.output {
+  background: var(--rust);
+  color: var(--warm-white);
+  border-color: var(--rust);
+}
+
+.diagram-mobile-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 4px;
+}
+
+.diagram-mobile-node.process .diagram-mobile-label { color: var(--rust); }
+.diagram-mobile-node.output .diagram-mobile-label { color: var(--warm-white); opacity: 0.8; }
+
+.diagram-mobile-title {
+  font-family: 'Geist', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.diagram-mobile-sub {
+  font-family: 'Geist', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--gray-500);
+  line-height: 1.4;
+}
+
+.diagram-mobile-node.process .diagram-mobile-sub { color: rgba(255,255,255,0.7); }
+.diagram-mobile-node.output .diagram-mobile-sub { color: rgba(255,255,255,0.9); }
+
+.diagram-mobile-arrow {
+  text-align: center;
+  color: var(--rust);
+  font-size: 20px;
+  line-height: 1;
+  margin: -2px 0;
+}
+
+/* ============================ */
+/* RESPONSIVE: hide SVG on narrow screens, show text flow */
+/* ============================ */
+@media (max-width: 640px) {
+  .diagram-svg { display: none; }
+  .diagram-mobile { display: block; }
+  .build-diagram { padding: 16px; }
+
+  .pricing-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 28px 0;
+  }
+
+  .pricing-row-body p { font-size: 15px; }
+
+  .pricing-cta {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 24px;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 641px) {
+  /* Tablet: slightly simplify diagram padding */
+  .build-diagram { padding: 20px 12px; }
+}
+
+
+
+/* ============================ */
+/* DIAGRAM (foreignObject-based — auto-wraps) */
+/* ============================ */
+.diag-rect {
+  /* Just a sizing helper — actual content is in foreignObject */
+}
+
+.diag-content {
+  width: 100%;
+  height: 100%;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: 'Geist', sans-serif;
+}
+
+.diag-content.small {
+  padding: 8px 10px;
+  justify-content: center;
+}
+
+.diag-content.dark {
+  color: var(--warm-white);
+}
+
+.diag-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--rust);
+  line-height: 1;
+}
+
+.diag-label.rust { color: var(--rust); }
+.diag-label.cream { color: var(--warm-white); opacity: 0.85; }
+
+.diag-title {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.diag-content.dark .diag-title { color: var(--warm-white); }
+.diag-content.small .diag-title { font-size: 11px; }
+
+.diag-sub {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--gray-500);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.diag-content.dark .diag-sub { color: rgba(255,255,255,0.75); }
+
+/* ============================ */
+/* BUILD PRICE EXAMPLE BADGE */
+/* ============================ */
+.build-price-example {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray-700);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ============================ */
+/* PRICING DISCLAIMER */
+/* ============================ */
+.pricing-disclaimer {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gray-500);
+  letter-spacing: 0.02em;
+  margin-top: 16px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+.pricing-cta-row {
+  text-align: center;
+  margin-top: 56px;
+}
+
+.pricing-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--rust);
+  color: var(--warm-white);
+  padding: 20px 36px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  border: 2px solid var(--rust);
+  font-family: 'Geist', sans-serif;
+  transition: all 0.2s;
+}
+
+.pricing-cta:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--warm-white);
+}
+
+/* ============================ */
+/* MOBILE OVERRIDES for new pieces */
+/* ============================ */
+@media (max-width: 640px) {
+  .build-header {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .build-tier {
+    font-size: 9px;
+    padding: 4px 8px;
+  }
+  .build-price-example {
+    font-size: 11px;
+    color: var(--gray-700);
+  }
+  .build-industry {
+    font-size: 9px;
+    margin-bottom: 10px;
+  }
+  .pricing-disclaimer { font-size: 10px; padding: 0 12px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================ -->
+<!-- NAV                          -->
+<!-- ============================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">Mason<span class="dot">.</span></a>
+    <div class="nav-right">
+      <a href="/">The Newsletter</a>
+      <a href="#builds">Work</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#inquiry" class="nav-cta">Book consult</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================ -->
+<!-- HERO                         -->
+<!-- ============================ -->
+<div class="hero-wrap">
+<section class="hero">
+  <div class="hero-label">Build with us</div>
+
+  <h1 class="hero-h">
+    Most AI consulting stops at&nbsp;wrappers. <span class="rust">We build the system underneath.</span>
+  </h1>
+
+  <p class="hero-sub">
+    <strong>Custom infrastructure. Internal tools. Decision engines. Autonomous pipelines.</strong> The AI systems your business actually runs on — built with you, not dumped on you.
+  </p>
+
+  <div class="hero-cta-row">
+    <a href="#inquiry" class="btn-primary">
+      Book a free consult <span class="arr">→</span>
+    </a>
+    <a href="#builds" class="btn-secondary">
+      See what we build ↓
+    </a>
+  </div>
+
+  <div class="hero-sideband">
+    <div class="sideband-item">
+      <div class="sideband-num"><span class="rust">$5</span>K+</div>
+      <div class="sideband-label">Builds start here</div>
+    </div>
+    <div class="sideband-item">
+      <div class="sideband-num"><span class="rust">3</span></div>
+      <div class="sideband-label">Pricing models to choose</div>
+    </div>
+    <div class="sideband-item">
+      <div class="sideband-num"><span class="rust">48</span>h</div>
+      <div class="sideband-label">Response time</div>
+    </div>
+    <div class="sideband-item">
+      <div class="sideband-num"><span class="rust">100%</span></div>
+      <div class="sideband-label">You own the system</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<hr class="section-divider" />
+
+<!-- ============================ -->
+<!-- MANIFESTO                    -->
+<!-- ============================ -->
+<section class="manifesto">
+  <div class="manifesto-inner">
+    <div class="manifesto-label">Why this exists</div>
+    <h2 class="manifesto-h">
+      Your business doesn't need another&nbsp;chatbot. <span class="rust">It needs infrastructure.</span>
+    </h2>
+
+    <div class="manifesto-cols">
+      <div class="manifesto-col">
+        <h3>The problem</h3>
+        <p>Most AI projects die at <strong>demo stage</strong>. They look impressive in the sales deck, then collapse the moment they touch real data, real workflows, or real customers.</p>
+        <p>The gap isn't ideas. It's <strong>engineering</strong>. Custom systems that integrate with your actual stack, reason about your actual data, and operate inside your actual business.</p>
+      </div>
+      <div class="manifesto-col">
+        <h3>What we do</h3>
+        <p>We build the <strong>connective tissue</strong>. Not chatbots bolted onto websites. Internal tools your team opens every morning. Dashboards that explain themselves. Pipelines that run autonomously and escalate only what matters.</p>
+        <p>You walk away with <strong>infrastructure you own</strong> — code, systems, documentation. Not a dependency on us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- BUILDS — 6 EXAMPLES          -->
+<!-- ============================ -->
+<section class="builds" id="builds">
+  <div class="builds-inner">
+    <div class="builds-header">
+      <div class="section-label">What we build</div>
+      <h2 class="section-h">
+        Eight things we can <span class="rust">build for you.</span>
+      </h2>
+      <p class="section-sub">
+        Examples of systems we can build — from focused automations that save a team hours per week, to custom platforms that become the spine of how your business operates. Yours can look completely different. Filter by scope.
+      </p>
+    </div>
+
+    <!-- Tier filter -->
+    <div class="tier-filter" role="tablist">
+      <button class="tier-tab active" data-tier="all" onclick="filterBuilds('all', this)">
+        All <span class="count">8</span>
+      </button>
+      <button class="tier-tab" data-tier="simple" onclick="filterBuilds('simple', this)">
+        Focused <span class="count">3</span>
+      </button>
+      <button class="tier-tab" data-tier="mid" onclick="filterBuilds('mid', this)">
+        Systems <span class="count">3</span>
+      </button>
+      <button class="tier-tab" data-tier="ambitious" onclick="filterBuilds('ambitious', this)">
+        Platforms <span class="count">2</span>
+      </button>
+    </div>
+
+    <!-- SVG ARROW DEFS (shared) -->
+    <svg width="0" height="0" style="position:absolute;">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#C64728"/>
+        </marker>
+      </defs>
+    </svg>
+
+    <div class="builds-grid">
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- BUILD 1 — FOCUSED BUILD             -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="build-card" data-tier="simple">
+        <div class="build-header">
+          <span class="build-tier simple">Focused build</span>
+          <span class="build-price-example">Example: $5K – $12K</span>
+        </div>
+        <div class="build-industry">Sales teams · Insurance · Real estate · Home services</div>
+        <h3 class="build-title">The inbound lead <span class="rust">that doesn't go cold.</span></h3>
+        <p class="build-desc">
+          Form fills, Facebook ads, Zillow sends, referrals — every lead gets called within 60 seconds by an AI that qualifies, books the meeting or viewing, and drops a briefed summary into your CRM. The 70% of leads you lose to slow follow-up become closed deals.
+        </p>
+
+        <div class="build-diagram">
+          <svg class="diagram-svg" viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <!-- INPUT box -->
+            <rect class="diag-rect" x="0" y="15" width="105" height="120" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="15" width="105" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content">
+                <div class="diag-label">LEADS</div>
+                <div class="diag-title">Inbound</div>
+                <div class="diag-sub">Web · FB ads · Zillow</div>
+              </div>
+            </foreignObject>
+            <!-- arrow 1 -->
+            <path class="arrow-path" d="M 112 75 L 142 75" />
+            <!-- PROCESS box (dark) -->
+            <rect class="diag-rect" x="147" y="15" width="105" height="120" fill="#0A0A0A"/>
+            <foreignObject x="147" y="15" width="105" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label rust">AI REP</div>
+                <div class="diag-title">Calls + qualifies</div>
+                <div class="diag-sub">Books meeting · Briefs you</div>
+              </div>
+            </foreignObject>
+            <!-- arrow 2 -->
+            <path class="arrow-path" d="M 259 75 L 289 75" />
+            <!-- OUTPUT box (rust) -->
+            <rect class="diag-rect" x="295" y="15" width="105" height="120" fill="#C64728"/>
+            <foreignObject x="295" y="15" width="105" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label cream">CRM</div>
+                <div class="diag-title">Warm seat</div>
+                <div class="diag-sub">Ready to close</div>
+              </div>
+            </foreignObject>
+          </svg>
+
+          <!-- Mobile text-flow fallback -->
+          <div class="diagram-mobile">
+            <div class="diagram-mobile-flow">
+              <div class="diagram-mobile-node">
+                <div class="diagram-mobile-label">LEADS</div>
+                <div class="diagram-mobile-title">Inbound</div>
+                <div class="diagram-mobile-sub">Web · FB ads · Zillow</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node process">
+                <div class="diagram-mobile-label">AI REP</div>
+                <div class="diagram-mobile-title">Calls + qualifies</div>
+                <div class="diagram-mobile-sub">Books meeting · Briefs you</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node output">
+                <div class="diagram-mobile-label">CRM</div>
+                <div class="diagram-mobile-title">Warm seat</div>
+                <div class="diagram-mobile-sub">Ready to close</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="build-result">
+          <div class="result-value">60 sec</div>
+          <div class="result-label">First-touch time<br/>vs. industry avg of 42 hours</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- BUILD 2 — FOCUSED BUILD             -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="build-card" data-tier="simple">
+        <div class="build-header">
+          <span class="build-tier simple">Focused build</span>
+          <span class="build-price-example">Example: $8K – $20K</span>
+        </div>
+        <div class="build-industry">B2B sales · Agencies · SaaS</div>
+        <h3 class="build-title">The outbound <span class="rust">AI sales rep.</span></h3>
+        <p class="build-desc">
+          Upload a target list. AI researches each prospect, personalizes the pitch, places the call or sends the email, handles basic objections, and books qualified meetings for your closers. Works 24/7. Never has a bad day. Never asks for commission.
+        </p>
+
+        <div class="build-diagram">
+          <svg class="diagram-svg" viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <!-- INPUT box -->
+            <rect class="diag-rect" x="0" y="15" width="105" height="120" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="15" width="105" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content">
+                <div class="diag-label">LIST</div>
+                <div class="diag-title">Targets</div>
+                <div class="diag-sub">CRM · LinkedIn</div>
+              </div>
+            </foreignObject>
+            <!-- arrow 1 -->
+            <path class="arrow-path" d="M 112 75 L 142 75" />
+            <!-- PROCESS box (dark) -->
+            <rect class="diag-rect" x="147" y="15" width="105" height="120" fill="#0A0A0A"/>
+            <foreignObject x="147" y="15" width="105" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label rust">AI SDR</div>
+                <div class="diag-title">Research + reach</div>
+                <div class="diag-sub">Email · Call · Follow-up</div>
+              </div>
+            </foreignObject>
+            <!-- arrow 2 -->
+            <path class="arrow-path" d="M 259 75 L 289 75" />
+            <!-- OUTPUT box (rust) -->
+            <rect class="diag-rect" x="295" y="15" width="105" height="120" fill="#C64728"/>
+            <foreignObject x="295" y="15" width="105" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label cream">BOOKED</div>
+                <div class="diag-title">Meetings</div>
+                <div class="diag-sub">Qualified only</div>
+              </div>
+            </foreignObject>
+          </svg>
+
+          <!-- Mobile text-flow fallback -->
+          <div class="diagram-mobile">
+            <div class="diagram-mobile-flow">
+              <div class="diagram-mobile-node">
+                <div class="diagram-mobile-label">LIST</div>
+                <div class="diagram-mobile-title">Targets</div>
+                <div class="diagram-mobile-sub">CRM · LinkedIn</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node process">
+                <div class="diagram-mobile-label">AI SDR</div>
+                <div class="diagram-mobile-title">Research + reach</div>
+                <div class="diagram-mobile-sub">Email · Call · Follow-up</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node output">
+                <div class="diagram-mobile-label">BOOKED</div>
+                <div class="diagram-mobile-title">Meetings</div>
+                <div class="diagram-mobile-sub">Qualified only</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="build-result">
+          <div class="result-value">10x</div>
+          <div class="result-label">Outbound volume<br/>per human SDR seat</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- BUILD 3 — FOCUSED BUILD             -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="build-card" data-tier="simple">
+        <div class="build-header">
+          <span class="build-tier simple">Focused build</span>
+          <span class="build-price-example">Example: $5K – $10K</span>
+        </div>
+        <div class="build-industry">Nail salons · Barbers · Tattoo studios</div>
+        <h3 class="build-title">The design <span class="rust">memory vault.</span></h3>
+        <p class="build-desc">
+          Every client's past work — photos, products used, technician notes — tagged against their profile. "Same as last time" actually works, even when the tech who did it left six months ago. Regulars wanting something fresh get AI-generated mockups tailored to their style.
+        </p>
+
+        <div class="build-diagram">
+          <svg class="diagram-svg" viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <!-- INPUT box -->
+            <rect class="diag-rect" x="0" y="15" width="105" height="120" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="15" width="105" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content">
+                <div class="diag-label">CLIENTS</div>
+                <div class="diag-title">Every visit</div>
+                <div class="diag-sub">Photos · Notes · Products</div>
+              </div>
+            </foreignObject>
+            <!-- arrow 1 -->
+            <path class="arrow-path" d="M 112 75 L 142 75" />
+            <!-- PROCESS box (dark) -->
+            <rect class="diag-rect" x="147" y="15" width="105" height="120" fill="#0A0A0A"/>
+            <foreignObject x="147" y="15" width="105" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label rust">MEMORY</div>
+                <div class="diag-title">Tag + embed</div>
+                <div class="diag-sub">Style vectors per client</div>
+              </div>
+            </foreignObject>
+            <!-- arrow 2 -->
+            <path class="arrow-path" d="M 259 75 L 289 75" />
+            <!-- OUTPUT box (rust) -->
+            <rect class="diag-rect" x="295" y="15" width="105" height="120" fill="#C64728"/>
+            <foreignObject x="295" y="15" width="105" height="120">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label cream">RECALL</div>
+                <div class="diag-title">Instant</div>
+                <div class="diag-sub">"Same as last" works</div>
+              </div>
+            </foreignObject>
+          </svg>
+
+          <!-- Mobile text-flow fallback -->
+          <div class="diagram-mobile">
+            <div class="diagram-mobile-flow">
+              <div class="diagram-mobile-node">
+                <div class="diagram-mobile-label">CLIENTS</div>
+                <div class="diagram-mobile-title">Every visit</div>
+                <div class="diagram-mobile-sub">Photos · Notes · Products</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node process">
+                <div class="diagram-mobile-label">MEMORY</div>
+                <div class="diagram-mobile-title">Tag + embed</div>
+                <div class="diagram-mobile-sub">Style vectors per client</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node output">
+                <div class="diagram-mobile-label">RECALL</div>
+                <div class="diagram-mobile-title">Instant</div>
+                <div class="diagram-mobile-sub">"Same as last" works</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="build-result">
+          <div class="result-value">0</div>
+          <div class="result-label">"What did we do last time?"<br/>moments, ever again</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- BUILD 4 — SYSTEM BUILD             -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="build-card build-card-extra" data-tier="mid">
+        <div class="build-header">
+          <span class="build-tier mid">System build</span>
+          <span class="build-price-example">Example: $20K – $45K</span>
+        </div>
+        <div class="build-industry">Clinics · Specialty practices · Dental</div>
+        <h3 class="build-title">The pre-visit <span class="rust">patient brief.</span></h3>
+        <p class="build-desc">
+          Reads every note, lab, scan, and past visit before each appointment. Thirty seconds before the doctor walks in, a one-paragraph brief is ready on tablet. "Mrs Chen, 58, follow-up for knee pain. Mild OA on last scan. On ibuprofen 3mo — possible GI concerns. Insurance needs PT attempt before surgery referral."
+        </p>
+
+        <div class="build-diagram">
+          <svg class="diagram-svg" viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+            <rect class="diag-rect" x="0" y="5" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="5" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Clinical notes</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="45" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="45" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Labs + imaging</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="85" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="85" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Med history</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="125" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="125" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Insurance data</div>
+              </div>
+            </foreignObject>
+            <!-- Converging arrows from 4 inputs to process box -->
+            <path class="arrow-path" d="M 102 22 C 130 22, 140 60, 158 60" />
+            <path class="arrow-path" d="M 102 62 C 130 62, 140 75, 158 75" />
+            <path class="arrow-path" d="M 102 102 C 130 102, 140 90, 158 90" />
+            <path class="arrow-path" d="M 102 142 C 130 142, 140 105, 158 105" />
+            <!-- PROCESS box (dark) -->
+            <rect class="diag-rect" x="160" y="42" width="115" height="80" fill="#0A0A0A"/>
+            <foreignObject x="160" y="42" width="115" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label rust">SYNTHESIZE</div>
+                <div class="diag-title">Read + summarize</div>
+                <div class="diag-sub">Flag risks · Cite sources</div>
+              </div>            </foreignObject>
+            <!-- arrow process → output -->
+            <path class="arrow-path" d="M 277 82 L 317 82" />
+            <!-- OUTPUT box (rust) -->
+            <rect class="diag-rect" x="320" y="42" width="100" height="80" fill="#C64728"/>
+            <foreignObject x="320" y="42" width="100" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label cream">BRIEF</div>
+                <div class="diag-title">30-sec read</div>
+                <div class="diag-sub">Before walk-in</div>
+              </div>            </foreignObject>
+          </svg>
+
+          <!-- Mobile text-flow fallback -->
+          <div class="diagram-mobile">
+            <div class="diagram-mobile-flow">
+              <div class="diagram-mobile-node">
+                <div class="diagram-mobile-label">INPUTS</div>
+                <div class="diagram-mobile-title">Multiple sources</div>
+                <div class="diagram-mobile-sub">Clinical notes · Labs + imaging · Med history · Insurance data</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node process">
+                <div class="diagram-mobile-label">SYNTHESIZE</div>
+                <div class="diagram-mobile-title">Read + summarize</div>
+                <div class="diagram-mobile-sub">Flag risks · Cite sources</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node output">
+                <div class="diagram-mobile-label">BRIEF</div>
+                <div class="diagram-mobile-title">30-sec read</div>
+                <div class="diagram-mobile-sub">Before walk-in</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="build-result">
+          <div class="result-value">30 sec</div>
+          <div class="result-label">Doctor prep time<br/>replaces 10 min of chart digging</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- BUILD 5 — SYSTEM BUILD             -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="build-card build-card-extra" data-tier="mid">
+        <div class="build-header">
+          <span class="build-tier mid">System build</span>
+          <span class="build-price-example">Example: $25K – $60K</span>
+        </div>
+        <div class="build-industry">Car rental · Fleet · Equipment hire</div>
+        <h3 class="build-title">The damage <span class="rust">detection app.</span></h3>
+        <p class="build-desc">
+          Customer walks around the vehicle with their phone. AI auto-captures every panel, compares against the last return's photos, flags new dents with estimated repair cost pulled from a parts database. Customer signs digitally. The "was that scratch there before?" argument ends forever.
+        </p>
+
+        <div class="build-diagram">
+          <svg class="diagram-svg" viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+            <rect class="diag-rect" x="0" y="5" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="5" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Panel photos</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="45" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="45" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Prior baseline</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="85" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="85" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Parts cost DB</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="125" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="125" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Digital signature</div>
+              </div>
+            </foreignObject>
+            <!-- Converging arrows from 4 inputs to process box -->
+            <path class="arrow-path" d="M 102 22 C 130 22, 140 60, 158 60" />
+            <path class="arrow-path" d="M 102 62 C 130 62, 140 75, 158 75" />
+            <path class="arrow-path" d="M 102 102 C 130 102, 140 90, 158 90" />
+            <path class="arrow-path" d="M 102 142 C 130 142, 140 105, 158 105" />
+            <!-- PROCESS box (dark) -->
+            <rect class="diag-rect" x="160" y="42" width="115" height="80" fill="#0A0A0A"/>
+            <foreignObject x="160" y="42" width="115" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label rust">DETECT</div>
+                <div class="diag-title">Compare + score</div>
+                <div class="diag-sub">New vs. prior · Estimate</div>
+              </div>            </foreignObject>
+            <!-- arrow process → output -->
+            <path class="arrow-path" d="M 277 82 L 317 82" />
+            <!-- OUTPUT box (rust) -->
+            <rect class="diag-rect" x="320" y="42" width="100" height="80" fill="#C64728"/>
+            <foreignObject x="320" y="42" width="100" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label cream">CONTRACT</div>
+                <div class="diag-title">Signed proof</div>
+                <div class="diag-sub">Dispute-proof</div>
+              </div>            </foreignObject>
+          </svg>
+
+          <!-- Mobile text-flow fallback -->
+          <div class="diagram-mobile">
+            <div class="diagram-mobile-flow">
+              <div class="diagram-mobile-node">
+                <div class="diagram-mobile-label">INPUTS</div>
+                <div class="diagram-mobile-title">Multiple sources</div>
+                <div class="diagram-mobile-sub">Panel photos · Prior baseline · Parts cost DB · Digital signature</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node process">
+                <div class="diagram-mobile-label">DETECT</div>
+                <div class="diagram-mobile-title">Compare + score</div>
+                <div class="diagram-mobile-sub">New vs. prior · Estimate</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node output">
+                <div class="diagram-mobile-label">CONTRACT</div>
+                <div class="diagram-mobile-title">Signed proof</div>
+                <div class="diagram-mobile-sub">Dispute-proof</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="build-result">
+          <div class="result-value">$0</div>
+          <div class="result-label">Disputed damage claims<br/>after customer signs the walkaround</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- BUILD 6 — SYSTEM BUILD             -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="build-card build-card-extra" data-tier="mid">
+        <div class="build-header">
+          <span class="build-tier mid">System build</span>
+          <span class="build-price-example">Example: $30K – $70K</span>
+        </div>
+        <div class="build-industry">Mid-market · Legal ops · Procurement</div>
+        <h3 class="build-title">The contract <span class="rust">blind-spot scanner.</span></h3>
+        <p class="build-desc">
+          Every signed contract across the company gets ingested and continuously monitored. Flags auto-renewal clauses nobody was tracking, vendor rates drifting above market, missing indemnity, silent price escalators, and compliance gaps. The first scan usually finds six figures of leakage.
+        </p>
+
+        <div class="build-diagram">
+          <svg class="diagram-svg" viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+            <rect class="diag-rect" x="0" y="5" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="5" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Master contracts</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="45" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="45" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Vendor agreements</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="85" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="85" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">SaaS subscriptions</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="125" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="125" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Market benchmarks</div>
+              </div>
+            </foreignObject>
+            <!-- Converging arrows from 4 inputs to process box -->
+            <path class="arrow-path" d="M 102 22 C 130 22, 140 60, 158 60" />
+            <path class="arrow-path" d="M 102 62 C 130 62, 140 75, 158 75" />
+            <path class="arrow-path" d="M 102 102 C 130 102, 140 90, 158 90" />
+            <path class="arrow-path" d="M 102 142 C 130 142, 140 105, 158 105" />
+            <!-- PROCESS box (dark) -->
+            <rect class="diag-rect" x="160" y="42" width="115" height="80" fill="#0A0A0A"/>
+            <foreignObject x="160" y="42" width="115" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label rust">SCAN</div>
+                <div class="diag-title">Parse + compare</div>
+                <div class="diag-sub">Flag drift · Rank by $</div>
+              </div>            </foreignObject>
+            <!-- arrow process → output -->
+            <path class="arrow-path" d="M 277 82 L 317 82" />
+            <!-- OUTPUT box (rust) -->
+            <rect class="diag-rect" x="320" y="42" width="100" height="80" fill="#C64728"/>
+            <foreignObject x="320" y="42" width="100" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label cream">REPORT</div>
+                <div class="diag-title">Monthly leak</div>
+                <div class="diag-sub">With $ + action plan</div>
+              </div>            </foreignObject>
+          </svg>
+
+          <!-- Mobile text-flow fallback -->
+          <div class="diagram-mobile">
+            <div class="diagram-mobile-flow">
+              <div class="diagram-mobile-node">
+                <div class="diagram-mobile-label">INPUTS</div>
+                <div class="diagram-mobile-title">Multiple sources</div>
+                <div class="diagram-mobile-sub">Master contracts · Vendor agreements · SaaS subscriptions · Market benchmarks</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node process">
+                <div class="diagram-mobile-label">SCAN</div>
+                <div class="diagram-mobile-title">Parse + compare</div>
+                <div class="diagram-mobile-sub">Flag drift · Rank by $</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node output">
+                <div class="diagram-mobile-label">REPORT</div>
+                <div class="diagram-mobile-title">Monthly leak</div>
+                <div class="diagram-mobile-sub">With $ + action plan</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="build-result">
+          <div class="result-value">$847K</div>
+          <div class="result-label">Typical leakage this finds<br/>on a first contract scan</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- BUILD 7 — PLATFORM BUILD             -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="build-card build-card-extra" data-tier="ambitious">
+        <div class="build-header">
+          <span class="build-tier ambitious">Platform build</span>
+          <span class="build-price-example">Example: $80K – $200K</span>
+        </div>
+        <div class="build-industry">Real estate brokerages · Multi-agent firms</div>
+        <h3 class="build-title">The deal intelligence <span class="rust">platform.</span></h3>
+        <p class="build-desc">
+          Every lead, showing, offer, and close across your entire agent roster, synthesized. Each agent gets their own predictive dashboard. Brokerage-wide patterns compound over time. "This buyer's behavior matches your 2023 top-quartile pattern — prioritize." "Leads from Source X close 3x better than Source Y."
+        </p>
+
+        <div class="build-diagram">
+          <svg class="diagram-svg" viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+            <rect class="diag-rect" x="0" y="5" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="5" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">All leads</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="45" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="45" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Showings + offers</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="85" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="85" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Closed deals</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="125" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="125" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Market + MLS data</div>
+              </div>
+            </foreignObject>
+            <!-- Converging arrows from 4 inputs to process box -->
+            <path class="arrow-path" d="M 102 22 C 130 22, 140 60, 158 60" />
+            <path class="arrow-path" d="M 102 62 C 130 62, 140 75, 158 75" />
+            <path class="arrow-path" d="M 102 102 C 130 102, 140 90, 158 90" />
+            <path class="arrow-path" d="M 102 142 C 130 142, 140 105, 158 105" />
+            <!-- PROCESS box (dark) -->
+            <rect class="diag-rect" x="160" y="42" width="115" height="80" fill="#0A0A0A"/>
+            <foreignObject x="160" y="42" width="115" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label rust">LEARN</div>
+                <div class="diag-title">Pattern match</div>
+                <div class="diag-sub">Predict + rank sources</div>
+              </div>            </foreignObject>
+            <!-- arrow process → output -->
+            <path class="arrow-path" d="M 277 82 L 317 82" />
+            <!-- OUTPUT box (rust) -->
+            <rect class="diag-rect" x="320" y="42" width="100" height="80" fill="#C64728"/>
+            <foreignObject x="320" y="42" width="100" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label cream">PLATFORM</div>
+                <div class="diag-title">Per-agent</div>
+                <div class="diag-sub">Dashboard + firm view</div>
+              </div>            </foreignObject>
+          </svg>
+
+          <!-- Mobile text-flow fallback -->
+          <div class="diagram-mobile">
+            <div class="diagram-mobile-flow">
+              <div class="diagram-mobile-node">
+                <div class="diagram-mobile-label">INPUTS</div>
+                <div class="diagram-mobile-title">Multiple sources</div>
+                <div class="diagram-mobile-sub">All leads · Showings + offers · Closed deals · Market + MLS data</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node process">
+                <div class="diagram-mobile-label">LEARN</div>
+                <div class="diagram-mobile-title">Pattern match</div>
+                <div class="diagram-mobile-sub">Predict + rank sources</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node output">
+                <div class="diagram-mobile-label">PLATFORM</div>
+                <div class="diagram-mobile-title">Per-agent</div>
+                <div class="diagram-mobile-sub">Dashboard + firm view</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="build-result">
+          <div class="result-value">3x</div>
+          <div class="result-label">Lead-to-close rate<br/>on top-quartile sources</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════ -->
+      <!-- BUILD 8 — PLATFORM BUILD             -->
+      <!-- ═══════════════════════════════════════ -->
+      <div class="build-card build-card-extra" data-tier="ambitious">
+        <div class="build-header">
+          <span class="build-tier ambitious">Platform build</span>
+          <span class="build-price-example">Example: $100K – $250K</span>
+        </div>
+        <div class="build-industry">Consumer brands · SaaS · Multi-channel businesses</div>
+        <h3 class="build-title">The customer <span class="rust">truth machine.</span></h3>
+        <p class="build-desc">
+          Every email, support ticket, sales call, review, social mention, and NPS response — flowing into one pipeline. AI classifies, correlates, and synthesizes weekly. CEO gets a one-page state-of-the-customer drawn from 50,000+ signals. Better than any survey, because it's what customers actually said, unprompted.
+        </p>
+
+        <div class="build-diagram">
+          <svg class="diagram-svg" viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+            <rect class="diag-rect" x="0" y="5" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="5" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Tickets + chat</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="45" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="45" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Call recordings</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="85" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="85" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Reviews + social</div>
+              </div>
+            </foreignObject>
+            <rect class="diag-rect" x="0" y="125" width="100" height="35" fill="#FAFAF7" stroke="#0A0A0A" stroke-width="1"/>
+            <foreignObject x="0" y="125" width="100" height="35">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content small">
+                <div class="diag-title">Usage + NPS</div>
+              </div>
+            </foreignObject>
+            <!-- Converging arrows from 4 inputs to process box -->
+            <path class="arrow-path" d="M 102 22 C 130 22, 140 60, 158 60" />
+            <path class="arrow-path" d="M 102 62 C 130 62, 140 75, 158 75" />
+            <path class="arrow-path" d="M 102 102 C 130 102, 140 90, 158 90" />
+            <path class="arrow-path" d="M 102 142 C 130 142, 140 105, 158 105" />
+            <!-- PROCESS box (dark) -->
+            <rect class="diag-rect" x="160" y="42" width="115" height="80" fill="#0A0A0A"/>
+            <foreignObject x="160" y="42" width="115" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label rust">SYNTHESIZE</div>
+                <div class="diag-title">Classify + cluster</div>
+                <div class="diag-sub">Detect shifts</div>
+              </div>            </foreignObject>
+            <!-- arrow process → output -->
+            <path class="arrow-path" d="M 277 82 L 317 82" />
+            <!-- OUTPUT box (rust) -->
+            <rect class="diag-rect" x="320" y="42" width="100" height="80" fill="#C64728"/>
+            <foreignObject x="320" y="42" width="100" height="80">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="diag-content dark">
+                <div class="diag-label cream">BRIEF</div>
+                <div class="diag-title">1 page/week</div>
+                <div class="diag-sub">50K signals → truth</div>
+              </div>            </foreignObject>
+          </svg>
+
+          <!-- Mobile text-flow fallback -->
+          <div class="diagram-mobile">
+            <div class="diagram-mobile-flow">
+              <div class="diagram-mobile-node">
+                <div class="diagram-mobile-label">INPUTS</div>
+                <div class="diagram-mobile-title">Multiple sources</div>
+                <div class="diagram-mobile-sub">Tickets + chat · Call recordings · Reviews + social · Usage + NPS</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node process">
+                <div class="diagram-mobile-label">SYNTHESIZE</div>
+                <div class="diagram-mobile-title">Classify + cluster</div>
+                <div class="diagram-mobile-sub">Detect shifts</div>
+              </div>
+              <div class="diagram-mobile-arrow">↓</div>
+              <div class="diagram-mobile-node output">
+                <div class="diagram-mobile-label">BRIEF</div>
+                <div class="diagram-mobile-title">1 page/week</div>
+                <div class="diagram-mobile-sub">50K signals → truth</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="build-result">
+          <div class="result-value">50K → 1</div>
+          <div class="result-label">Raw signals to<br/>one page of weekly truth</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Mobile: see all toggle (only renders on mobile) -->
+    <button type="button" class="builds-show-all-mobile" id="builds-show-all-btn" onclick="toggleBuildsShowAll()">
+      See all 8 builds <span class="arr">↓</span>
+    </button>
+
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- CUSTOM BUILDS BANNER         -->
+<!-- ============================ -->
+<section class="custom-banner">
+  <div class="custom-banner-inner">
+    <div class="custom-banner-label">Don't see your problem above?</div>
+    <h2 class="custom-banner-h">
+      We do <span class="rust">completely custom</span> builds for your specific problem.
+    </h2>
+    <p class="custom-banner-sub">
+      The eight examples above are categories — what we can build looks different for every business. Bring us your actual workflow, your actual data, your actual constraints. We'll scope a build that fits your business, not someone else's template.
+    </p>
+    <a href="#inquiry" class="custom-banner-cta">Tell us your problem →</a>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- HOW IT WORKS                 -->
+<!-- ============================ -->
+<section class="how">
+  <div class="how-inner">
+    <div class="how-header">
+      <div class="section-label" style="color:var(--rust);">How it works</div>
+      <h2 class="how-h">
+        Three stages. <span class="rust">No mystery.</span>
+      </h2>
+      <p class="how-sub">
+        You walk away owning the system — code, documentation, infrastructure. Not a dependency on us.
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-label">Discovery</div>
+        <h3 class="step-title">Tell us what you need.</h3>
+        <p class="step-desc">
+          Free consult. We dig into your actual workflow, your data, your constraints. You leave with a scoped proposal — whether we build it or someone else does.
+        </p>
+        <div class="step-time">Free</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-label">Build</div>
+        <h3 class="step-title">We build it properly.</h3>
+        <p class="step-desc">
+          You see working software as it comes together — not status reports. Changes happen live. We pair-build with your team so knowledge transfers as we go. We take as long as the build needs, no more.
+        </p>
+        <div class="step-time">Scoped per build</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-label">Handoff</div>
+        <h3 class="step-title">You own everything.</h3>
+        <p class="step-desc">
+          Code in your GitHub. Systems on your infra. Team trained to extend it. We stay on retainer if you want — or walk away with documentation that doesn't need us.
+        </p>
+        <div class="step-time">Optional retainer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- PRICING TIERS                -->
+<!-- ============================ -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <div class="section-label">How we price</div>
+      <h2 class="section-h">
+        Three ways to <span class="rust">work with us.</span>
+      </h2>
+      <p class="section-sub">
+        Builds start at $5K. Final price depends on what you need — how complex, how custom, how deep it goes into your stack. Pick the model that fits how you want to operate. Every engagement starts with a free consult.
+      </p>
+    </div>
+
+    <div class="pricing-options">
+
+      <div class="pricing-option">
+        <div class="pricing-option-num">01</div>
+        <div class="pricing-option-name">Build &amp; handoff</div>
+        <div class="pricing-option-tagline">One-time. You own it. You run it.</div>
+        <ul class="pricing-option-features">
+          <li>2 payments — 50% at start, 50% on delivery</li>
+          <li>Full handoff: code, infra, documentation, runbook</li>
+          <li>You handle ongoing operations in-house</li>
+          <li>No retainer, no lock-in, no monthly fee</li>
+        </ul>
+        <div class="pricing-option-best">Best for teams with engineering capacity</div>
+      </div>
+
+      <div class="pricing-option featured">
+        <div class="pricing-option-num">02</div>
+        <div class="pricing-option-name">Build &amp; manage</div>
+        <div class="pricing-option-tagline">2 build payments + $2K/mo management</div>
+        <ul class="pricing-option-features">
+          <li>50% at start, 50% on delivery</li>
+          <li>$2K/month management starts at handoff</li>
+          <li>We monitor, retrain, fix, ship improvements</li>
+          <li>You own the code; we keep it running well</li>
+        </ul>
+        <div class="pricing-option-best">Best for most clients — the sweet spot</div>
+      </div>
+
+      <div class="pricing-option">
+        <div class="pricing-option-num">03</div>
+        <div class="pricing-option-name">Monthly contract</div>
+        <div class="pricing-option-tagline">Build + management bundled, paid monthly</div>
+        <ul class="pricing-option-features">
+          <li>12-month minimum commitment</li>
+          <li>Build cost amortized into monthly payments</li>
+          <li>Includes ongoing management throughout</li>
+          <li>No big upfront — easier on cash flow</li>
+        </ul>
+        <div class="pricing-option-best">Best for SMEs or first AI investment</div>
+      </div>
+
+    </div>
+
+    <div class="pricing-cta-row">
+      <a href="#inquiry" class="pricing-cta">Tell us what you're building →</a>
+      <p class="pricing-disclaimer">Per-card prices are illustrative ranges for builds in that category. Your actual price depends on scope, complexity, and how custom the build needs to be. Quote provided after free consult.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- INQUIRY FORM                 -->
+<!-- ============================ -->
+<section class="inquiry" id="inquiry">
+  <div class="inquiry-inner">
+    <div class="inquiry-label">Book a consult</div>
+    <h2 class="inquiry-h">
+      Tell us what <span class="rust">you're building.</span>
+    </h2>
+    <p class="inquiry-sub">
+      The more specific, the better. We read every submission. If there's a fit, we'll book a 45-minute consult within 48 hours. If there isn't, we'll tell you why and point you somewhere better.
+    </p>
+
+    <form class="inquiry-form" id="inquiry-form" onsubmit="return handleInquirySubmit(event)">
+      <div class="field-row">
+        <div class="field-group">
+          <label for="name">Your name <span class="req">*</span></label>
+          <input type="text" id="name" name="name" required autocomplete="name" placeholder="Alex Chen" />
+        </div>
+        <div class="field-group">
+          <label for="email">Work email <span class="req">*</span></label>
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="alex@company.com" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="company">Company <span class="req">*</span></label>
+          <input type="text" id="company" name="company" required placeholder="Company name" />
+        </div>
+        <div class="field-group">
+          <label for="size">Company size <span class="req">*</span></label>
+          <select id="size" name="size" required>
+            <option value="" disabled selected>Select size</option>
+            <option value="solo">Solo / just me</option>
+            <option value="2-10">2–10 people</option>
+            <option value="11-50">11–50 people</option>
+            <option value="51-200">51–200 people</option>
+            <option value="201-1000">201–1,000 people</option>
+            <option value="1000+">1,000+ people</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="what">What are you trying to automate or build? <span class="req">*</span></label>
+        <textarea id="what" name="what" required placeholder="The more specific, the better. What's the problem, who has it, and what would 'solved' look like?"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label for="tried">What have you already tried? <span class="opt">optional</span></label>
+        <textarea id="tried" name="tried" placeholder="ChatGPT, Zapier, hired a freelancer, built a prototype, nothing yet — whatever the honest answer is."></textarea>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="budget">Budget range <span class="opt">optional</span></label>
+          <select id="budget" name="budget">
+            <option value="" disabled selected>Select range</option>
+            <option value="discovery">Discovery only ($5K)</option>
+            <option value="5-25k">$5K – $25K</option>
+            <option value="25-60k">$25K – $60K</option>
+            <option value="60-150k">$60K – $150K</option>
+            <option value="150k+">$150K+</option>
+            <option value="not-sure">Not sure yet</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="timeline">Timeline <span class="opt">optional</span></label>
+          <select id="timeline" name="timeline">
+            <option value="" disabled selected>Select timeline</option>
+            <option value="urgent">Needed yesterday</option>
+            <option value="soon">Sooner rather than later</option>
+            <option value="later">Planning ahead</option>
+            <option value="exploring">Just exploring</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="form-submit" id="submit-btn">
+        Send inquiry <span>→</span>
+      </button>
+
+      <div class="form-success" id="form-success">
+        <strong>Got it.</strong> We've received your inquiry. You'll hear from us within 48 hours — usually faster. If it's a fit, we'll book a consult. If it's not, we'll tell you why and point you somewhere better.
+      </div>
+
+      <div class="form-error" id="form-error">
+        Something went wrong. Please email us directly at <strong>newsletter@readmason.com</strong> and we'll pick it up from there.
+      </div>
+
+      <p class="form-note">
+        We read every submission. Zero sales follow-up sequences. No CRM retargeting.
+      </p>
+    </form>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- WHAT HAPPENS NEXT            -->
+<!-- ============================ -->
+<section class="next-steps">
+  <div class="next-inner">
+    <div class="next-label">What happens next</div>
+    <h2 class="next-h">
+      After you <span class="rust">hit send.</span>
+    </h2>
+
+    <div class="next-grid">
+      <div class="next-item">
+        <div class="next-item-num">— 01</div>
+        <h3 class="next-item-title">We read your inquiry.</h3>
+        <p class="next-item-desc">
+          A real person — not a BDR, not a bot — reads what you wrote. We respond with either a consult booking link or an honest "here's why we're not the right fit."
+        </p>
+      </div>
+      <div class="next-item">
+        <div class="next-item-num">— 02</div>
+        <h3 class="next-item-title">Free consult.</h3>
+        <p class="next-item-desc">
+          Over Zoom. We dig into the problem, the data, the constraints. You ask everything. At the end, we tell you whether we can help and what it'd take.
+        </p>
+      </div>
+      <div class="next-item">
+        <div class="next-item-num">— 03</div>
+        <h3 class="next-item-title">Scoped proposal.</h3>
+        <p class="next-item-desc">
+          Written proposal with a specific scope, price, and risks. If it's a yes, we start. If it's a no, you keep the proposal for free.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- BACK TO MASON                -->
+<!-- ============================ -->
+<section class="back-to-mason">
+  <div class="back-inner">
+    <div class="back-label">Not ready yet?</div>
+    <h2 class="back-h">Read Mason first. <span style="color:var(--rust);">Subscribe for free.</span></h2>
+    <p class="back-sub">
+      Two issues a week, eight minutes each, about how real AI systems get built. Good way to get a feel for how we think before you decide to work with us.
+    </p>
+    <a href="/" class="btn-primary">Read the newsletter <span class="arr">→</span></a>
+  </div>
+</section>
+
+<!-- ============================ -->
+<!-- FOOTER                       -->
+<!-- ============================ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="/" class="footer-brand">Mason<span class="dot">.</span></a>
+    <nav class="footer-nav">
+      <a href="/">Newsletter</a>
+      <a href="/#faq">FAQ</a>
+      <a href="mailto:newsletter@readmason.com">newsletter@readmason.com</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+// Tier filter
+function filterBuilds(tier, btn) {
+  document.querySelectorAll('.tier-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.build-card').forEach(card => {
+    if (tier === 'all' || card.dataset.tier === tier) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// Form submit
+
+function toggleBuildsShowAll() {
+  const grid = document.querySelector('.builds-grid');
+  const btn = document.getElementById('builds-show-all-btn');
+  const isExpanded = grid.classList.toggle('show-all');
+  btn.classList.toggle('expanded', isExpanded);
+  btn.innerHTML = isExpanded
+    ? 'Show fewer builds <span class="arr">↑</span>'
+    : 'See all 8 builds <span class="arr">↓</span>';
+}
+
+async function handleInquirySubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('submit-btn');
+  const successEl = document.getElementById('form-success');
+  const errorEl = document.getElementById('form-error');
+
+  btn.disabled = true;
+  btn.innerHTML = 'Sending... <span>→</span>';
+  successEl.style.display = 'none';
+  errorEl.style.display = 'none';
+
+  const payload = {
+    name: form.name.value.trim(),
+    email: form.email.value.trim(),
+    company: form.company.value.trim(),
+    size: form.size.value,
+    what: form.what.value.trim(),
+    tried: form.tried.value.trim(),
+    budget: form.budget.value,
+    timeline: form.timeline.value,
+    source: 'readmason.com/build',
+    submitted_at: new Date().toISOString(),
+  };
+
+  try {
+    const res = await fetch('/api/inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error('Submit failed');
+
+    form.reset();
+    successEl.style.display = 'block';
+    btn.innerHTML = 'Sent ✓';
+
+    setTimeout(() => {
+      successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  } catch (err) {
+    console.error(err);
+    errorEl.textContent = 'Something went wrong. Please email us directly at newsletter@readmason.com and we\'ll pick it up from there.';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = 'Try again <span>→</span>';
+  }
+
+  return false;
+}
+</script>
+
+</body>
+</html>
