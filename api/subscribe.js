@@ -1,73 +1,98 @@
 // api/subscribe.js
-// Receives form submissions from the Mason landing page and creates
-// a subscriber in Beehiiv with custom fields.
+// Receives form submissions from the Mason landing page.
+// Creates a contact in Resend (global), adds them to the Mason Subscribers segment,
+// and fires the Make webhook that sends the welcome email.
 //
 // Env vars required (set in Vercel dashboard):
-//   BEEHIIV_API_KEY   — from Beehiiv → Settings → Integrations → API
-//   BEEHIIV_PUB_ID    — looks like "pub_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+//   RESEND_API_KEY        — from Resend → API Keys (needs full access, not just sending)
+//   RESEND_SEGMENT_ID     — c053a541-b54d-4ec0-8333-51185448c061
+//   MAKE_WELCOME_WEBHOOK  — webhook URL from the "Mason — Welcome" Make scenario (we'll build next)
 
 export default async function handler(req, res) {
-  // Only accept POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const { email, role, size, industry, country } = req.body || {};
 
-  // Basic validation
   if (!email || !email.includes('@')) {
     return res.status(400).json({ error: 'Valid email required' });
   }
 
-  const apiKey = process.env.BEEHIIV_API_KEY;
-  const pubId  = process.env.BEEHIIV_PUB_ID;
+  const apiKey = process.env.RESEND_API_KEY;
+  const segmentId = process.env.RESEND_SEGMENT_ID;
+  const welcomeWebhook = process.env.MAKE_WELCOME_WEBHOOK;
 
-  if (!apiKey || !pubId) {
-    console.error('Missing Beehiiv credentials');
+  if (!apiKey || !segmentId) {
+    console.error('Missing Resend credentials');
     return res.status(500).json({ error: 'Server config error' });
   }
 
-  // Beehiiv's subscription create endpoint
-  const url = `https://api.beehiiv.com/v2/publications/${pubId}/subscriptions`;
-
-  // Build the payload — Beehiiv supports custom fields via `custom_fields` array
-  const payload = {
-    email: email.toLowerCase().trim(),
-    reactivate_existing: false,
-    send_welcome_email: true,
-    utm_source: 'readmason_landing',
-    utm_medium: 'organic',
-    utm_campaign: 'launch',
-    custom_fields: [
-      role      ? { name: 'Role',         value: role }     : null,
-      size      ? { name: 'Company Size', value: size }     : null,
-      industry  ? { name: 'Industry',     value: industry } : null,
-      country   ? { name: 'Country (self-reported)', value: country } : null,
-    ].filter(Boolean),
-  };
+  const cleanEmail = email.toLowerCase().trim();
 
   try {
-    const response = await fetch(url, {
+    // Step 1: create the contact (global, not tied to a segment)
+    const contactRes = await fetch('https://api.resend.com/contacts', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        email: cleanEmail,
+        unsubscribed: false,
+      }),
     });
 
-    const data = await response.json();
+    const contactData = await contactRes.json();
 
-    if (!response.ok) {
-      console.error('Beehiiv error:', data);
-      return res.status(response.status).json({
-        error: data.errors?.[0]?.message || 'Subscription failed',
+    // If contact already exists, Resend returns an error. Fetch the existing contact instead.
+    let contactId = contactData?.id;
+    if (!contactRes.ok) {
+      if (contactData?.name === 'validation_error' || contactRes.status === 409) {
+        const lookupRes = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(cleanEmail)}`, {
+          headers: { 'Authorization': `Bearer ${apiKey}` },
+        });
+        const lookupData = await lookupRes.json();
+        contactId = lookupData?.id;
+      } else {
+        console.error('Resend contact create error:', contactData);
+        return res.status(contactRes.status).json({
+          error: contactData?.message || 'Subscription failed',
+        });
+      }
+    }
+
+    // Step 2: add contact to Mason Subscribers segment
+    if (contactId) {
+      await fetch(`https://api.resend.com/contacts/${contactId}/segments`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ segment_id: segmentId }),
       });
     }
 
-    return res.status(200).json({ ok: true, id: data.data?.id });
+    // Step 3: fire welcome email via Make webhook (don't block on failure)
+    if (welcomeWebhook) {
+      fetch(welcomeWebhook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: cleanEmail,
+          role: role || '',
+          size: size || '',
+          industry: industry || '',
+          country: country || '',
+        }),
+      }).catch(err => console.error('Welcome webhook error:', err));
+    }
+
+    return res.status(200).json({ ok: true });
   } catch (err) {
-    console.error('Fetch error:', err);
+    console.error('Subscribe error:', err);
     return res.status(500).json({ error: 'Network error, try again' });
   }
 }
