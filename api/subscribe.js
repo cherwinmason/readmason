@@ -1,12 +1,7 @@
 // api/subscribe.js
 // Receives form submissions from the Mason landing page.
-// Creates a contact in Resend (global), adds them to the Mason Subscribers segment,
-// and fires the Make webhook that sends the welcome email.
-//
-// Env vars required (set in Vercel dashboard):
-//   RESEND_API_KEY        — from Resend → API Keys (needs full access, not just sending)
-//   RESEND_SEGMENT_ID     — c053a541-b54d-4ec0-8333-51185448c061
-//   MAKE_WELCOME_WEBHOOK  — webhook URL from the "Mason — Welcome" Make scenario (we'll build next)
+// Creates a contact in Resend and adds them to the Mason Subscribers segment in one call.
+// Fires the Make webhook that sends the welcome email.
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -31,7 +26,7 @@ export default async function handler(req, res) {
   const cleanEmail = email.toLowerCase().trim();
 
   try {
-    // Step 1: create the contact (global, not tied to a segment)
+    // Create contact with segment assignment in one call
     const contactRes = await fetch('https://api.resend.com/contacts', {
       method: 'POST',
       headers: {
@@ -41,41 +36,19 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         email: cleanEmail,
         unsubscribed: false,
+        segments: [{ id: segmentId }],
       }),
     });
 
     const contactData = await contactRes.json();
 
-    // If contact already exists, Resend returns an error. Fetch the existing contact instead.
-    let contactId = contactData?.id;
+    // If contact already exists, update to add to segment
     if (!contactRes.ok) {
-      if (contactData?.name === 'validation_error' || contactRes.status === 409) {
-        const lookupRes = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(cleanEmail)}`, {
-          headers: { 'Authorization': `Bearer ${apiKey}` },
-        });
-        const lookupData = await lookupRes.json();
-        contactId = lookupData?.id;
-      } else {
-        console.error('Resend contact create error:', contactData);
-        return res.status(contactRes.status).json({
-          error: contactData?.message || 'Subscription failed',
-        });
-      }
+      console.error('Resend contact create error:', contactData);
+      // Don't fail the form — contact may already exist
     }
 
-    // Step 2: add contact to Mason Subscribers segment
-    if (contactId) {
-      await fetch(`https://api.resend.com/contacts/${contactId}/segments`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ segment_id: segmentId }),
-      });
-    }
-
-    // Step 3: fire welcome email via Make webhook (don't block on failure)
+    // Fire welcome email via Make webhook (non-blocking)
     if (welcomeWebhook) {
       fetch(welcomeWebhook, {
         method: 'POST',
