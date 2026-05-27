@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mason — A twice-weekly field notebook for people building with AI</title>
-<meta name="description" content="One build Monday. One move Thursday. Real people, real prompts, real failure modes. For anyone building, automating, or operating with AI." />
+<meta name="description" content="Twice-weekly notes on AI systems that actually run in production. Named builders, real prompts, honest failure modes. For anyone building, automating, or operating with AI." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -305,14 +305,14 @@
 
   .what-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
   }
 
   .day-card {
     background: var(--cream);
     border: 2px solid var(--ink);
-    padding: 48px;
+    padding: 36px 32px;
     position: relative;
     transition: transform 0.2s, box-shadow 0.2s;
   }
@@ -326,32 +326,32 @@
     background: var(--rust);
     color: var(--cream);
     font-family: 'Geist Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     padding: 6px 12px;
     font-weight: 700;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
 
   .day-card h3 {
     font-family: 'Geist', sans-serif;
-    font-size: 44px;
+    font-size: 30px;
     font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.035em;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
     color: var(--ink);
-    margin-bottom: 18px;
+    margin-bottom: 16px;
   }
   .day-card h3 .rust { color: var(--rust); }
 
   .day-card .summary {
     font-family: 'Geist', sans-serif;
-    font-size: 17px;
+    font-size: 15px;
     line-height: 1.55;
     color: var(--ink-soft);
     font-weight: 500;
-    margin-bottom: 24px;
+    margin-bottom: 0;
   }
 
   .day-card .format-list {
@@ -1019,8 +1019,8 @@
     margin: 0 auto;
     padding: 0 48px;
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: 48px;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 64px;
   }
 
   .footer-brand .mark {
@@ -1122,8 +1122,11 @@
     .signup-inner .section-h { font-size: 60px; }
     .what-section, .issues-section, .who-section, .signup-full, .faq-section, .honest-section { padding: 80px 0; }
 
-    .what-grid, .issues-grid { grid-template-columns: 1fr; }
-    .day-card h3 { font-size: 36px; }
+    .what-grid { grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .issues-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .day-card { padding: 28px 24px; }
+    .day-card h3 { font-size: 24px; }
+    .day-card .summary { font-size: 14px; }
     .issue-title { min-height: auto; }
 
     .who-grid { grid-template-columns: 1fr 1fr; }
@@ -1131,7 +1134,7 @@
     .honest-grid { grid-template-columns: 1fr; gap: 48px; }
     .honest-ledger { position: static; }
 
-    .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .footer-inner { grid-template-columns: 1.5fr 1fr 1fr; gap: 32px; }
 
     .consult-inner { padding-left: 32px; padding-right: 32px; }
     .consult-h { font-size: 64px; }
@@ -1232,13 +1235,12 @@
 
     /* ========== WHAT LANDS IN YOUR INBOX (keep, compact) ========== */
     .what-section { padding: 48px 0; }
-    .what-grid { gap: 18px; }
+    .what-grid { grid-template-columns: 1fr; gap: 18px; }
     .day-card { padding: 28px 22px; }
     .day-card:hover { transform: none; box-shadow: none; }
     .day-card .day-label { margin-bottom: 18px; }
     .day-card h3 { font-size: 26px; line-height: 1.05; margin-bottom: 14px; }
-    .day-card .summary { font-size: 15px; margin-bottom: 18px; }
-    .day-card .format-list { font-size: 11px; line-height: 1.9; }
+    .day-card .summary { font-size: 15px; margin-bottom: 0; }
 
     /* ========== RECENT ISSUES (1 card only — latest shipped) ========== */
     .issues-section { padding: 48px 0; border-top-width: 3px; border-bottom-width: 3px; }
@@ -1405,7 +1407,7 @@
     </h1>
 
     <p class="deck">
-      One build Monday. One move Thursday. Real people, real AI systems, shown end-to-end. Eight minutes, twice a week — whether you're a founder, an operator, a builder, or just curious.
+      Twice a week, eight minutes a read. Real AI systems shown end-to-end &mdash; named builders, the actual prompts they used, the failure modes they hit. No press releases. No hype. Just what works.
     </p>
 
     <form class="hero-form" id="hero-form" onsubmit="handleHeroSubmit(event)">
@@ -1433,31 +1435,27 @@
 
     <div class="what-grid">
       <div class="day-card">
-        <span class="day-label">Mon · The Build</span>
-        <h3>One AI system. <span class="rust">Shown end-to-end. Real detail.</span></h3>
+        <span class="day-label">Named builders</span>
+        <h3>Real people. <span class="rust">Real systems. Real receipts.</span></h3>
         <p class="summary">
-          The story of how someone specific wired a specific thing into production — with the prompt they used and the failure modes they hit. Teardown-depth, not tweet-depth.
+          Every issue names who built what. Real engineers, founders, and operators &mdash; with links to their work, their tools, and their actual decisions. No anonymous case studies. No composite characters.
         </p>
-        <ul class="format-list">
-          <li>Hero number with receipts</li>
-          <li>Flow diagram of the system</li>
-          <li>4-part playbook (what, how, the prompt, what breaks)</li>
-          <li>Named builder and the real source</li>
-        </ul>
       </div>
 
       <div class="day-card">
-        <span class="day-label">Thu · The Move</span>
-        <h3>The pattern <span class="rust">worth stealing.</span></h3>
+        <span class="day-label">The actual prompt</span>
+        <h3>The prompt, the stack, <span class="rust">what broke.</span></h3>
         <p class="summary">
-          The architectural shift a more experienced builder would tell you about AI over coffee. The pattern, not the product. The lesson, not the launch announcement.
+          When we cover an AI system, we show the prompt it runs on, the tools it&rsquo;s wired to, and the failure modes the builder hit. Teardown-depth, not tweet-depth. You leave knowing what you&rsquo;d build.
         </p>
-        <ul class="format-list">
-          <li>The shift being made and why</li>
-          <li>Concrete examples from real teams</li>
-          <li>When to make the move, when not to</li>
-          <li>What to read next</li>
-        </ul>
+      </div>
+
+      <div class="day-card">
+        <span class="day-label">Zero hype</span>
+        <h3>No press releases. <span class="rust">No tool roundups. No slop.</span></h3>
+        <p class="summary">
+          Most AI newsletters rehash launches. Mason tracks what people actually ship. Every issue has to leave you with one concrete thing you didn&rsquo;t know before &mdash; or it doesn&rsquo;t ship.
+        </p>
       </div>
     </div>
   </div>
@@ -1611,7 +1609,7 @@
 <section class="signup-full" id="signup">
   <div class="signup-inner">
     <div class="section-label">▎ Put me on the list</div>
-    <h2 class="section-h">Start reading <span class="rust">Monday.</span></h2>
+    <h2 class="section-h">Start <span class="rust">reading.</span></h2>
     <p class="deck">
       Free, twice-weekly, forever. Tell us a little about yourself so issues can get sharper over time.
     </p>
@@ -1722,7 +1720,7 @@
 
     <div class="faq-item">
       <div class="faq-q">How often is Mason sent?</div>
-      <div class="faq-a">Twice a week. Mondays (The Build) and Thursdays (The Move). Every week, no skips. If we ever go on break, you'll know in advance — we don't just ghost.</div>
+      <div class="faq-a">Twice a week. Every week, no skips. If we ever go on break, you'll know in advance — we don't just ghost.</div>
     </div>
 
     <div class="faq-item">
@@ -1807,20 +1805,12 @@
     <div class="footer-col">
       <h5>Newsletter</h5>
       <a href="#signup">Subscribe</a>
-      <a href="/build">Work with us</a>
-      <a href="#">Best of</a>
+      <a href="#faq">FAQ</a>
     </div>
     <div class="footer-col">
       <h5>Work with us</h5>
       <a href="/build#builds">What we build</a>
       <a href="/build#inquiry">Get in touch</a>
-      <a href="#">Past projects</a>
-    </div>
-    <div class="footer-col">
-      <h5>About</h5>
-      <a href="#">Who we are</a>
-      <a href="#faq">FAQ</a>
-      <a href="#">Contact</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -1879,7 +1869,7 @@
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error('subscribe failed');
-      btn.innerHTML = "✓ You're in. See you Monday.";
+      btn.innerHTML = "✓ You're in. First issue lands soon.";
       btn.style.background = 'var(--rust)';
       btn.style.boxShadow = '6px 6px 0 var(--ink)';
       form.querySelectorAll('input, select').forEach(el => el.disabled = true);
