@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0A">
+<title>The Prompt Vault — A Mason book. Free.</title>
+<meta name="description" content="Everyone is teaching you the wrong part. The Prompt Vault is an 89-page argument about why production AI actually works — with 28 prompts that prove it. Free.">
+
+<meta property="og:title" content="The Prompt Vault — A Mason book">
+<meta property="og:description" content="Everyone is teaching you the wrong part. 89 pages, 28 prompts, free.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://readmason.com/vault">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --ink-2: #141414;
+    --ink-3: #1C1C1C;
+    --cream: #F5F1E8;
+    --cream-2: #EEE7D2;
+    --clay: #C64728;
+    --clay-bright: #E55A36;
+    --clay-deep: #8A2E15;
+    --muted: #6A6A6A;
+    --muted-cream: #8A8275;
+    --line: #D8D0B8;
+    --line-dark: #2A2A2A;
+
+    --f-sans: 'Geist', system-ui, sans-serif;
+    --f-mono: 'Geist Mono', 'SF Mono', monospace;
+    --f-serif: 'Instrument Serif', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: var(--f-sans);
+    background: var(--ink);
+    color: var(--cream);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ───── Top nav · matches live readmason.com ───── */
+  .nav {
+    background: var(--ink);
+    color: var(--cream);
+    border-bottom: 4px solid var(--clay);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav .mark {
+    font-family: var(--f-sans);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--cream);
+    line-height: 1;
+    text-decoration: none;
+  }
+  .nav .mark .dot { color: var(--clay); font-weight: 900; }
+  .nav-right {
+    display: flex;
+    gap: 26px;
+    align-items: center;
+  }
+  .nav-right a {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245, 241, 232, 0.7);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-right a:hover { color: var(--clay-bright); }
+  .nav-cta {
+    background: var(--clay);
+    color: var(--cream) !important;
+    padding: 10px 18px;
+    letter-spacing: 0.1em !important;
+  }
+  .nav-cta:hover { background: var(--clay-bright); color: var(--cream) !important; }
+
+  /* ───── Narrow centered column ───── */
+  .col {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ───── Type system ───── */
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--clay-bright);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: var(--clay-bright);
+    flex-shrink: 0;
+  }
+  .eyebrow.on-cream { color: var(--clay); }
+  .eyebrow.on-cream::before { background: var(--clay); }
+
+  h1.display {
+    font-size: clamp(38px, 8.5vw, 64px);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+    margin-bottom: 28px;
+  }
+  h1.display em {
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--clay-bright);
+  }
+
+  h2.section {
+    font-size: clamp(30px, 6vw, 44px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.022em;
+    margin-bottom: 28px;
+  }
+  h2.section em {
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--clay-bright);
+  }
+  .on-cream h2.section em { color: var(--clay); }
+
+  p.lede {
+    font-size: clamp(16.5px, 2.2vw, 19px);
+    line-height: 1.6;
+    margin-bottom: 22px;
+    color: var(--cream);
+    opacity: 0.92;
+  }
+  .on-cream p.lede { color: var(--ink); opacity: 1; }
+  p.lede strong { font-weight: 600; }
+  p.lede em { font-style: italic; }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* SECTION 01 · HERO                                       */
+  /* ═══════════════════════════════════════════════════════ */
+  .hero {
+    background: var(--ink);
+    padding: 56px 0 72px;
+    position: relative;
+  }
+
+  .hero-sub {
+    font-size: clamp(16.5px, 2.2vw, 20px);
+    line-height: 1.55;
+    color: var(--cream);
+    opacity: 0.88;
+    margin-bottom: 40px;
+  }
+  .hero-sub strong { color: var(--clay-bright); font-weight: 500; }
+
+  /* ───── Book cover ───── */
+  .book-frame {
+    margin: 44px 0 52px;
+    display: flex;
+    justify-content: center;
+  }
+  .book {
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 3 / 4;
+    background: var(--ink);
+    border: 1px solid var(--line-dark);
+    padding: 26px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.04) inset,
+      0 24px 60px rgba(0,0,0,0.5),
+      0 8px 20px rgba(0,0,0,0.4);
+    transform: perspective(1200px) rotateY(-3deg);
+    transform-origin: left center;
+    transition: transform 0.4s ease;
+  }
+  .book:hover { transform: perspective(1200px) rotateY(0deg); }
+  .book-spine-rule {
+    position: absolute;
+    top: 56px;
+    left: 22px;
+    right: 22px;
+    height: 1px;
+    background: rgba(245, 241, 232, 0.12);
+  }
+  .book-mark {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+  }
+  .book-mark span { color: var(--clay); }
+  .book-edition {
+    position: absolute;
+    top: 26px;
+    right: 22px;
+    font-family: var(--f-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.14em;
+    color: var(--muted-cream);
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.7;
+  }
+  .book-edition .first-ed { color: var(--clay-bright); }
+  .book-eyebrow {
+    font-family: var(--f-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--clay-bright);
+    text-transform: uppercase;
+    margin-top: 48px;
+    padding-left: 10px;
+    border-left: 2px solid var(--clay-bright);
+    font-weight: 600;
+  }
+  .book-title {
+    font-size: clamp(34px, 9vw, 48px);
+    font-weight: 700;
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    margin-top: 14px;
+  }
+  .book-title em {
+    font-style: normal;
+    color: var(--clay-bright);
+  }
+  .book-tag {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--cream);
+    opacity: 0.88;
+    margin-top: 13px;
+  }
+  .book-tag strong {
+    color: var(--clay-bright);
+    font-weight: 500;
+    display: block;
+    margin-top: 2px;
+  }
+  .book-28 {
+    position: absolute;
+    bottom: -10px;
+    right: -20px;
+    font-size: 260px;
+    font-weight: 700;
+    color: var(--clay);
+    opacity: 0.18;
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    pointer-events: none;
+  }
+  .book-footer {
+    position: absolute;
+    bottom: 14px;
+    left: 22px;
+    right: 22px;
+    padding-top: 11px;
+    border-top: 1px solid rgba(245, 241, 232, 0.12);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--f-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    text-transform: lowercase;
+  }
+  .book-footer .free { color: var(--clay-bright); font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; }
+
+  /* ───── Form ───── */
+  .form {
+    display: flex;
+    gap: 0;
+    margin-bottom: 14px;
+    border: 1px solid var(--line-dark);
+    background: var(--ink-2);
+  }
+  .form input[type="email"] {
+    flex: 1;
+    background: transparent;
+    color: var(--cream);
+    border: none;
+    padding: 18px 20px;
+    font-family: var(--f-sans);
+    font-size: 16px;
+    outline: none;
+    min-width: 0;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  .form input[type="email"]::placeholder { color: var(--muted-cream); }
+  .form button {
+    background: var(--clay);
+    color: var(--cream);
+    border: none;
+    padding: 18px 22px;
+    font-family: var(--f-sans);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+    min-height: 52px;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  .form button:hover { background: var(--clay-bright); }
+  .form button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+  .form-msg {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--clay-bright);
+    margin-top: -4px;
+    margin-bottom: 14px;
+    min-height: 16px;
+  }
+  .form-finepoint {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: var(--muted-cream);
+    line-height: 1.7;
+  }
+  .on-cream .form-finepoint { color: var(--muted); }
+  .on-cream .form {
+    border-color: var(--line);
+    background: var(--cream);
+  }
+  .on-cream .form input[type="email"] { color: var(--ink); }
+  .on-cream .form input[type="email"]::placeholder { color: var(--muted); }
+
+  /* ───── Spec strip ───── */
+  .spec {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: 22px 0;
+    border-top: 1px solid var(--line-dark);
+    border-bottom: 1px solid var(--line-dark);
+    margin-top: 36px;
+  }
+  .spec-item {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--cream);
+    text-transform: uppercase;
+  }
+  .spec-item span { color: var(--clay-bright); margin-right: 6px; font-weight: 600; }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* SECTION 02 · THE ARGUMENT                               */
+  /* ═══════════════════════════════════════════════════════ */
+  section.bay {
+    padding: 80px 0;
+    border-top: 1px solid var(--line-dark);
+  }
+  section.bay.on-cream {
+    background: var(--cream);
+    color: var(--ink);
+    border-top: none;
+  }
+  .section-num {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted-cream);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .on-cream .section-num { color: var(--muted); }
+
+  /* ───── 80/20 graphic ───── */
+  .ratio {
+    margin: 48px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 36px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    position: relative;
+  }
+  .ratio::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    bottom: 36px;
+    left: 50%;
+    width: 1px;
+    background: var(--line);
+  }
+  .ratio-col {
+    padding: 0 20px;
+  }
+  .ratio-col:first-child { padding-left: 0; }
+  .ratio-col:last-child { padding-right: 0; }
+  .ratio-pct {
+    font-size: clamp(56px, 14vw, 92px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .ratio-col.muted .ratio-pct { color: var(--muted); opacity: 0.5; }
+  .ratio-col.hot .ratio-pct { color: var(--clay); }
+  .ratio-pct .pct-mark {
+    font-size: 0.45em;
+    vertical-align: super;
+    font-weight: 600;
+    margin-left: 2px;
+    letter-spacing: 0;
+  }
+  .ratio-label {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .ratio-col.hot .ratio-label { color: var(--clay); }
+  .ratio-body {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink);
+    opacity: 0.78;
+  }
+  .ratio-col.hot .ratio-body { opacity: 1; }
+
+  /* ───── Four pieces grid ───── */
+  .pieces {
+    margin-top: 36px;
+    border-top: 1px solid var(--line);
+  }
+  .piece {
+    padding: 30px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 22px;
+    align-items: start;
+  }
+  .piece-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    position: relative;
+  }
+  .piece-icon svg { width: 22px; height: 22px; }
+  .piece-icon svg path,
+  .piece-icon svg line,
+  .piece-icon svg rect,
+  .piece-icon svg circle {
+    stroke: var(--clay);
+    fill: none;
+    stroke-width: 1.5;
+  }
+  .piece-icon .icon-fill { fill: var(--clay); stroke: none; }
+  .piece-body h3 {
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 8px;
+    line-height: 1.25;
+  }
+  .piece-body h3 em {
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--clay);
+  }
+  .piece-body p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    opacity: 0.78;
+  }
+
+  .pull {
+    margin-top: 56px;
+    padding: 28px 0 0;
+    border-top: 1px solid var(--line);
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: clamp(22px, 3.6vw, 28px);
+    line-height: 1.3;
+    color: var(--clay);
+    letter-spacing: -0.01em;
+  }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* SECTION 03 · WHAT'S IN HERE                             */
+  /* ═══════════════════════════════════════════════════════ */
+  .scene {
+    background: var(--ink-2);
+    border-left: 3px solid var(--clay);
+    padding: 26px 24px;
+    margin: 32px 0 40px;
+  }
+  .scene-label {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--clay-bright);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .scene-body {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--cream);
+    opacity: 0.92;
+  }
+  .scene-body p { margin-bottom: 14px; }
+  .scene-body p:last-child { margin-bottom: 0; }
+  .scene-body strong { color: var(--clay-bright); font-weight: 500; }
+  .scene-attribution {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    color: var(--muted-cream);
+    text-transform: uppercase;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  /* ───── Page preview · styled mock of a real prompt page ───── */
+  .preview-wrap {
+    margin: 48px 0;
+  }
+  .preview-label {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted-cream);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .preview {
+    background: var(--cream);
+    color: var(--ink);
+    padding: 28px 24px 26px;
+    border-left: 2px solid var(--clay);
+    position: relative;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  }
+  .preview-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    font-family: var(--f-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    text-transform: uppercase;
+  }
+  .preview-top .num {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--clay);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .preview-top .meta {
+    text-align: right;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 500;
+    padding-top: 4px;
+  }
+  .preview-top .meta .title { color: var(--clay); margin-top: 4px; display: block; }
+  .preview-rule {
+    height: 1px;
+    background: var(--line);
+    margin: 18px 0 20px;
+  }
+  .preview-section-label {
+    font-family: var(--f-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    color: var(--clay);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+    padding-left: 8px;
+    border-left: 2px solid var(--clay);
+  }
+  .preview-usecase {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .preview-code {
+    background: var(--ink);
+    color: var(--cream);
+    border-left: 4px solid var(--clay);
+    padding: 16px 18px;
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    margin-bottom: 18px;
+    overflow-x: auto;
+  }
+  .preview-code .code-label {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    color: var(--clay-bright);
+    text-transform: uppercase;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .preview-code .dim { color: var(--muted-cream); }
+  .preview-breaks-label {
+    font-family: var(--f-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    color: var(--clay);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-left: 8px;
+    border-left: 2px solid var(--clay);
+  }
+  .preview-breaks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .preview-breaks li {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink);
+    opacity: 0.85;
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .preview-breaks li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--clay);
+    font-weight: 600;
+  }
+  .preview-caption {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted-cream);
+    text-transform: uppercase;
+    margin-top: 14px;
+    text-align: center;
+  }
+
+  /* TOC */
+  .toc {
+    margin-top: 48px;
+    border-top: 1px solid var(--line-dark);
+  }
+  .toc-row {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line-dark);
+    align-items: baseline;
+  }
+  .toc-num {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--clay-bright);
+    font-weight: 600;
+  }
+  .toc-name {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    color: var(--cream);
+  }
+  .toc-name .count {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    color: var(--muted-cream);
+    letter-spacing: 0.1em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  /* Sources mini */
+  .sources {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line-dark);
+  }
+  .sources-label {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted-cream);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .sources-list {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--cream);
+    opacity: 0.85;
+  }
+  .sources-list strong { color: var(--clay-bright); font-weight: 500; }
+  .sources-list em {
+    font-style: normal;
+    color: var(--muted-cream);
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* SECTION 04 · FINAL CTA                                  */
+  /* ═══════════════════════════════════════════════════════ */
+  .final {
+    background: var(--cream-2);
+    padding: 80px 0 68px;
+    color: var(--ink);
+  }
+  .final h2.section em { color: var(--clay); }
+  .final p.lede { color: var(--ink); opacity: 0.7; max-width: 540px; }
+
+  /* ───── CTA button · scrolls to hero form ───── */
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--clay);
+    color: var(--cream);
+    border: none;
+    padding: 20px 32px;
+    font-family: var(--f-sans);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, gap 0.2s ease;
+    letter-spacing: 0.01em;
+    margin-top: 36px;
+    min-height: 56px;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  .cta-btn:hover {
+    background: var(--clay-bright);
+    gap: 18px;
+  }
+  .cta-btn .cta-arrow {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+  .cta-btn:hover .cta-arrow {
+    transform: translateY(-2px);
+  }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* FOOTER                                                  */
+  /* ═══════════════════════════════════════════════════════ */
+  footer {
+    background: var(--ink);
+    padding: 52px 0 40px;
+    border-top: 1px solid var(--line-dark);
+  }
+  .footer-line {
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: clamp(20px, 3.4vw, 26px);
+    color: var(--clay-bright);
+    margin-bottom: 32px;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+  }
+  .footer-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--muted-cream);
+    text-transform: uppercase;
+    padding-top: 24px;
+    border-top: 1px solid var(--line-dark);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* MOBILE · ≤ 720px                                        */
+  /* ═══════════════════════════════════════════════════════ */
+  @media (max-width: 720px) {
+    .nav-inner { padding: 16px 20px; }
+    .nav .mark { font-size: 22px; }
+    .nav-right { gap: 10px; }
+    .nav-right a:not(.nav-cta) { display: none; }
+    .nav-cta { padding: 9px 14px; font-size: 10.5px; }
+
+    .col { padding: 0 20px; }
+    section.bay { padding: 56px 0; }
+    .hero { padding: 36px 0 52px; }
+
+    h1.display { margin-bottom: 22px; }
+    h2.section { margin-bottom: 22px; }
+    p.lede { margin-bottom: 18px; }
+
+    .book-frame { margin: 28px 0 36px; }
+    .book {
+      transform: none;
+      max-width: 260px;
+      padding: 20px 16px;
+      aspect-ratio: 3 / 4;
+    }
+    .book:hover { transform: none; }
+    .book-spine-rule { top: 46px; left: 16px; right: 16px; }
+    .book-edition { top: 20px; right: 16px; font-size: 8px; }
+    .book-28 { font-size: 180px; bottom: -14px; right: -20px; }
+    .book-eyebrow { margin-top: 32px; font-size: 8px; }
+    .book-title { font-size: clamp(28px, 11vw, 38px); }
+    .book-tag { font-size: 11.5px; margin-top: 10px; }
+    .book-footer { left: 16px; right: 16px; bottom: 10px; font-size: 8px; }
+
+    .form { flex-direction: column; }
+    .form input[type="email"], .form button { width: 100%; }
+    .form input[type="email"] { padding: 16px 18px; font-size: 16px; }
+    .form button { padding: 16px 20px; min-height: 52px; }
+
+    .spec {
+      gap: 12px 18px;
+      padding: 16px 0;
+      justify-content: space-between;
+      margin-top: 28px;
+    }
+    .spec-item { font-size: 10px; letter-spacing: 0.06em; }
+    .spec-item span { margin-right: 4px; }
+
+    .ratio { margin: 32px 0; padding: 26px 0; }
+    .ratio::before { top: 26px; bottom: 26px; }
+    .ratio-col { padding: 0 12px; }
+    .ratio-pct { margin-bottom: 4px; }
+    .ratio-label { font-size: 9.5px; margin-bottom: 8px; letter-spacing: 0.1em; }
+    .ratio-body { font-size: 12px; line-height: 1.5; }
+
+    .piece {
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      padding: 20px 0;
+    }
+    .piece-icon { width: 32px; height: 32px; }
+    .piece-icon svg { width: 16px; height: 16px; }
+    .piece-body h3 { font-size: 17.5px; margin-bottom: 6px; }
+    .piece-body p { font-size: 14px; line-height: 1.5; }
+
+    .pull { font-size: 20px; margin-top: 36px; padding-top: 22px; }
+
+    .scene { padding: 20px 16px; margin: 22px 0 28px; }
+    .scene-body { font-size: 14px; }
+    .scene-body p { margin-bottom: 12px; }
+
+    .preview-wrap { margin: 32px 0; }
+    .preview {
+      padding: 20px 16px 20px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+    }
+    .preview-top .num { font-size: 26px; }
+    .preview-top .meta { font-size: 8.5px; }
+    .preview-code {
+      font-size: 10.5px;
+      padding: 12px 12px;
+      line-height: 1.55;
+    }
+    .preview-usecase { font-size: 12px; }
+    .preview-breaks li { font-size: 11.5px; line-height: 1.5; }
+    .preview-section-label, .preview-breaks-label { font-size: 9px; }
+
+    .toc { margin-top: 32px; }
+    .toc-row { grid-template-columns: 36px 1fr; padding: 14px 0; }
+    .toc-name { font-size: 14.5px; }
+    .toc-name .count { font-size: 10px; }
+
+    .sources { margin-top: 32px; padding-top: 22px; }
+    .sources-list { font-size: 13.5px; line-height: 1.65; }
+
+    .final { padding: 56px 0 48px; }
+    .cta-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 18px 24px;
+      font-size: 15.5px;
+      margin-top: 28px;
+    }
+
+    .footer-meta { flex-direction: column; gap: 10px; }
+  }
+
+  /* ═══════════════════════════════════════════════════════ */
+  /* SMALL MOBILE · ≤ 380px (iPhone SE, older Android)       */
+  /* ═══════════════════════════════════════════════════════ */
+  @media (max-width: 380px) {
+    .col { padding: 0 18px; }
+    .ratio-pct { font-size: clamp(48px, 13vw, 72px); }
+    .ratio-col { padding: 0 8px; }
+    .book { max-width: 240px; }
+    .book-28 { font-size: 160px; }
+    .spec { gap: 10px 14px; }
+    .spec-item { font-size: 9.5px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- TOP NAV · matches live readmason.com                    -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="mark">Mason<span class="dot">.</span></a>
+    <div class="nav-right">
+      <a href="/#who" class="nav-link-hide-mobile">Who reads</a>
+      <a href="/build" class="nav-link-hide-mobile">Work with us</a>
+      <a href="/#faq" class="nav-link-hide-mobile">FAQ</a>
+      <a href="/#signup" class="nav-cta">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 01 · HERO                                       -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="col">
+    <div class="eyebrow">A Mason Book · Edition 01 · Free</div>
+
+    <h1 class="display">
+      Everyone is teaching you the <em>wrong</em> part.
+    </h1>
+
+    <p class="hero-sub">
+      The Prompt Vault is an 89-page argument about why production AI actually works — and <strong>28 prompts that prove it.</strong> From the teams shipping at scale: Cursor, Claude Code, v0, Decagon, StubHub.
+    </p>
+
+    <div class="book-frame">
+      <div class="book">
+        <div class="book-mark">Mason<span>.</span></div>
+        <div class="book-edition">№ 01 / 2026<br><span class="first-ed">First Edition</span></div>
+        <div class="book-spine-rule"></div>
+        <div class="book-28">28</div>
+
+        <div style="position: relative; z-index: 1;">
+          <div class="book-eyebrow">The Vault · Edition 01</div>
+          <h2 class="book-title">The Prompt<br><em>Vault.</em></h2>
+          <p class="book-tag">
+            28 production prompts from the teams shipping AI at scale.
+            <strong>The text. The system. What breaks.</strong>
+          </p>
+        </div>
+
+        <div class="book-footer">
+          <div><span class="free">Free.</span></div>
+          <div>readmason.com</div>
+        </div>
+      </div>
+    </div>
+
+    <form class="form" id="form-hero" data-source="vault-hero">
+      <input type="email" name="email" placeholder="your@work.email" required autocomplete="email" inputmode="email">
+      <button type="submit">Send me the Vault</button>
+    </form>
+    <div class="form-msg" id="form-msg-hero"></div>
+    <p class="form-finepoint">
+      Free. No card. PDF in your inbox in under a minute. Subscribed to Mason — unsubscribe anytime; the book is yours either way.
+    </p>
+
+    <div class="spec">
+      <div class="spec-item"><span>28</span>Prompts</div>
+      <div class="spec-item"><span>89</span>Pages</div>
+      <div class="spec-item"><span>100%</span>Cited</div>
+      <div class="spec-item"><span>$0</span>Always</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 02 · THE ARGUMENT                               -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="bay on-cream">
+  <div class="col">
+    <div class="section-num">02 · The argument</div>
+    <h2 class="section">
+      The prompt is the <em>smallest</em> part.
+    </h2>
+    <p class="lede">
+      It's 11pm. Someone posted a prompt that promises to 10x your productivity. You save it. You'll never use it. The internet is selling you the prompt because the prompt is the part you can screenshot.
+    </p>
+    <p class="lede">
+      Meanwhile, at StubHub, a prompt is quietly running. No clever framework. Not a one-liner. <strong>A system.</strong> Wait times collapsed from 20+ minutes to near-instant. Support costs dropped 30%+.
+    </p>
+
+    <!-- ───── 80/20 graphic · pure type ───── -->
+    <div class="ratio" aria-label="The prompt is twenty percent. The system around it is eighty percent.">
+      <div class="ratio-col muted">
+        <div class="ratio-label">The prompt</div>
+        <div class="ratio-pct">20<span class="pct-mark">%</span></div>
+        <div class="ratio-body">What gets screenshotted. What gets posted. What gets sold.</div>
+      </div>
+      <div class="ratio-col hot">
+        <div class="ratio-label">The system</div>
+        <div class="ratio-pct">80<span class="pct-mark">%</span></div>
+        <div class="ratio-body">What makes it actually work. What nobody is writing about. What this book is.</div>
+      </div>
+    </div>
+
+    <div class="pieces">
+      <div class="piece">
+        <div class="piece-icon" aria-hidden="true">
+          <!-- Curly braces · structure -->
+          <svg viewBox="0 0 24 24"><path d="M9 3 C 6 3 6 7 6 9 C 6 11 4 11 4 12 C 4 13 6 13 6 15 C 6 17 6 21 9 21"/><path d="M15 3 C 18 3 18 7 18 9 C 18 11 20 11 20 12 C 20 13 18 13 18 15 C 18 17 18 21 15 21"/></svg>
+        </div>
+        <div class="piece-body">
+          <h3>Structured output <em>is the contract.</em></h3>
+          <p>Every prompt returns an object. JSON with named fields. Not prose. Without this you don't have a system. You have a chatbot.</p>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-icon" aria-hidden="true">
+          <!-- Strikethrough · negative instructions -->
+          <svg viewBox="0 0 24 24"><path d="M5 8 L 11 8"/><path d="M5 16 L 14 16"/><path d="M3 12 L 21 12" stroke-width="2"/></svg>
+        </div>
+        <div class="piece-body">
+          <h3>Negative instructions <em>do the work.</em></h3>
+          <p>The model's defaults are mediocre because the internet is mediocre. The "do not" list keeps those defaults out of your output.</p>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-icon" aria-hidden="true">
+          <!-- Crack · failure modes -->
+          <svg viewBox="0 0 24 24"><path d="M4 4 L 4 20 L 20 20 L 20 4 L 4 4 Z"/><path d="M9 4 L 11 10 L 8 13 L 13 16 L 11 20"/></svg>
+        </div>
+        <div class="piece-body">
+          <h3>Failure modes <em>are the spec.</em></h3>
+          <p>The What Breaks section on every page isn't a warning label. It's the specification. A prompt without documented failures isn't finished. It's a draft.</p>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-icon" aria-hidden="true">
+          <!-- Eye · observability -->
+          <svg viewBox="0 0 24 24"><path d="M2 12 C 5 7 8 5 12 5 C 16 5 19 7 22 12 C 19 17 16 19 12 19 C 8 19 5 17 2 12 Z"/><circle cx="12" cy="12" r="3" class="icon-fill"/></svg>
+        </div>
+        <div class="piece-body">
+          <h3>Observability <em>is the difference.</em></h3>
+          <p>Confidence scores. Reasoning fields. Signals used. Not for the human reader — for the engineering team that has to read why when it's wrong.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="pull">
+      "The prompt is the artifact. The system around it is the work. This book is the diagram."
+    </p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 03 · WHAT'S IN HERE                             -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="bay">
+  <div class="col">
+    <div class="section-num">03 · What's in here</div>
+    <h2 class="section">
+      28 prompts. 5 stories. <em>One frame.</em>
+    </h2>
+    <p class="lede">
+      Each prompt: the text, the system it powers, the source, the failure modes the team caught in production. Between every section is a story about the person running the prompt — and what happens when it goes wrong.
+    </p>
+
+    <div class="scene">
+      <div class="scene-label">From Scene Four · The message that ended a contract</div>
+      <div class="scene-body">
+        <p>The message went out at 11:47pm on a Sunday. It was an auto-reply, drafted by a prompt the founder had built two weeks earlier. The system worked beautifully on the test set.</p>
+        <p>On Sunday night, when the founder was asleep, the prompt received an email from his largest customer's CTO and classified it as <strong>"out_of_scope: sales pitch."</strong></p>
+        <p>The CTO read the auto-reply at 6:14am Monday. The CTO forwarded it to his board. <strong>The CTO ended the contract at 11am.</strong></p>
+      </div>
+      <div class="scene-attribution">Page 41 · The Prompt Vault · Edition 01</div>
+    </div>
+
+    <!-- ───── Page preview · styled mock of what a real prompt page looks like ───── -->
+    <div class="preview-wrap">
+      <div class="preview-label">What a page looks like</div>
+      <div class="preview">
+        <div class="preview-top">
+          <div class="num">01</div>
+          <div class="meta">
+            Section 01 · Operations<br>
+            Prompt 01 of 28
+            <span class="title">Lena's prompt.</span>
+          </div>
+        </div>
+        <div class="preview-rule"></div>
+
+        <div class="preview-section-label">The prompt</div>
+        <div class="preview-usecase">Classifies incoming support tickets by priority (P1–P4) and routes them to the right Slack channel without a human in the triage loop.</div>
+
+        <div class="preview-code"><span class="code-label">System</span>You are a customer support triage
+specialist. You receive incoming
+support tickets and classify them
+by priority.
+
+Read the ticket subject, body,
+customer plan, and any context
+provided. Assign exactly one
+priority level:
+
+- P1 (Critical): Service is down,
+  data loss, security incident...
+<span class="dim">[truncated · full prompt on page 10]</span></div>
+
+        <div class="preview-breaks-label">What breaks</div>
+        <ul class="preview-breaks">
+          <li>Free-tier users reporting genuine outages get under-classified as P3.</li>
+          <li>Confidence below 0.7 should route to a human queue. The router happily fires anyway.</li>
+          <li>Long ticket bodies cause the model to anchor on the last paragraph and miss the actual incident.</li>
+          <li>Frustrated tone leaks into priority. Tone is not severity.</li>
+        </ul>
+      </div>
+      <div class="preview-caption">One of 28 · this format on every page</div>
+    </div>
+
+    <div class="toc">
+      <div class="toc-row">
+        <div class="toc-num">01</div>
+        <div class="toc-name">The obvious part. <span class="count">6 prompts · Operations</span></div>
+      </div>
+      <div class="toc-row">
+        <div class="toc-num">02</div>
+        <div class="toc-name">When the words get slippery. <span class="count">6 prompts · Content</span></div>
+      </div>
+      <div class="toc-row">
+        <div class="toc-num">03</div>
+        <div class="toc-name">When being wrong matters. <span class="count">6 prompts · Decisions</span></div>
+      </div>
+      <div class="toc-row">
+        <div class="toc-num">04</div>
+        <div class="toc-name">When another human will read it. <span class="count">5 prompts · Messages</span></div>
+      </div>
+      <div class="toc-row">
+        <div class="toc-num">05</div>
+        <div class="toc-name">The weird ones that worked. <span class="count">5 prompts · Pattern-breakers</span></div>
+      </div>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Where this came from</div>
+      <p class="sources-list">
+        <strong>Anthropic</strong> documentation and published case studies. <strong>Public mirrors</strong> of shipped product system prompts (Cursor, Claude Code, v0, Devin) via Piebald-AI and CL4R1T4S. <strong>Named engineers</strong> who put their work online: Eugene Yan, Simon Willison, Hamel Husain. Nothing invented, nothing scraped, no NDAs broken. <em>Sources cited on every page.</em>
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 04 · FINAL CTA — scrolls back to hero form      -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="final on-cream">
+  <div class="col">
+    <div class="eyebrow on-cream">04 · The book</div>
+    <h2 class="section">
+      89 pages. 28 prompts. <em>Yours, free.</em>
+    </h2>
+    <p class="lede">
+      Send it to the email you actually read. PDF in under a minute.
+    </p>
+
+    <button type="button" class="cta-btn" id="cta-scroll">
+      Send me the Vault
+      <span class="cta-arrow" aria-hidden="true">↑</span>
+    </button>
+    <p class="form-finepoint" style="margin-top: 18px;">
+      Free. No card. PDF in your inbox in under a minute.
+    </p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                  -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<footer>
+  <div class="col">
+    <p class="footer-line">No threads. No takes. Just the work.</p>
+    <div class="footer-meta">
+      <div>Mason · readmason.com</div>
+      <div>Edition 01 · 2026</div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // ─── Single form handler · hero form only ───
+  const heroForm = document.getElementById('form-hero');
+  const heroMsg = document.getElementById('form-msg-hero');
+  const heroBtn = heroForm.querySelector('button');
+  const heroInput = heroForm.querySelector('input[type="email"]');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const email = heroInput.value.trim();
+
+    if (!email || !email.includes('@')) {
+      heroMsg.textContent = 'Need a valid email.';
+      return;
+    }
+
+    const originalBtnText = heroBtn.textContent;
+    heroBtn.disabled = true;
+    heroBtn.textContent = 'Sending…';
+    heroMsg.textContent = '';
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'vault-hero' }),
+      });
+
+      if (res.ok) {
+        heroBtn.textContent = '✓ Check your inbox';
+        heroInput.value = '';
+        heroMsg.textContent = 'PDF on its way. If you don\'t see it in 2 minutes, check promotions.';
+      } else {
+        heroBtn.disabled = false;
+        heroBtn.textContent = originalBtnText;
+        heroMsg.textContent = 'Something went wrong. Try again?';
+      }
+    } catch (err) {
+      heroBtn.disabled = false;
+      heroBtn.textContent = originalBtnText;
+      heroMsg.textContent = 'Network error. Try again?';
+    }
+  };
+
+  heroForm.addEventListener('submit', handleSubmit);
+
+  // ─── Final CTA · scroll to hero form and focus the email input ───
+  const ctaScroll = document.getElementById('cta-scroll');
+  if (ctaScroll) {
+    ctaScroll.addEventListener('click', () => {
+      heroForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Wait for scroll to complete before focusing — avoids fighting the scroll animation on mobile
+      setTimeout(() => {
+        heroInput.focus({ preventScroll: true });
+      }, 600);
+    });
+  }
+</script>
+
+</body>
+</html>
