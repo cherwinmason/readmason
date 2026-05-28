@@ -209,6 +209,10 @@ export default async function handler(req, res) {
 
   try {
     // Step 1: Create contact in Resend (for sending future issues)
+    // Note: 'source' is NOT a Resend property — Resend's audience schema only
+    // accepts pre-defined custom properties. We pass source to beehiiv instead
+    // via utm_campaign (see syncToBeehiiv below). Adding source here would
+    // cause a 422 validation_error.
     const contactRes = await fetch('https://api.resend.com/contacts', {
       method: 'POST',
       headers: {
@@ -220,7 +224,6 @@ export default async function handler(req, res) {
         unsubscribed: false,
         segments: [{ id: segmentId }],
         properties: {
-          source: source || '',
           role: role || '',
           company_size: size || '',
           industry: industry || '',
