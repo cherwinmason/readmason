@@ -33,7 +33,7 @@ const BOOST_WELCOME_HTML = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transit
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="color-scheme" content="light only" />
 <meta name="supported-color-schemes" content="light only" />
-<title>Welcome to Mason \u2014 here's a free book</title>
+<title>Welcome to Mason \u2014 the Vault's yours</title>
 <style type="text/css">
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;700&display=swap');
 body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
@@ -77,14 +77,14 @@ table { border-collapse: collapse; }
 <!-- Label -->
 <tr>
 <td class="padding-outer" style="padding:0 40px;">
-<div style="font-family:'Geist Mono','JetBrains Mono',monospace;font-size:10px;color:#C64728;letter-spacing:0.3em;text-transform:uppercase;font-weight:700;margin-bottom:20px;">A gift, on the house</div>
+<div style="font-family:'Geist Mono','JetBrains Mono',monospace;font-size:10px;color:#C64728;letter-spacing:0.3em;text-transform:uppercase;font-weight:700;margin-bottom:20px;">You just subscribed to Mason</div>
 </td>
 </tr>
 
 <!-- Headline -->
 <tr>
 <td class="padding-outer" style="padding:0 40px;">
-<h1 class="headline" style="font-family:'Geist','Helvetica Neue',Arial,sans-serif;font-size:38px;line-height:1.1;letter-spacing:-0.025em;color:#0A0A0A;font-weight:700;margin:0 0 24px 0;">Welcome to Mason. Here's a free book.</h1>
+<h1 class="headline" style="font-family:'Geist','Helvetica Neue',Arial,sans-serif;font-size:38px;line-height:1.1;letter-spacing:-0.025em;color:#0A0A0A;font-weight:700;margin:0 0 24px 0;">Here's what you signed up for.</h1>
 </td>
 </tr>
 
@@ -93,11 +93,11 @@ table { border-collapse: collapse; }
 <td class="padding-outer" style="padding:0 40px;">
 <div style="font-family:'Geist','Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.65;color:#0A0A0A;font-weight:400;">
 
-<p style="margin:0 0 20px 0;">Hey \u2014</p>
+<p style="margin:0 0 24px 0;">Mason is a twice-weekly letter on how AI products are actually built. Real systems, real prompts, real failure modes \u2014 from the teams shipping at scale.</p>
 
-<p style="margin:0 0 24px 0;">You just subscribed to Mason through another newsletter. Welcome \u2014 glad you're here.</p>
+<p style="margin:0 0 28px 0;">Two issues a week, Monday and Thursday. Each one ships something concrete you didn't know before \u2014 or we skip the day.</p>
 
-<p style="margin:0 0 28px 0;">As a thank-you for jumping in, here's a free 89-page book we made: <strong>The Prompt Vault</strong>. 28 production prompts from teams shipping AI at scale. Every one cited, every one with a "what breaks" note.</p>
+<p style="margin:0 0 28px 0;">You came in through a recommendation, so as a welcome, here's <strong>The Prompt Vault</strong> \u2014 89 pages, 28 production prompts, every one cited, every one with a "what breaks" note.</p>
 
 <!-- CTA button -->
 <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin:0 0 32px 0;">
@@ -108,15 +108,7 @@ table { border-collapse: collapse; }
 </tr>
 </table>
 
-<p style="margin:0 0 20px 0;font-family:'Geist Mono','JetBrains Mono',monospace;font-size:11px;color:#6A6A6A;letter-spacing:0.15em;text-transform:uppercase;">What you signed up for</p>
-
-<p style="margin:0 0 20px 0;"><strong style="color:#0A0A0A;">Monday \u00b7 The Build.</strong> One AI system, shown end-to-end. The story, the stack, the prompt, what broke. Named builders, real sources, honest failure modes.</p>
-
-<p style="margin:0 0 20px 0;"><strong style="color:#0A0A0A;">Thursday \u00b7 The Move.</strong> One pattern worth stealing. The architectural shift, not the tool launch. When to make the move, when not to.</p>
-
-<p style="margin:0 0 20px 0;">No press releases. No listicles. No "this changes everything." Just real people, real systems, real detail \u2014 twice a week.</p>
-
-<p style="margin:0 0 20px 0;">If Mason isn't what you expected, the unsubscribe link is at the bottom of every issue. The book is yours either way.</p>
+<p style="margin:0 0 20px 0;">First issue lands within the week. If it's not for you, the unsubscribe link is at the bottom of every email. The Vault is yours either way.</p>
 
 <p style="margin:32px 0 0 0;font-family:'Geist Mono','JetBrains Mono',monospace;font-size:12px;color:#0A0A0A;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;">\u2014 Mason</p>
 
@@ -257,14 +249,20 @@ function verifyBeehiivSignature(req, rawBody) {
 
 // ─────────────────────────────────────────────────────────
 // Check if a contact already exists in Resend.
+// Check if a contact already exists in Resend.
+// Uses Resend's new global /contacts/{email} endpoint (released Nov 2025
+// when Resend migrated contacts to a global model — see resend.com/blog/
+// new-contacts-experience). The legacy /audiences/{id}/contacts/{email}
+// endpoint had stale-read issues post-POST, causing repeated 404s on
+// contacts that were just created. The global endpoint is the canonical
+// source of truth.
 // Returns: { exists: bool, error: optional }
 // ─────────────────────────────────────────────────────────
 async function resendContactExists(email) {
   const apiKey = process.env.RESEND_API_KEY;
-  const segmentId = process.env.RESEND_SEGMENT_ID;
   try {
     const r = await fetch(
-      `https://api.resend.com/audiences/${segmentId}/contacts/${encodeURIComponent(email)}`,
+      `https://api.resend.com/contacts/${encodeURIComponent(email)}`,
       {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${apiKey}` },
@@ -335,7 +333,7 @@ async function sendBoostWelcomeEmail(email) {
       from: 'Mason <newsletter@readmason.com>',
       to: [email],
       reply_to: 'newsletter@readmason.com',
-      subject: "Welcome to Mason \u2014 here's a free book",
+      subject: "Welcome to Mason. Here's what you signed up for.",
       html: BOOST_WELCOME_HTML,
     }),
   });
