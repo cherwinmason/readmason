@@ -148,6 +148,10 @@ async function syncToBeehiiv(email, metadata = {}) {
     return { skipped: true };
   }
 
+  const rawSource = metadata.source || 'signup-form';
+  // Normalize source bucket: "vault-hero" → "vault", "landing-page" → "landing-page"
+  const sourceBucket = rawSource.startsWith('vault') ? 'vault' : rawSource;
+
   try {
     const res = await fetch(`https://api.beehiiv.com/v2/publications/${pubId}/subscriptions`, {
       method: 'POST',
@@ -161,9 +165,11 @@ async function syncToBeehiiv(email, metadata = {}) {
         send_welcome_email: false,
         utm_source: 'readmason.com',
         utm_medium: 'website',
-        utm_campaign: metadata.source || 'signup-form',
+        utm_campaign: rawSource,
         referring_site: 'https://readmason.com',
         custom_fields: [
+          { name: 'source', value: sourceBucket },
+          { name: 'source_detail', value: rawSource },
           { name: 'role', value: metadata.role || '' },
           { name: 'company_size', value: metadata.size || '' },
           { name: 'industry', value: metadata.industry || '' },
