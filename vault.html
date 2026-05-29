@@ -1318,6 +1318,7 @@ priority level:
       });
 
       if (res.ok) {
+        fbq('track', 'Lead');
         heroBtn.textContent = '✓ Check your inbox';
         heroInput.value = '';
         heroMsg.textContent = 'PDF on its way. If you don\'t see it in 2 minutes, check promotions.';
