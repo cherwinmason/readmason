@@ -411,46 +411,93 @@ src="https://www.facebook.com/tr?id=999437242580630&ev=PageView&noscript=1"
   }
   .spec-item span { color: var(--clay-bright); margin-right: 6px; font-weight: 600; }
 
-  /* ───── Question card · shown after email submit ───── */
-  .qcard {
+  /* ───── Question modal · pops up over the page after email submit ───── */
+  .qmodal-backdrop {
     display: none;
-    margin-top: 8px;
-    padding: 24px 22px 22px;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: qmodalFade 0.25s ease;
+  }
+  .qmodal-backdrop.is-visible { display: flex; }
+  @keyframes qmodalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes qmodalRise {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .qmodal {
     background: var(--ink-2);
-    border-left: 3px solid var(--clay);
-    animation: qfade 0.4s ease;
+    border-left: 4px solid var(--clay);
+    max-width: 520px;
+    width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 36px 36px 32px;
+    position: relative;
+    animation: qmodalRise 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
   }
-  .qcard.is-visible { display: block; }
-  @keyframes qfade {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+  .qmodal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: transparent;
+    border: none;
+    color: var(--muted-cream);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+    padding: 6px 10px;
+    font-family: var(--f-sans);
+    font-weight: 300;
+    transition: color 0.15s ease;
   }
-  .qcard-eyebrow {
+  .qmodal-close:hover { color: var(--cream); }
+  .qmodal-eyebrow {
     font-family: var(--f-mono);
     font-size: 10px;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     color: var(--clay-bright);
     text-transform: uppercase;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  .qcard-title {
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: -0.015em;
-    color: var(--cream);
-    margin-bottom: 6px;
+  .qmodal-eyebrow::before {
+    content: '';
+    width: 3px;
+    height: 12px;
+    background: var(--clay-bright);
+    flex-shrink: 0;
   }
-  .qcard-sub {
-    font-size: 13px;
-    line-height: 1.5;
+  .qmodal-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
     color: var(--cream);
-    opacity: 0.72;
-    margin-bottom: 22px;
+    margin-bottom: 8px;
+  }
+  .qmodal-sub {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--cream);
+    opacity: 0.7;
+    margin-bottom: 26px;
   }
   .qrow { margin-bottom: 16px; }
-  .qrow:last-of-type { margin-bottom: 22px; }
+  .qrow:last-of-type { margin-bottom: 24px; }
   .qrow label {
     display: block;
     font-family: var(--f-mono);
@@ -467,14 +514,15 @@ src="https://www.facebook.com/tr?id=999437242580630&ev=PageView&noscript=1"
     background: var(--ink);
     color: var(--cream);
     border: 1px solid var(--line-dark);
-    padding: 12px 14px;
+    padding: 13px 14px;
     font-family: var(--f-sans);
-    font-size: 14px;
+    font-size: 14.5px;
     outline: none;
     border-radius: 0;
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
+    transition: border-color 0.15s ease;
   }
   .qrow select:focus,
   .qrow input[type="text"]:focus {
@@ -488,55 +536,129 @@ src="https://www.facebook.com/tr?id=999437242580630&ev=PageView&noscript=1"
   }
   .qrow input[type="text"] { cursor: text; }
   .qrow input[type="text"]::placeholder { color: var(--muted-cream); opacity: 0.7; }
-  .qcard-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+
+  /* Conditional "Other" text field · slides in below select when Other selected */
+  .qrow-other {
+    display: none;
+    margin-top: 8px;
   }
-  .qcard-submit {
+  .qrow-other.is-visible {
+    display: block;
+    animation: qotherSlide 0.25s ease;
+  }
+  @keyframes qotherSlide {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Challenge chips · multi-select */
+  .qchips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .qchip {
+    background: var(--ink);
+    color: var(--cream);
+    border: 1px solid var(--line-dark);
+    padding: 9px 14px;
+    font-family: var(--f-sans);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border-radius: 0;
+    -webkit-appearance: none;
+    line-height: 1.2;
+  }
+  .qchip:hover {
+    border-color: var(--clay);
+    color: var(--cream);
+  }
+  .qchip.is-selected {
+    background: var(--clay);
+    border-color: var(--clay);
+    color: var(--cream);
+  }
+  .qchip.is-selected:hover {
+    background: var(--clay-bright);
+    border-color: var(--clay-bright);
+  }
+  .qchip-other-input {
+    display: none;
+    margin-top: 4px;
+  }
+  .qchip-other-input.is-visible {
+    display: block;
+    animation: qotherSlide 0.25s ease;
+  }
+
+  .qmodal-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 4px;
+  }
+  .qmodal-submit {
     background: var(--clay);
     color: var(--cream);
     border: none;
-    padding: 14px 22px;
+    padding: 15px 26px;
     font-family: var(--f-sans);
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.15s ease;
     letter-spacing: 0.01em;
     -webkit-appearance: none;
     border-radius: 0;
+    flex: 1;
   }
-  .qcard-submit:hover { background: var(--clay-bright); }
-  .qcard-submit:disabled { opacity: 0.7; cursor: not-allowed; }
-  .qcard-skip {
+  .qmodal-submit:hover { background: var(--clay-bright); }
+  .qmodal-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+  .qmodal-skip {
     background: transparent;
     color: var(--muted-cream);
     border: none;
-    padding: 14px 8px;
+    padding: 15px 10px;
     font-family: var(--f-mono);
     font-size: 11px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     cursor: pointer;
     text-decoration: underline;
     text-underline-offset: 3px;
+    transition: color 0.15s ease;
   }
-  .qcard-skip:hover { color: var(--cream); }
-  .qcard-done {
+  .qmodal-skip:hover { color: var(--cream); }
+  .qmodal-done {
     font-family: var(--f-mono);
     font-size: 12px;
     color: var(--clay-bright);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     line-height: 1.5;
+    text-align: center;
+    padding: 8px 0;
   }
   @media (max-width: 720px) {
-    .qcard { padding: 20px 16px 18px; }
-    .qcard-title { font-size: 16.5px; }
-    .qcard-sub { font-size: 12.5px; margin-bottom: 18px; }
-    .qcard-submit { padding: 14px 18px; font-size: 13.5px; width: 100%; }
-    .qcard-actions { flex-direction: column-reverse; align-items: stretch; gap: 6px; }
-    .qcard-skip { padding: 12px 8px; text-align: center; }
+    .qmodal-backdrop { padding: 12px; align-items: flex-end; }
+    .qmodal {
+      padding: 28px 22px 24px;
+      max-height: 88vh;
+      border-left: none;
+      border-top: 4px solid var(--clay);
+      animation: qmodalRiseMobile 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes qmodalRiseMobile {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .qmodal-title { font-size: 21px; }
+    .qmodal-sub { font-size: 13px; margin-bottom: 22px; }
+    .qmodal-actions { flex-direction: column-reverse; align-items: stretch; gap: 6px; }
+    .qmodal-submit { padding: 15px 18px; font-size: 14px; }
+    .qmodal-skip { padding: 14px 8px; text-align: center; }
   }
 
   /* ═══════════════════════════════════════════════════════ */
@@ -1188,61 +1310,6 @@ src="https://www.facebook.com/tr?id=999437242580630&ev=PageView&noscript=1"
       Free. No card. PDF in your inbox in under a minute. Subscribed to Mason — unsubscribe anytime; the book is yours either way.
     </p>
 
-    <!-- ───── Question card · appears after email submit · optional ───── -->
-    <div class="qcard" id="qcard">
-      <div class="qcard-eyebrow">One more thing · optional</div>
-      <div class="qcard-title">Help us sharpen what we send you.</div>
-      <div class="qcard-sub">Four quick answers. We use them to tailor issues to operators like you.</div>
-
-      <div class="qrow">
-        <label for="q-role">What's your role?</label>
-        <select id="q-role" name="role">
-          <option value="">Select…</option>
-          <option value="Founder">Founder</option>
-          <option value="Engineer">Engineer</option>
-          <option value="PM">Product Manager</option>
-          <option value="Marketer">Marketer</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-
-      <div class="qrow">
-        <label for="q-country">Where are you based?</label>
-        <select id="q-country" name="country">
-          <option value="">Select…</option>
-          <option value="United States">United States</option>
-          <option value="United Kingdom">United Kingdom</option>
-          <option value="Canada">Canada</option>
-          <option value="Singapore">Singapore</option>
-          <option value="Australia">Australia</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-
-      <div class="qrow">
-        <label for="q-size">Company stage?</label>
-        <select id="q-size" name="size">
-          <option value="">Select…</option>
-          <option value="Pre-revenue">Pre-revenue</option>
-          <option value="Under $1M ARR">Under $1M ARR</option>
-          <option value="$1M-$10M ARR">$1M–$10M ARR</option>
-          <option value="$10M+ ARR">$10M+ ARR</option>
-          <option value="Not a company">Not a company</option>
-        </select>
-      </div>
-
-      <div class="qrow">
-        <label for="q-industry">Biggest AI challenge right now?</label>
-        <input type="text" id="q-industry" name="industry" maxlength="80" placeholder="e.g. prompt drift in production, eval setup, cost…">
-      </div>
-
-      <div class="qcard-actions">
-        <button type="button" class="qcard-submit" id="qcard-submit">Send answers</button>
-        <button type="button" class="qcard-skip" id="qcard-skip">Skip</button>
-      </div>
-      <div class="qcard-done" id="qcard-done" style="display:none; margin-top: 14px;">Thanks — that helps. Check your inbox for the Vault.</div>
-    </div>
-
     <div class="spec">
       <div class="spec-item"><span>28</span>Prompts</div>
       <div class="spec-item"><span>89</span>Pages</div>
@@ -1473,26 +1540,100 @@ priority level:
 
 
 <script>
-  // ─── Form handler · 2-step flow ───
+  // ─── Form handler · 2-step flow with modal popup ───
   // Step 1: email → subscribe (fires welcome email + Lead pixel)
-  // Step 2: optional 4-question card → enriches subscriber via update_only call
+  // Step 2: optional modal with smart fields → enriches subscriber
   const heroForm = document.getElementById('form-hero');
   const heroMsg = document.getElementById('form-msg-hero');
   const heroBtn = heroForm.querySelector('button');
   const heroInput = heroForm.querySelector('input[type="email"]');
 
-  const qcard = document.getElementById('qcard');
-  const qcardSubmit = document.getElementById('qcard-submit');
-  const qcardSkip = document.getElementById('qcard-skip');
-  const qcardDone = document.getElementById('qcard-done');
+  // Modal elements
+  const qmodalBackdrop = document.getElementById('qmodal-backdrop');
+  const qmodalSubmit = document.getElementById('qmodal-submit');
+  const qmodalSkip = document.getElementById('qmodal-skip');
+  const qmodalClose = document.getElementById('qmodal-close');
+  const qmodalDone = document.getElementById('qmodal-done');
+  const qmodalForm = document.getElementById('qmodal-form');
+
+  // Form fields
   const qRole = document.getElementById('q-role');
+  const qRoleOther = document.getElementById('q-role-other');
+  const qRoleOtherInput = document.getElementById('q-role-other-input');
   const qCountry = document.getElementById('q-country');
+  const qCountryOther = document.getElementById('q-country-other');
+  const qCountryOtherInput = document.getElementById('q-country-other-input');
   const qSize = document.getElementById('q-size');
-  const qIndustry = document.getElementById('q-industry');
+  const qChipsContainer = document.getElementById('q-chips');
+  const qChipOtherInput = document.getElementById('q-chip-other-input');
+  const qChipOtherField = document.getElementById('q-chip-other-field');
 
   // Holds the email captured in step 1 so step 2 can reference it.
   let capturedEmail = '';
+  // Track selected challenge chips.
+  const selectedChallenges = new Set();
 
+  // Show/hide "Other" text fields based on select value
+  const toggleOther = (selectEl, otherWrap) => {
+    if (selectEl.value === 'Other') {
+      otherWrap.classList.add('is-visible');
+    } else {
+      otherWrap.classList.remove('is-visible');
+    }
+  };
+
+  qRole.addEventListener('change', () => toggleOther(qRole, qRoleOther));
+  qCountry.addEventListener('change', () => toggleOther(qCountry, qCountryOther));
+
+  // Chip multi-select for challenges
+  qChipsContainer.addEventListener('click', (e) => {
+    const chip = e.target.closest('.qchip');
+    if (!chip) return;
+    const val = chip.dataset.value;
+    if (selectedChallenges.has(val)) {
+      selectedChallenges.delete(val);
+      chip.classList.remove('is-selected');
+    } else {
+      selectedChallenges.add(val);
+      chip.classList.add('is-selected');
+    }
+    // Show the "Other" text input if "Something else" is selected
+    if (val === 'Something else') {
+      if (selectedChallenges.has(val)) {
+        qChipOtherInput.classList.add('is-visible');
+        setTimeout(() => qChipOtherField.focus(), 100);
+      } else {
+        qChipOtherInput.classList.remove('is-visible');
+        qChipOtherField.value = '';
+      }
+    }
+  });
+
+  // Open modal
+  const openModal = () => {
+    qmodalBackdrop.classList.add('is-visible');
+    document.body.style.overflow = 'hidden';
+  };
+
+  // Close modal
+  const closeModal = () => {
+    qmodalBackdrop.classList.remove('is-visible');
+    document.body.style.overflow = '';
+  };
+
+  // Close on backdrop click (outside modal box)
+  qmodalBackdrop.addEventListener('click', (e) => {
+    if (e.target === qmodalBackdrop) closeModal();
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && qmodalBackdrop.classList.contains('is-visible')) {
+      closeModal();
+    }
+  });
+
+  // Step 1 handler — email submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = heroInput.value.trim();
@@ -1521,13 +1662,8 @@ priority level:
         heroInput.value = '';
         heroMsg.textContent = 'PDF on its way. If you don\'t see it in 2 minutes, check promotions.';
 
-        // Reveal the question card. Delay slightly so the success message
-        // registers visually before the next ask drops in.
-        setTimeout(() => {
-          qcard.classList.add('is-visible');
-          // Soft scroll so the card is visible on mobile.
-          qcard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 350);
+        // Pop the modal after a short delay so the success state registers.
+        setTimeout(openModal, 500);
       } else {
         heroBtn.disabled = false;
         heroBtn.textContent = originalBtnText;
@@ -1542,23 +1678,35 @@ priority level:
 
   heroForm.addEventListener('submit', handleSubmit);
 
-  // ─── Step 2 · submit answers (or skip) ───
+  // Step 2 handler — submit answers
   const submitAnswers = async () => {
     if (!capturedEmail) return;
+
+    // Resolve role and country, using "Other" text if applicable
+    const roleValue = qRole.value === 'Other' ? (qRoleOtherInput.value.trim() || 'Other') : qRole.value;
+    const countryValue = qCountry.value === 'Other' ? (qCountryOtherInput.value.trim() || 'Other') : qCountry.value;
+
+    // Build challenges string from selected chips + optional "Something else" text
+    const challengesList = Array.from(selectedChallenges).filter(c => c !== 'Something else');
+    if (selectedChallenges.has('Something else') && qChipOtherField.value.trim()) {
+      challengesList.push(qChipOtherField.value.trim());
+    } else if (selectedChallenges.has('Something else')) {
+      challengesList.push('Something else');
+    }
+    const challengesString = challengesList.join(', ');
 
     const payload = {
       email: capturedEmail,
       source: 'vault-hero',
       update_only: true,
-      role: qRole.value || '',
-      country: qCountry.value || '',
+      role: roleValue || '',
+      country: countryValue || '',
       size: qSize.value || '',
-      industry: qIndustry.value.trim() || '',
+      industry: challengesString || '',
     };
 
-    const originalText = qcardSubmit.textContent;
-    qcardSubmit.disabled = true;
-    qcardSubmit.textContent = 'Saving…';
+    qmodalSubmit.disabled = true;
+    qmodalSubmit.textContent = 'Saving…';
 
     try {
       await fetch('/api/subscribe', {
@@ -1567,35 +1715,126 @@ priority level:
         body: JSON.stringify(payload),
       });
     } catch (err) {
-      // Non-blocking — the subscriber already exists, this is enrichment only.
+      // Non-blocking — subscriber already exists, this is enrichment only.
       console.error('Enrichment call failed:', err);
     }
 
-    // Show the done state regardless of network outcome — we already
-    // captured the subscriber in step 1; this is bonus data.
-    qcardSubmit.style.display = 'none';
-    qcardSkip.style.display = 'none';
-    qcardDone.style.display = 'block';
+    // Show done state, then auto-close after 2s
+    qmodalForm.style.display = 'none';
+    qmodalDone.style.display = 'block';
+    setTimeout(closeModal, 2000);
   };
 
-  qcardSubmit.addEventListener('click', submitAnswers);
-
-  qcardSkip.addEventListener('click', () => {
-    qcard.classList.remove('is-visible');
-  });
+  qmodalSubmit.addEventListener('click', submitAnswers);
+  qmodalSkip.addEventListener('click', closeModal);
+  qmodalClose.addEventListener('click', closeModal);
 
   // ─── Final CTA · scroll to hero form and focus the email input ───
   const ctaScroll = document.getElementById('cta-scroll');
   if (ctaScroll) {
     ctaScroll.addEventListener('click', () => {
       heroForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // Wait for scroll to complete before focusing — avoids fighting the scroll animation on mobile
       setTimeout(() => {
         heroInput.focus({ preventScroll: true });
       }, 600);
     });
   }
 </script>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- QUESTION MODAL · pops up after successful email submit  -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="qmodal-backdrop" id="qmodal-backdrop" role="dialog" aria-modal="true" aria-labelledby="qmodal-title-text">
+  <div class="qmodal">
+    <button type="button" class="qmodal-close" id="qmodal-close" aria-label="Close">×</button>
+
+    <div id="qmodal-form">
+      <div class="qmodal-eyebrow">One more thing · optional</div>
+      <h3 class="qmodal-title" id="qmodal-title-text">Help us send you stuff that matters.</h3>
+      <p class="qmodal-sub">Four quick taps. We use this to tailor what we send you. Skip if you're in a hurry — the Vault is already on its way.</p>
+
+      <div class="qrow">
+        <label for="q-role">What's your role?</label>
+        <select id="q-role" name="role">
+          <option value="">Select…</option>
+          <option value="Founder">Founder / CEO</option>
+          <option value="Engineer">Engineer</option>
+          <option value="PM">Product Manager</option>
+          <option value="Designer">Designer</option>
+          <option value="Marketer">Marketer / Growth</option>
+          <option value="Operations">Operations</option>
+          <option value="Investor">Investor</option>
+          <option value="Student">Student</option>
+          <option value="Other">Other</option>
+        </select>
+        <div class="qrow-other" id="q-role-other">
+          <input type="text" id="q-role-other-input" maxlength="60" placeholder="What do you do?">
+        </div>
+      </div>
+
+      <div class="qrow">
+        <label for="q-country">Where are you based?</label>
+        <select id="q-country" name="country">
+          <option value="">Select…</option>
+          <option value="United States">United States</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="Canada">Canada</option>
+          <option value="Australia">Australia</option>
+          <option value="Singapore">Singapore</option>
+          <option value="India">India</option>
+          <option value="Germany">Germany</option>
+          <option value="France">France</option>
+          <option value="Netherlands">Netherlands</option>
+          <option value="Other">Other</option>
+        </select>
+        <div class="qrow-other" id="q-country-other">
+          <input type="text" id="q-country-other-input" maxlength="60" placeholder="Which country?">
+        </div>
+      </div>
+
+      <div class="qrow">
+        <label for="q-size">Company stage?</label>
+        <select id="q-size" name="size">
+          <option value="">Select…</option>
+          <option value="Just an idea">Just an idea</option>
+          <option value="Pre-revenue">Pre-revenue</option>
+          <option value="Under $1M ARR">Under $1M ARR</option>
+          <option value="$1M-$10M ARR">$1M–$10M ARR</option>
+          <option value="$10M+ ARR">$10M+ ARR</option>
+          <option value="Enterprise">Enterprise</option>
+          <option value="Not a company">Not a company</option>
+        </select>
+      </div>
+
+      <div class="qrow">
+        <label>Biggest AI challenges right now? <span style="text-transform:none; letter-spacing:0; color: var(--muted-cream); opacity: 0.7;">(pick any)</span></label>
+        <div class="qchips" id="q-chips">
+          <button type="button" class="qchip" data-value="Prompt drift in production">Prompt drift in production</button>
+          <button type="button" class="qchip" data-value="Evals & testing">Evals &amp; testing</button>
+          <button type="button" class="qchip" data-value="Hallucinations">Hallucinations</button>
+          <button type="button" class="qchip" data-value="Cost & latency">Cost &amp; latency</button>
+          <button type="button" class="qchip" data-value="Choosing the right model">Choosing the right model</button>
+          <button type="button" class="qchip" data-value="Building reliable agents">Building reliable agents</button>
+          <button type="button" class="qchip" data-value="Team adoption">Team adoption</button>
+          <button type="button" class="qchip" data-value="Knowing where to start">Knowing where to start</button>
+          <button type="button" class="qchip" data-value="Something else">Something else</button>
+        </div>
+        <div class="qchip-other-input" id="q-chip-other-input">
+          <input type="text" id="q-chip-other-field" maxlength="100" placeholder="Tell us what's actually breaking…">
+        </div>
+      </div>
+
+      <div class="qmodal-actions">
+        <button type="button" class="qmodal-submit" id="qmodal-submit">Send answers</button>
+        <button type="button" class="qmodal-skip" id="qmodal-skip">Skip</button>
+      </div>
+    </div>
+
+    <div class="qmodal-done" id="qmodal-done" style="display:none;">
+      Thanks — that helps. Check your inbox for the Vault.
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
