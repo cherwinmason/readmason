@@ -196,11 +196,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, role, size, industry, country, source } = req.body || {};
+  const { email, role, size, industry, country, source, update_only } = req.body || {};
 
   if (!email || !email.includes('@')) {
     return res.status(400).json({ error: 'Valid email required' });
   }
+
+  // update_only mode: caller is enriching an existing subscriber with answers
+  // collected after the initial signup (vault 2-step flow). Skip the welcome
+  // email so the user doesn't receive it twice. Still updates Resend props +
+  // beehiiv custom fields.
+  const isUpdateOnly = update_only === true;
 
   const apiKey = process.env.RESEND_API_KEY;
   const segmentId = process.env.RESEND_SEGMENT_ID;
@@ -253,38 +259,40 @@ export default async function handler(req, res) {
         }
       });
 
-    // Step 3: Send the appropriate welcome email.
-    try {
-      const payload = isVault
-        ? {
-            from: 'Mason <newsletter@readmason.com>',
-            to: [cleanEmail],
-            reply_to: 'newsletter@readmason.com',
-            subject: 'Your Prompt Vault is here',
-            html: VAULT_WELCOME_HTML,
-          }
-        : {
-            from: 'Mason <newsletter@readmason.com>',
-            to: [cleanEmail],
-            reply_to: 'newsletter@readmason.com',
-            subject: "You're in. First issue lands soon.",
-            html: WELCOME_HTML,
-          };
+    // Step 3: Send the appropriate welcome email. Skipped on update_only calls.
+    if (!isUpdateOnly) {
+      try {
+        const payload = isVault
+          ? {
+              from: 'Mason <newsletter@readmason.com>',
+              to: [cleanEmail],
+              reply_to: 'newsletter@readmason.com',
+              subject: 'Your Prompt Vault is here',
+              html: VAULT_WELCOME_HTML,
+            }
+          : {
+              from: 'Mason <newsletter@readmason.com>',
+              to: [cleanEmail],
+              reply_to: 'newsletter@readmason.com',
+              subject: "You're in. First issue lands soon.",
+              html: WELCOME_HTML,
+            };
 
-      const emailRes = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-      if (!emailRes.ok) {
-        const err = await emailRes.json();
-        console.error(`Resend ${isVault ? 'vault' : 'standard'} welcome send error:`, err);
+        const emailRes = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+        if (!emailRes.ok) {
+          const err = await emailRes.json();
+          console.error(`Resend ${isVault ? 'vault' : 'standard'} welcome send error:`, err);
+        }
+      } catch (err) {
+        console.error('Welcome email send failed:', err);
       }
-    } catch (err) {
-      console.error('Welcome email send failed:', err);
     }
 
     return res.status(200).json({ ok: true });
