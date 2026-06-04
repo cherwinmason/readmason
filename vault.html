@@ -411,6 +411,134 @@ src="https://www.facebook.com/tr?id=999437242580630&ev=PageView&noscript=1"
   }
   .spec-item span { color: var(--clay-bright); margin-right: 6px; font-weight: 600; }
 
+  /* ───── Question card · shown after email submit ───── */
+  .qcard {
+    display: none;
+    margin-top: 8px;
+    padding: 24px 22px 22px;
+    background: var(--ink-2);
+    border-left: 3px solid var(--clay);
+    animation: qfade 0.4s ease;
+  }
+  .qcard.is-visible { display: block; }
+  @keyframes qfade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .qcard-eyebrow {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--clay-bright);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .qcard-title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .qcard-sub {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--cream);
+    opacity: 0.72;
+    margin-bottom: 22px;
+  }
+  .qrow { margin-bottom: 16px; }
+  .qrow:last-of-type { margin-bottom: 22px; }
+  .qrow label {
+    display: block;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--muted-cream);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 7px;
+  }
+  .qrow select,
+  .qrow input[type="text"] {
+    width: 100%;
+    background: var(--ink);
+    color: var(--cream);
+    border: 1px solid var(--line-dark);
+    padding: 12px 14px;
+    font-family: var(--f-sans);
+    font-size: 14px;
+    outline: none;
+    border-radius: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  .qrow select:focus,
+  .qrow input[type="text"]:focus {
+    border-color: var(--clay);
+  }
+  .qrow select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3e%3cpath fill='%238A8275' d='M6 8.5L1.5 4h9z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  .qrow input[type="text"] { cursor: text; }
+  .qrow input[type="text"]::placeholder { color: var(--muted-cream); opacity: 0.7; }
+  .qcard-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .qcard-submit {
+    background: var(--clay);
+    color: var(--cream);
+    border: none;
+    padding: 14px 22px;
+    font-family: var(--f-sans);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    letter-spacing: 0.01em;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  .qcard-submit:hover { background: var(--clay-bright); }
+  .qcard-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+  .qcard-skip {
+    background: transparent;
+    color: var(--muted-cream);
+    border: none;
+    padding: 14px 8px;
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .qcard-skip:hover { color: var(--cream); }
+  .qcard-done {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--clay-bright);
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+  @media (max-width: 720px) {
+    .qcard { padding: 20px 16px 18px; }
+    .qcard-title { font-size: 16.5px; }
+    .qcard-sub { font-size: 12.5px; margin-bottom: 18px; }
+    .qcard-submit { padding: 14px 18px; font-size: 13.5px; width: 100%; }
+    .qcard-actions { flex-direction: column-reverse; align-items: stretch; gap: 6px; }
+    .qcard-skip { padding: 12px 8px; text-align: center; }
+  }
+
   /* ═══════════════════════════════════════════════════════ */
   /* SECTION 02 · THE ARGUMENT                               */
   /* ═══════════════════════════════════════════════════════ */
@@ -1060,6 +1188,61 @@ src="https://www.facebook.com/tr?id=999437242580630&ev=PageView&noscript=1"
       Free. No card. PDF in your inbox in under a minute. Subscribed to Mason — unsubscribe anytime; the book is yours either way.
     </p>
 
+    <!-- ───── Question card · appears after email submit · optional ───── -->
+    <div class="qcard" id="qcard">
+      <div class="qcard-eyebrow">One more thing · optional</div>
+      <div class="qcard-title">Help us sharpen what we send you.</div>
+      <div class="qcard-sub">Four quick answers. We use them to tailor issues to operators like you.</div>
+
+      <div class="qrow">
+        <label for="q-role">What's your role?</label>
+        <select id="q-role" name="role">
+          <option value="">Select…</option>
+          <option value="Founder">Founder</option>
+          <option value="Engineer">Engineer</option>
+          <option value="PM">Product Manager</option>
+          <option value="Marketer">Marketer</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="qrow">
+        <label for="q-country">Where are you based?</label>
+        <select id="q-country" name="country">
+          <option value="">Select…</option>
+          <option value="United States">United States</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="Canada">Canada</option>
+          <option value="Singapore">Singapore</option>
+          <option value="Australia">Australia</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="qrow">
+        <label for="q-size">Company stage?</label>
+        <select id="q-size" name="size">
+          <option value="">Select…</option>
+          <option value="Pre-revenue">Pre-revenue</option>
+          <option value="Under $1M ARR">Under $1M ARR</option>
+          <option value="$1M-$10M ARR">$1M–$10M ARR</option>
+          <option value="$10M+ ARR">$10M+ ARR</option>
+          <option value="Not a company">Not a company</option>
+        </select>
+      </div>
+
+      <div class="qrow">
+        <label for="q-industry">Biggest AI challenge right now?</label>
+        <input type="text" id="q-industry" name="industry" maxlength="80" placeholder="e.g. prompt drift in production, eval setup, cost…">
+      </div>
+
+      <div class="qcard-actions">
+        <button type="button" class="qcard-submit" id="qcard-submit">Send answers</button>
+        <button type="button" class="qcard-skip" id="qcard-skip">Skip</button>
+      </div>
+      <div class="qcard-done" id="qcard-done" style="display:none; margin-top: 14px;">Thanks — that helps. Check your inbox for the Vault.</div>
+    </div>
+
     <div class="spec">
       <div class="spec-item"><span>28</span>Prompts</div>
       <div class="spec-item"><span>89</span>Pages</div>
@@ -1290,11 +1473,25 @@ priority level:
 
 
 <script>
-  // ─── Single form handler · hero form only ───
+  // ─── Form handler · 2-step flow ───
+  // Step 1: email → subscribe (fires welcome email + Lead pixel)
+  // Step 2: optional 4-question card → enriches subscriber via update_only call
   const heroForm = document.getElementById('form-hero');
   const heroMsg = document.getElementById('form-msg-hero');
   const heroBtn = heroForm.querySelector('button');
   const heroInput = heroForm.querySelector('input[type="email"]');
+
+  const qcard = document.getElementById('qcard');
+  const qcardSubmit = document.getElementById('qcard-submit');
+  const qcardSkip = document.getElementById('qcard-skip');
+  const qcardDone = document.getElementById('qcard-done');
+  const qRole = document.getElementById('q-role');
+  const qCountry = document.getElementById('q-country');
+  const qSize = document.getElementById('q-size');
+  const qIndustry = document.getElementById('q-industry');
+
+  // Holds the email captured in step 1 so step 2 can reference it.
+  let capturedEmail = '';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -1319,9 +1516,18 @@ priority level:
 
       if (res.ok) {
         fbq('track', 'Lead');
+        capturedEmail = email;
         heroBtn.textContent = '✓ Check your inbox';
         heroInput.value = '';
         heroMsg.textContent = 'PDF on its way. If you don\'t see it in 2 minutes, check promotions.';
+
+        // Reveal the question card. Delay slightly so the success message
+        // registers visually before the next ask drops in.
+        setTimeout(() => {
+          qcard.classList.add('is-visible');
+          // Soft scroll so the card is visible on mobile.
+          qcard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 350);
       } else {
         heroBtn.disabled = false;
         heroBtn.textContent = originalBtnText;
@@ -1335,6 +1541,48 @@ priority level:
   };
 
   heroForm.addEventListener('submit', handleSubmit);
+
+  // ─── Step 2 · submit answers (or skip) ───
+  const submitAnswers = async () => {
+    if (!capturedEmail) return;
+
+    const payload = {
+      email: capturedEmail,
+      source: 'vault-hero',
+      update_only: true,
+      role: qRole.value || '',
+      country: qCountry.value || '',
+      size: qSize.value || '',
+      industry: qIndustry.value.trim() || '',
+    };
+
+    const originalText = qcardSubmit.textContent;
+    qcardSubmit.disabled = true;
+    qcardSubmit.textContent = 'Saving…';
+
+    try {
+      await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (err) {
+      // Non-blocking — the subscriber already exists, this is enrichment only.
+      console.error('Enrichment call failed:', err);
+    }
+
+    // Show the done state regardless of network outcome — we already
+    // captured the subscriber in step 1; this is bonus data.
+    qcardSubmit.style.display = 'none';
+    qcardSkip.style.display = 'none';
+    qcardDone.style.display = 'block';
+  };
+
+  qcardSubmit.addEventListener('click', submitAnswers);
+
+  qcardSkip.addEventListener('click', () => {
+    qcard.classList.remove('is-visible');
+  });
 
   // ─── Final CTA · scroll to hero form and focus the email input ───
   const ctaScroll = document.getElementById('cta-scroll');
